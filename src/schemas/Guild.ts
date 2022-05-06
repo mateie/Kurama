@@ -14,9 +14,11 @@ export interface IGuild extends Document {
         member: string;
     };
     toggles: {
+        preventProfanity: boolean;
         strictCommands: boolean;
         strictMusicChannels: boolean;
     };
+    whitelistedWords: string[];
 }
 
 export const Guild: Schema = new Schema({
@@ -40,6 +42,10 @@ export const Guild: Schema = new Schema({
         member: String,
     },
     toggles: {
+        prventProfanity: {
+            type: Boolean,
+            default: false,
+        },
         strictCommands: {
             type: Boolean,
             default: false,
@@ -49,6 +55,7 @@ export const Guild: Schema = new Schema({
             default: false,
         },
     },
+    whitelistedWords: [String],
 });
 
 const name = 'guilds';

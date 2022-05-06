@@ -11,10 +11,10 @@ export default class TogglesCommand extends Command implements ICommand {
 
         this.name = 'toggle';
         this.description = 'Toggle Certain Things';
-
         this.permission = 'MANAGE_GUILD';
 
         this.choices = [
+            { name: 'Profanity', value: 'preventProfanity'},
             { name: 'Strict Commands', value: 'strictCommands' },
             { name: 'Strict Music Channels', value: 'strictMusicChannels'}
         ];
