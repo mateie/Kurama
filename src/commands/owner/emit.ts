@@ -9,8 +9,8 @@ export default class EmitCommand extends Command implements ICommand {
 
         this.name = 'emit';
         this.description = 'Event Emitter';
-
         this.permission = 'ADMINISTRATOR';
+
         this.data
             .setName(this.name)
             .setDescription(this.description)
