@@ -4,6 +4,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 
 import Database from './database/index';
+import Moderation from './moderation';
 import Music from './Music';
 import Util from './util';
 
@@ -16,6 +17,7 @@ export default class Client extends DiscordClient {
     readonly botOwners: string[];
 
     database: Database;
+    moderation: Moderation;
     music: Music;
     util: Util;
 
@@ -30,6 +32,7 @@ export default class Client extends DiscordClient {
         this.botOwners = ['401269337924829186', '190120411864891392'];
 
         this.database = new Database(this);
+        this.moderation = new Moderation(this);
         this.music = new Music(this);
         this.util = new Util(this);
 
