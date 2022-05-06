@@ -24,7 +24,7 @@ export default class AcceptRulesEvent extends Event implements IEvent {
 
         if (!dbGuild.roles.member || dbGuild.roles.member.length < 0) return interaction.reply({ content: 'Member role is not setup, Contact the Server Owner', ephemeral: true });
     
-        const role = await guild.roles.cache.get(dbGuild.roles.member) as Role;
+        const role = guild.roles.cache.get(dbGuild.roles.member) as Role;
 
         if (member.roles.cache.has(role.id)) return interaction.reply({ content: 'You already a member', ephemeral: true });
         member.roles.add(role);
