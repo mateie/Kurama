@@ -4,6 +4,8 @@ import mongoose from 'mongoose';
 import DatabaseGuilds from './Guilds';
 import DatabaseMembers from './Members';
 
+const { DB } = process.env;
+
 export default class Database {
     client: Client;
 
@@ -22,7 +24,7 @@ export default class Database {
     }
 
     connect() {
-        this.connection.connect(process.env.DB as string)
+        this.connection.connect(DB as string)
             .then(() => console.log('Connected to the Database'))
             .catch(console.error);
     }

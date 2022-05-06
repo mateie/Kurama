@@ -10,6 +10,8 @@ import Util from './util';
 import EventHandler from './handlers/EventHandler';
 import CommandHandler from './handlers/CommandHandler';
 
+const { TOKEN } = process.env;
+
 export default class Client extends DiscordClient {
     readonly botOwners: string[];
 
@@ -34,7 +36,7 @@ export default class Client extends DiscordClient {
         this.eventHandler = new EventHandler(this, { directory: path.resolve(process.cwd(), 'build', 'events') });
         this.commandHandler = new CommandHandler(this, { directory: path.resolve(process.cwd(), 'build', 'commands') });
 
-        this.token = process.env.TOKEN as string;
+        this.token = TOKEN as string;
 
         this.login();
 
@@ -98,6 +100,8 @@ export default class Client extends DiscordClient {
                 ]
             }
         ];
+
+        this.user?.setPresence(activities[Math.floor(Math.random() * activities.length)]);
 
         setInterval(() => {
             const activity = activities[Math.floor(Math.random() * activities.length)];
