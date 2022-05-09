@@ -28,6 +28,6 @@ export default class PreventProfanityEvent extends Event implements IEvent {
         if (!toxic) return;
         if (message.deletable) message.delete();
         const attachment = this.client.util.attachment('https://c.tenor.com/7R0cugwI7k0AAAAC/watch-your-mouth-watch-your-profanity.gif');
-        await message.channel.send({ files: [attachment] }).then(msg => setTimeout(() => msg.delete(), 3000));
+        await message.channel.send({ files: [attachment] }).then(msg => setTimeout(() => msg.delete().catch(console.error), 3000));
     }
 }
