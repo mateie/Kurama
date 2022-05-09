@@ -14,7 +14,9 @@ export default class TogglesCommand extends Command implements ICommand {
         this.permission = 'MANAGE_GUILD';
 
         this.choices = [
-            { name: 'Profanity', value: 'preventProfanity'},
+            { name: 'Welcome Message', value: 'welcomeMessage' },
+            { name: 'Goodbye Message', value: 'goodbyeMessage'},
+            { name: 'Profanity Filter', value: 'preventProfanity'},
             { name: 'Strict Commands', value: 'strictCommands' },
             { name: 'Strict Music Channels', value: 'strictMusicChannels'}
         ];
