@@ -2,9 +2,9 @@ import { CommandInteraction, Guild, Message, Role, TextChannel } from 'discord.j
 import Client from '@classes/Client';
 import Command from '@classes/base/Command';
 import { ICommand } from '@types';
-import { ChannelType } from 'discord-api-types/v10';
 
 export default class SetupCommand extends Command implements ICommand {
+
     constructor(client: Client) {
         super(client);
 
@@ -17,13 +17,17 @@ export default class SetupCommand extends Command implements ICommand {
             .setDescription(this.description)
             .addSubcommand(subcommand =>
                 subcommand
-                    .setName('rules')
-                    .setDescription('Setup Rules')
-                    .addChannelOption(option =>
+                    .setName('channels')
+                    .setDescription('Setup Channels (if you want to set a specific channel, use /channels)')
+                    .addStringOption(option =>
                         option
                             .setName('channel')
-                            .setDescription('Channel where Rules will be posted/are')
-                            .addChannelTypes(ChannelType.GuildText)
+                            .setDescription('Channel to setup')
+                            .addChoices(
+                                { name: 'Welcome', value: 'welcome' },
+                                { name: 'Goodbye', value: 'goodbye' },
+                                { name: 'Rules', value: 'rules' }
+                            )
                             .setRequired(true)
                     )
             )
@@ -56,6 +60,20 @@ export default class SetupCommand extends Command implements ICommand {
         const dbGuild = await this.client.database.guilds.get(guild);
 
         switch (options.getSubcommand()) {
+        case 'channels': {
+            const channelName = options.getString('channel') as string;
+            const channel = guild.channels.cache.find(ch => ch.name.includes(channelName) && ch.type === 'GUILD_TEXT');
+            const type = this.client.util.capFirstLetter(channelName);
+                
+            if(!channel) return interaction.reply({ content: `Couldn't find **#${channelName}** text channel or similar to it, either set this up with **/channels** or create the channel`, ephemeral: true });
+            if(dbGuild.channels[channelName as keyof typeof dbGuild.channels] && dbGuild.channels[channelName as keyof typeof dbGuild.channels].length > 0) return interaction.reply({ content: `**${type}** channel is already setup`, ephemeral: true });
+           
+            dbGuild.channels[channelName as keyof typeof dbGuild.channels] = channel.id;
+            await dbGuild.save();
+                
+            return interaction.reply({ content: `**${type}** channel setup finished`, ephemeral: true });
+            break;
+        }
         case 'rules': {
             const channel = options.getChannel('channel') as TextChannel;
             if (dbGuild.channels.rules && dbGuild.channels.rules.length > 0) return interaction.reply({ content: 'Rules are already setup', ephemeral: true });
