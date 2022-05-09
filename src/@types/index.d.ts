@@ -26,6 +26,7 @@ export interface IEvent {
     description: string | 'No Description';
     category: string | undefined;
     once: boolean | null;
+    process: boolean | null;
 }
 
 export interface HandlerOptions {
@@ -35,7 +36,7 @@ export interface HandlerOptions {
 export type CommandHandlerOptions = HandlerOptions;
 export type EventHandlerOptions = HandlerOptions;
 
-export type Events =
+export type DiscordEvents =
     | 'rateLimit'
     | 'invalidRequestWarning'
     | 'apiResponse'
@@ -107,7 +108,9 @@ export type Events =
     | 'guildScheduledEventUpdate'
     | 'guildScheduledEventDelete'
     | 'guildScheduledEventUserAdd'
-    | 'guildScheduledEventUserRemove'
+    | 'guildScheduledEventUserRemove';
+
+export type MusicEvents =
     | 'botDisconnect'
     | 'channelEmpty'
     | 'connectionCreate'
@@ -117,4 +120,12 @@ export type Events =
     | 'trackEnd'
     | 'tracksAdd'
     | 'trackStart';
+
+export type ProcessEvents =
+    | 'multipleResolves'
+    | 'uncaughtException'
+    | 'uncaughtExceptionMonitor'
+    | 'unhandledRejection';
+
+export type Events = DiscordEvents | MusicEvents | ProcessEvents;
     
