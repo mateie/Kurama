@@ -4,6 +4,8 @@ export interface IGuild extends Document {
     id: string;
     name: string;
     channels: {
+        welcome: string;
+        goodbye: string;
         rules: string;
     };
     channelsArray: {
@@ -14,6 +16,8 @@ export interface IGuild extends Document {
         member: string;
     };
     toggles: {
+        welcomeMessage: boolean;
+        goodbyeMessage: boolean;
         preventProfanity: boolean;
         strictCommands: boolean;
         strictMusicChannels: boolean;
@@ -32,6 +36,8 @@ export const Guild: Schema = new Schema({
         required: true,
     },
     channels: {
+        welcome: String,
+        goodbye: String,
         rules: String,
     },
     channelsArray: {
@@ -42,7 +48,15 @@ export const Guild: Schema = new Schema({
         member: String,
     },
     toggles: {
-        prventProfanity: {
+        welcomeMessage: {
+            type: Boolean,
+            default: false,
+        },
+        goodbyeMessage: {
+            type: Boolean,
+            default: false,
+        },
+        preventProfanity: {
             type: Boolean,
             default: false,
         },
