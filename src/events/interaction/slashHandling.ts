@@ -41,7 +41,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             const command = this.client.commandHandler.commands.get(commandName) as ICommand;
 
             try {
-                await command.run(interaction);
+                command.run(interaction);
             } catch (err) {
                 console.error(err);
                 return interaction.reply({ content: 'An error occured, please try again', ephemeral: true });
@@ -52,7 +52,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             const menu = this.client.commandHandler.commands.get(commandName) as IMenu;
 
             try {
-                await menu.run(interaction);
+                menu.run(interaction);
             } catch (err) {
                 console.error(err);
                 return interaction.reply({ content: 'An error occured, please try again', ephemeral: true });
