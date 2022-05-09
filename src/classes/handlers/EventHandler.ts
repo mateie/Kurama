@@ -38,12 +38,20 @@ export default class EventHandler extends Handler {
         category?.set(event.name, event);
         
         if (event.once) {
+            if (event.process) {
+                process.once(event.name, (...args) => event.run(...args));
+            }
+
             if (category?.id.toLowerCase() == 'music') {
                 this.client.music.once(event.name, (...args: any) => event.run(...args));
             } else {
                 this.client.once(event.name, (...args) => event.run(...args));
             }
         } else {
+            if (event.process) {
+                process.on(event.name, (...args) => event.run(...args));
+            }
+
             if (category?.id.toLowerCase() == 'music') {
                 this.client.music.on(event.name, (...args: any) => event.run(...args));
             } else {

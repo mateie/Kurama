@@ -7,6 +7,7 @@ export default class Event {
     description: string | 'No Description';
     category: string | undefined;
     once: boolean | null;
+    process: boolean | null;
 
     constructor(client: Client) {
         this.client = client;
@@ -14,5 +15,6 @@ export default class Event {
         this.description = 'No Description';
 
         this.once = null;
+        this.process = null;
     }
 }
