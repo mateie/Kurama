@@ -32,7 +32,7 @@ export default class EmitCommand extends Command implements ICommand {
             );
     }
 
-    run(interaction: CommandInteraction) {
+    async run(interaction: CommandInteraction) {
         const choices = interaction.options.getString('member') as string;
         const member = interaction.member as GuildMember;
         switch (choices) {
@@ -44,6 +44,6 @@ export default class EmitCommand extends Command implements ICommand {
             break;
         }
 
-        interaction.reply({ content: 'Emitted', ephemeral: true });
+        await interaction.reply({ content: 'Emitted', ephemeral: true });
     }
 }
