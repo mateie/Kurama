@@ -24,7 +24,7 @@ export default class ChannelsCommand extends Command implements ICommand {
                             .setName('type')
                             .setDescription('For Which channel?')
                             .addChoices(
-                                { name: 'Commands', value: 'commands'},
+                                { name: 'Commands', value: 'commands' },
                                 { name: 'Music', value: 'music' },
                             )
                             .setRequired(true)
@@ -33,6 +33,28 @@ export default class ChannelsCommand extends Command implements ICommand {
                         option
                             .setName('channel')
                             .setDescription('Channel to add')
+                            .addChannelTypes(ChannelType.GuildText)
+                            .setRequired(true)
+                    )
+            )
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('set')
+                    .setDescription('Set a channel in a database')
+                    .addStringOption(option =>
+                        option
+                            .setName('type')
+                            .setDescription('Channel name')
+                            .addChoices(
+                                { name: 'Welcome', value: 'welcome' },
+                                { name: 'Goodbye', value: 'goodbye' }
+                            )
+                            .setRequired(true)
+                    )
+                    .addChannelOption(option =>
+                        option
+                            .setName('channel')
+                            .setDescription('Channel to set')
                             .addChannelTypes(ChannelType.GuildText)
                             .setRequired(true)
                     )
@@ -95,7 +117,14 @@ export default class ChannelsCommand extends Command implements ICommand {
                 
             await dbGuild.save();
                 
-            return interaction.reply({ content: `Added ${channel} to the **${this.client.util.capFirstLetter(type)}** Channel List`, ephemeral: true });
+            return interaction.reply({ content: `Added ${channel} to the **${typeList}** Channel List`, ephemeral: true });
+        }
+        case 'set': {
+            dbGuild.channels[type as keyof typeof dbGuild.channels] = channel.id;
+                
+            await dbGuild.save();
+
+            return interaction.reply({ content: `Set ${channel} as a **${typeList}** channel`, ephemeral: true});
         }
         case 'remove': {
             if (!channels.includes(channel.id)) return interaction.reply({ content: `${channel} is not in **${typeList}** Channel List`, ephemeral: true });
