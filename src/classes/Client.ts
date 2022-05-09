@@ -1,9 +1,10 @@
-import { Client as DiscordClient, Guild, PresenceData } from 'discord.js';
+import { Client as DiscordClient, Guild, PresenceData, TextChannel } from 'discord.js';
 import path from 'path';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 
-import Database from './database/index';
+import Canvas from './canvas';
+import Database from './database';
 import Moderation from './moderation';
 import Music from './Music';
 import Util from './util';
@@ -16,6 +17,7 @@ const { TOKEN } = process.env;
 export default class Client extends DiscordClient {
     readonly botOwners: string[];
 
+    canvas: Canvas;
     database: Database;
     moderation: Moderation;
     music: Music;
@@ -26,11 +28,14 @@ export default class Client extends DiscordClient {
 
     mainGuild!: Guild;
 
+    botLogs!: TextChannel;
+
     constructor() {
         super({ intents: 32767 });
 
         this.botOwners = ['401269337924829186', '190120411864891392'];
 
+        this.canvas = new Canvas(this);
         this.database = new Database(this);
         this.moderation = new Moderation(this);
         this.music = new Music(this);
