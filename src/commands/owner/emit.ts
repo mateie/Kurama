@@ -14,34 +14,40 @@ export default class EmitCommand extends Command implements ICommand {
         this.data
             .setName(this.name)
             .setDescription(this.description)
-            .addStringOption((option) =>
-                option
+            .addSubcommand(subcommand =>
+                subcommand
                     .setName('member')
-                    .setDescription('Guild Member')
-                    .addChoices(
-                        {
-                            name: 'Member Joining',
-                            value: 'guildMemberAdd',
-                        },
-                        {
-                            name: 'Member Leaving',
-                            value: 'guildMemberRemove',
-                        }
+                    .setDescription('Member Events')
+                    .addStringOption(option =>
+                        option
+                            .setName('event')
+                            .setDescription('Guild Member Events')
+                            .addChoices(
+                                { name: 'Member Joining', value: 'guildMemberAdd' },
+                                { name: 'Member Leaving', value: 'guildMemberRemove' },
+                                { name: 'Member Available', value: 'guildMemberAvailable' },
+                                { name: 'Member Update', value: 'guildMemberUpdate'},
+                            )
+                            .setRequired(true)
                     )
-                    .setRequired(true)
+                    .addUserOption(option =>
+                        option
+                            .setName('member_emit')
+                            .setDescription('Member to emit it from')
+                            .setRequired(false)
+                    
+                    )
             );
     }
 
     async run(interaction: CommandInteraction) {
-        const choices = interaction.options.getString('member') as string;
-        const member = interaction.member as GuildMember;
-        switch (choices) {
-        case 'guildMemberAdd':
-            this.client.emit('guildMemberAdd', member);
-            break;
-        case 'guildMemberRemove':
-            this.client.emit('guildMemberRemove', member);
-            break;
+        const { options } = interaction;
+        const choices = options.getString('event') as string;
+        switch (options.getSubcommand()) {
+        case 'member': {
+            const member = options.getMember('member_emit') ? options.getMember('member_emit') as GuildMember : interaction.member as GuildMember;
+            this.client.emit(choices, member);
+        }
         }
 
         await interaction.reply({ content: 'Emitted', ephemeral: true });
