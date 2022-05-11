@@ -1,5 +1,5 @@
 import Client from '../Client';
-import { BufferResolvable, ButtonInteraction, CommandInteraction, ContextMenuInteraction, GuildMember, Interaction, Message, MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } from 'discord.js';
+import { BufferResolvable, ButtonInteraction, CommandInteraction, ContextMenuInteraction, GuildMember, Interaction, Message, MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu, Presence } from 'discord.js';
 import { Modal, TextInputComponent, showModal as modalShow, ModalSubmitInteraction } from '@mateie/discord-modals';
 import { Stream } from 'stream';
 import { channelMention, roleMention } from '@discordjs/builders';
@@ -31,6 +31,25 @@ export default class Util {
             interaction: Interaction
         }
     ) => modalShow(modal, options);
+
+    statusColor(presence: Presence) {
+        if (!presence) return '#808080';
+        switch (presence.status) {
+        case 'online': {
+            return '#00FF00';
+        }
+        case 'dnd': {
+            return '#FF0000';
+        }
+        case 'idle': {
+            return '#FFFF00';
+        }
+        case 'offline':
+        case 'invisible': {
+            return '#808080';
+        }
+        }
+    }
 
     async memberInfo(
         interaction: CommandInteraction | ButtonInteraction | ContextMenuInteraction | ModalSubmitInteraction,
