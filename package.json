@@ -11,6 +11,7 @@
   "author": "Mateie & Bunzi",
   "license": "MIT",
   "devDependencies": {
+    "@types/get-image-colors": "^4.0.1",
     "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
@@ -35,7 +36,9 @@
     "discord.js": "^13.6.0",
     "dotenv": "^16.0.0",
     "ffmpeg-static": "^5.0.0",
+    "get-image-colors": "^4.0.1",
     "gif-gifcanvas": "^1.4.0",
+    "moment": "^2.29.3",
     "mongoose": "^6.3.2",
     "skia-canvas": "^0.9.29",
     "songlyrics": "^2.2.4"
