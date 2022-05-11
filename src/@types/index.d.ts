@@ -128,4 +128,3 @@ export type ProcessEvents =
     | 'unhandledRejection';
 
 export type Events = DiscordEvents | MusicEvents | ProcessEvents;
-    
