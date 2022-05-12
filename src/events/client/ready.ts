@@ -16,7 +16,7 @@ export default class ReadyEvent extends Event implements IEvent {
 
         const mainGuild = await this.client.guilds.fetch('814017098409443339');
         this.client.mainGuild = mainGuild;
-        this.client.botLogs = await mainGuild.channels.fetch('973100098651324446') as TextChannel;
+        this.client.botLogs = await mainGuild.channels.fetch('974256729661509632') as TextChannel;
 
         this.client.database.guilds.verify();
         this.client.guilds.cache.forEach(async guild => this.client.database.members.verify(guild));
