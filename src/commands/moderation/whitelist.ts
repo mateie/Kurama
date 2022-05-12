@@ -8,7 +8,7 @@ export default class WordCommand extends Command implements ICommand {
         super(client);
 
         this.name = 'whitelist';
-        this.description = 'Word Whitelist';
+        this.description = 'Whitelist certain words';
 
         this.data
             .setName(this.name)
