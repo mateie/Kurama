@@ -69,7 +69,7 @@ export default class Canvas {
         // Avatar
         ctx.beginPath();
         ctx.lineWidth = 10;
-        ctx.strokeStyle = this.client.util.statusColor(member.presence as Presence);
+        ctx.strokeStyle = this.client.util.member.statusColor(member.presence as Presence);
         ctx.arc(canvas.width - 525, 135, 64, 0, Math.PI * 2, true);
         ctx.stroke();
         ctx.closePath();
@@ -144,7 +144,7 @@ export default class Canvas {
         // Avatar
         ctx.beginPath();
         ctx.lineWidth = 10;
-        ctx.strokeStyle = this.client.util.statusColor(member.presence as Presence);
+        ctx.strokeStyle = this.client.util.member.statusColor(member.presence as Presence);
         ctx.arc(canvas.width - 525, 135, 64, 0, Math.PI * 2, true);
         ctx.stroke();
         ctx.closePath();
