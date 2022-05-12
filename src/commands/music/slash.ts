@@ -108,7 +108,7 @@ export default class MusicCommand extends Command implements ICommand {
 
             await interaction.deferReply({ ephemeral: true });
 
-            const query = <string>options.getString('query');
+            const query = options.getString('query') as string;
             const result = await this.client.music.search(query, {
                 requestedBy: interaction.user
             });
@@ -191,7 +191,7 @@ export default class MusicCommand extends Command implements ICommand {
         case 'seek': {
             if (!queue) return interaction.reply({ content: 'Music is not playing', ephemeral: true });
 
-            const duration = <string>options.getString('duration');
+            const duration = options.getString('duration') as string;
             const durationPattern = /^[0-5]?[0-9](:[0-5][0-9]){1,2}$/;
             if (!durationPattern.test(duration)) return interaction.reply({ content: 'Duration provided in incorrect format' });
 

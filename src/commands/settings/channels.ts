@@ -47,7 +47,8 @@ export default class ChannelsCommand extends Command implements ICommand {
                             .setDescription('Channel name')
                             .addChoices(
                                 { name: 'Welcome', value: 'welcome' },
-                                { name: 'Goodbye', value: 'goodbye' }
+                                { name: 'Goodbye', value: 'goodbye' },
+                                { name: 'Rules', value: 'rules'}
                             )
                             .setRequired(true)
                     )

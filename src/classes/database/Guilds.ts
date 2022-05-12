@@ -35,7 +35,7 @@ export default class DatabaseGuilds {
     async get(guild: DiscordGuild) {
         const dbGuild = await Guild.findOne({ id: guild.id });
         if (!dbGuild) return await this.create(guild);
-        return <IGuild>dbGuild;
+        return dbGuild as IGuild;
     }
 
     getAll = async () => await Guild.find();

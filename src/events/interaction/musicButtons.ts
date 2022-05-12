@@ -66,7 +66,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         }
         case 'show_track_lyrics': {
             const rows = message.components;
-            const button = <MessageButton>message.components[0].components[2];
+            const button = message.components[0].components[2] as MessageButton;
             const showButton = button.setDisabled(true);
 
             const currentTrack = queue.nowPlaying();
@@ -91,11 +91,11 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         }
         case 'pause_track': {
             const currentTrack = queue.nowPlaying();
-            const requestedBy = <GuildMember>guild.members.cache.get(currentTrack.requestedBy.id);
+            const requestedBy = guild.members.cache.get(currentTrack.requestedBy.id) as GuildMember;
             if (currentTrack.requestedBy.id !== member.id) return interaction.reply({ content: `You didn't request this track, ask ${requestedBy} to pause the track, because they requested it`, ephemeral: true });
             queue.setPaused(true);
             const rows = message.components;
-            const button = <MessageButton>message.components[1].components[0];
+            const button = message.components[1].components[0] as MessageButton;
             const playButton = button
                 .setCustomId('resume_track')
                 .setLabel('Resume Track')
@@ -108,11 +108,11 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         }
         case 'resume_track': {
             const currentTrack = queue.nowPlaying();
-            const requestedBy = <GuildMember>guild.members.cache.get(currentTrack.requestedBy.id);
+            const requestedBy = guild.members.cache.get(currentTrack.requestedBy.id) as GuildMember;
             if (currentTrack.requestedBy.id !== member.id) return interaction.reply({ content: `You didn't request this track, ask ${requestedBy} to resume the track, because they requested it`, ephemeral: true });
             queue.setPaused(false);
             const rows = message.components;
-            const button = <MessageButton>message.components[1].components[0];
+            const button = message.components[1].components[0] as MessageButton;
             const pauseButton = button
                 .setCustomId('pause_track')
                 .setLabel('Pause Track')
@@ -125,7 +125,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         }
         case 'skip_current_track': {
             const currentTrack = queue.nowPlaying();
-            const requestedBy = <GuildMember>guild.members.cache.get(currentTrack.requestedBy.id);
+            const requestedBy = guild.members.cache.get(currentTrack.requestedBy.id) as GuildMember;
             if (currentTrack.requestedBy.id !== member.id) return interaction.reply({ content: `You didn't request this track, ask ${requestedBy} to skip the track, because they requested it`, ephemeral: true });
             queue.skip();
 
@@ -150,7 +150,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 };
             });
 
-            const button = <MessageButton>message.components[1].components[2];
+            const button = message.components[1].components[2] as MessageButton;
             const cancelButton = button
                 .setCustomId('cancel_track_select')
                 .setLabel('Cancel Track Selection')
@@ -178,7 +178,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
             const rows = [message.components[0], message.components[1], message.components[2]];
 
             interaction.reply({ content: 'Cancelled track selection', ephemeral: true });
-            const button = <MessageButton>message.components[1].components[2];
+            const button = message.components[1].components[2] as MessageButton;
             const skipToTrackButton = button.setCustomId('skip_to_track').setStyle('DANGER').setLabel('Skip to Track');
             rows[1].components[2] = skipToTrackButton;
             return message.edit({ components: rows });
