@@ -108,7 +108,7 @@ export default class Util {
         }
     }
 
-    chunk(arr: any, size: number): string[][] {
+    chunk(arr: any, size: number) {
         const temp = [];
         for (let i = 0; i < arr.length; i += size) {
             temp.push(arr.slice(i, i + size));
@@ -117,14 +117,14 @@ export default class Util {
         return temp;
     }
 
-    list(arr: string[], conj = 'and'): string {
+    list(arr: string[], conj = 'and') {
         const len = arr.length;
         if (len == 0) return '';
         if (len == 1) return arr[0];
         return `${arr.slice(0, -1).join(', ')}${len > 1 ? `${len > 2 ? ',' : ''} ${conj} ` : ''}${arr.slice(-1)}`;
     }
 
-    capEachFirstLetter(str: string): string {
+    capEachFirstLetter(str: string) {
         const temp: string[] = [];
         str.split(' ').forEach(str => {
             temp.push(this.capFirstLetter(str));
@@ -133,7 +133,7 @@ export default class Util {
         return temp.join(' ');
     }
 
-    async memberActionRow(executer: GuildMember): Promise<MessageActionRow[]> {
+    async memberActionRow(executer: GuildMember) {
         const blocked = false;
         const muted = false;
 
@@ -220,10 +220,10 @@ export default class Util {
             await interaction.deferReply({ ephemeral });
         }
 
-        const currPage = <Message>await interaction.editReply({
+        const currPage = await interaction.editReply({
             embeds: [embeds[page]],
             components: [row],
-        });
+        }) as Message;
 
         const filter = (i: { customId: string | null; }) =>
             i.customId === buttons[0].customId ||
