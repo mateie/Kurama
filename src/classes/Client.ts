@@ -2,6 +2,7 @@ import { Client as DiscordClient, Guild, PresenceData, TextChannel } from 'disco
 import path from 'path';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
+import Nekos from 'nekos.life';
 
 import Canvas from './canvas';
 import Database from './database';
@@ -21,6 +22,7 @@ export default class Client extends DiscordClient {
     database: Database;
     moderation: Moderation;
     music: Music;
+    nekos: Nekos;
     util: Util;
 
     eventHandler: EventHandler;
@@ -39,6 +41,7 @@ export default class Client extends DiscordClient {
         this.database = new Database(this);
         this.moderation = new Moderation(this);
         this.music = new Music(this);
+        this.nekos = new Nekos();
         this.util = new Util(this);
 
         this.eventHandler = new EventHandler(this, { directory: path.resolve(process.cwd(), 'build', 'events') });
