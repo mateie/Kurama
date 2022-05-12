@@ -40,7 +40,9 @@
     "gif-gifcanvas": "^1.4.0",
     "moment": "^2.29.3",
     "mongoose": "^6.3.2",
+    "nekos.life": "^3.0.0",
     "skia-canvas": "^0.9.29",
-    "songlyrics": "^2.2.4"
+    "songlyrics": "^2.2.4",
+    "weather-js": "^2.0.0"
   }
 }
