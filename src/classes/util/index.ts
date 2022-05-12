@@ -1,14 +1,19 @@
 import Client from '../Client';
-import { BufferResolvable, ButtonInteraction, CommandInteraction, ContextMenuInteraction, GuildMember, Interaction, Message, MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu, Presence } from 'discord.js';
+import { BufferResolvable, ButtonInteraction, CommandInteraction, ContextMenuInteraction, GuildMember, Interaction, MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu, Presence } from 'discord.js';
 import { Modal, TextInputComponent, showModal as modalShow, ModalSubmitInteraction } from '@mateie/discord-modals';
 import { Stream } from 'stream';
 import { channelMention, roleMention } from '@discordjs/builders';
 
+import UtilPagination from './Pagination';
+
 export default class Util {
     readonly client: Client;
+    readonly pagination: UtilPagination;
 
     constructor(client: Client) {
         this.client = client;
+
+        this.pagination = new UtilPagination(this.client, this);
     }
 
     row = () => new MessageActionRow();
@@ -31,6 +36,23 @@ export default class Util {
             interaction: Interaction
         }
     ) => modalShow(modal, options);
+
+    optionType(number: number) {
+        switch (number) {
+        case 1: return 'Sub Command';
+        case 2: return 'Sub Command Group';
+        case 3: return 'String';
+        case 4: return 'Integer';
+        case 5: return 'Boolean';
+        case 6: return 'User';
+        case 7: return 'Channel';
+        case 8: return 'Role';
+        case 9: return 'Mentionable';
+        case 10: return 'Number';
+        case 11: return 'Attachment';
+        default: return 'Unknown';
+        }
+    }
 
     statusColor(presence: Presence) {
         if (!presence) return '#808080';
@@ -182,91 +204,5 @@ export default class Util {
             );
 
         return executer.permissions.has('VIEW_AUDIT_LOG') ? [topRow, midRow, bottomRow] : [topRow];
-    }
-
-    async pagination(interaction: ButtonInteraction | CommandInteraction, contents: string[] | string[][], title?: string, ephemeral = false, timeout = 12000) {
-        let page = 0;
-
-        const buttons = [
-            this.button()
-                .setCustomId('previous_page')
-                .setLabel('⬅️')
-                .setStyle('SECONDARY'),
-            this.button()
-                .setCustomId('next_page')
-                .setLabel('➡️')
-                .setStyle('SECONDARY')
-        ];
-
-        const row = this.row().addComponents(buttons);
-
-        const embeds = contents.map((content, index) => {
-            const embed = this.embed();
-            if (typeof content == 'object') {
-                embed
-                    .setDescription(content.join('\n'));
-            } else {
-                embed
-                    .setDescription(content);
-            }
-
-            embed.setFooter({ text: `Page ${index + 1} of ${contents.length}` });
-            if (title) embed.setTitle(title);
-
-            return embed;
-        });
-
-        if (interaction.deferred === false) {
-            await interaction.deferReply({ ephemeral });
-        }
-
-        const currPage = await interaction.editReply({
-            embeds: [embeds[page]],
-            components: [row],
-        }) as Message;
-
-        const filter = (i: { customId: string | null; }) =>
-            i.customId === buttons[0].customId ||
-            i.customId === buttons[1].customId;
-
-        const collector = currPage.createMessageComponentCollector({
-            filter,
-            time: timeout
-        });
-
-        collector.on('collect', async i => {
-            switch (i.customId) {
-            case buttons[0].customId:
-                page = page > 0 ? --page : embeds.length - 1;
-                break;
-            case buttons[1].customId:
-                page = page + 1 < embeds.length ? ++page : 0;
-                break;
-            default:
-                break;
-            }
-
-            await i.deferUpdate();
-            await i.editReply({
-                embeds: [embeds[page]],
-                components: [row],
-            });
-            collector.resetTimer();
-        })
-            .on('end', (_, reason) => {
-                if (reason !== 'messageDelete' && !ephemeral) {
-                    const disabledRow = this.row().addComponents(
-                        buttons[0].setDisabled(true),
-                        buttons[1].setDisabled(true)
-                    );
-
-                    currPage.edit({
-                        embeds: [embeds[page]],
-                        components: [disabledRow],
-                    });
-                }
-            });
-
-        return currPage;
     }
 }
