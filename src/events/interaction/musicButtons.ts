@@ -44,7 +44,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
 
             if (chunked.length < 1) return await interaction.reply({ content: 'There are no upcoming tracks', ephemeral: true });
 
-            this.client.util.pagination(interaction, chunked, 'Upcoming Tracks');
+            this.client.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
             break;
         }
         case 'show_track_progress': {
@@ -79,7 +79,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
 
             const chunkedLyrics = this.client.util.chunk(search.lyrics, 1024);
 
-            await this.client.util.pagination(interaction, chunkedLyrics, `${title} Lyrics`, false, 60000);
+            await this.client.util.pagination.default(interaction, chunkedLyrics, `${title} Lyrics`, false, 60000);
 
             message.edit({ components: rows });
 

@@ -162,7 +162,7 @@ export default class MusicCommand extends Command implements ICommand {
 
             if (chunked.length < 1) return await interaction.reply({ content: 'There are no upcoming tracks', ephemeral: true });
 
-            this.client.util.pagination(interaction, chunked, 'Upcoming Tracks');
+            this.client.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
             break;
         }
         case 'skip': {
