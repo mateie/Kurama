@@ -14,6 +14,11 @@ export default class HelpCommand extends Command implements ICommand {
             .setDescription(this.description)
             .addSubcommand(subcommand =>
                 subcommand
+                    .setName('all')
+                    .setDescription('Show all Categories and Commands')
+            )
+            .addSubcommand(subcommand =>
+                subcommand
                     .setName('category')
                     .setDescription('View Category for commands')
                     .addStringOption(option =>
@@ -40,6 +45,10 @@ export default class HelpCommand extends Command implements ICommand {
         const { options } = interaction;
 
         switch (options.getSubcommand()) {
+        case 'all': {
+            const categories = this.client.commandHandler.categories;
+            return this.client.util.pagination.helpAll(interaction, categories);
+        }
         case 'category': {
             const categoryString = options.getString('category_view', true).toLowerCase().trim();
             const category = this.client.commandHandler.categories.get(categoryString)?.filter(cat => !cat.type);
