@@ -99,6 +99,91 @@ export default class UtilPagination {
         return currPage;
     }
 
+    async helpAll(interaction: CommandInteraction | ButtonInteraction, categories: any) {
+        let page = 0;
+
+        const buttons = [
+            this.util.button()
+                .setCustomId('previous_page')
+                .setLabel('⬅️')
+                .setStyle('SECONDARY'),
+            this.util.button()
+                .setCustomId('cancel_help')
+                .setLabel('🚫')
+                .setStyle('SECONDARY'),
+            this.util.button()
+                .setCustomId('next_page')
+                .setLabel('➡️')
+                .setStyle('SECONDARY')
+        ];
+
+        const row = this.util.row().addComponents(buttons);
+
+        const embeds = categories.map((category: any) => {
+            const embed = this.util.embed()
+                .setTitle(`Category: ${category.toString()}`);
+            
+            const commands = category.map((command: any) => `***Command***: ${command.name} - ***Description***: ${command.description}`);
+
+            embed.setDescription(commands.join('\n'));
+
+            return embed;
+        });
+
+        if (interaction.deferred === false) await interaction.deferReply();
+
+        const currPage = await interaction.editReply({
+            embeds: [embeds[page]],
+            components: [row]
+        }) as Message;
+
+        const collector = currPage.createMessageComponentCollector({
+            filter: i =>
+                i.customId === buttons[0].customId ||
+                i.customId === buttons[1].customId ||
+                i.customId === buttons[2].customId,
+            time: 12000
+        });
+
+        collector.on('collect', async i => {
+            switch (i.customId) {
+            case buttons[0].customId:
+                page = page > 0 ? --page : embeds.length - 1;
+                break;
+            case buttons[1].customId:
+                collector.stop();
+                await i.deferUpdate();
+                break;
+            case buttons[2].customId:
+                page = page + 1 < embeds.length ? ++page : 0;
+                break; 
+            }
+
+            await i.deferUpdate();
+            await i.editReply({
+                embeds: [embeds[page]],
+                components: [row]
+            });
+
+            collector.resetTimer();
+        })
+            .on('end', (_, reason) => {
+                if (reason !== 'messageDelete') {
+                    const disabledRow = this.util.row().setComponents(
+                        buttons[0].setDisabled(true),
+                        buttons[1].setDisabled(true),
+                        buttons[2].setDisabled(true)
+                    );
+
+                    currPage.edit({
+                        embeds: [embeds[page]],
+                        components: [disabledRow],
+                    });
+                }
+            });
+
+    }
+
     async helpCategory(interaction: CommandInteraction | ButtonInteraction, category: any) {
         let page = 0;
 
