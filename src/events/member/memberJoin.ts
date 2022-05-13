@@ -24,7 +24,7 @@ export default class MemberJoinEvent extends Event implements IEvent {
 
         const channel = guild.channels.cache.get(dbGuild.channels.welcome) as TextChannel;
 
-        const attachment = await this.client.canvas.welcomeMember(member);
+        const attachment = await this.client.canvas.member.welcome(member);
 
         channel.send({ files: [attachment] });
     }

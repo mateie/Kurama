@@ -22,7 +22,7 @@ export default class MemberLeaveEvent extends Event implements IEvent {
 
         const channel = guild.channels.cache.get(dbGuild.channels.goodbye) as TextChannel;
 
-        const attachment = await this.client.canvas.goodbyeMember(member);
+        const attachment = await this.client.canvas.member.goodbye(member);
 
         channel.send({ files: [attachment] });
     }
