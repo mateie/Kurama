@@ -2,6 +2,7 @@ import { CommandInteraction, Guild, Message, Role, TextChannel } from 'discord.j
 import Client from '@classes/Client';
 import Command from '@classes/base/Command';
 import { ICommand } from '@types';
+import { ChannelType } from 'discord-api-types/v10';
 
 export default class SetupCommand extends Command implements ICommand {
 
@@ -26,7 +27,6 @@ export default class SetupCommand extends Command implements ICommand {
                             .addChoices(
                                 { name: 'Welcome', value: 'welcome' },
                                 { name: 'Goodbye', value: 'goodbye' },
-                                { name: 'Rules', value: 'rules' }
                             )
                             .setRequired(true)
                     )
@@ -48,6 +48,18 @@ export default class SetupCommand extends Command implements ICommand {
                         option
                             .setName('role')
                             .setDescription('Role to assign it to')
+                            .setRequired(true)
+                    )
+            )
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('rules')
+                    .setDescription('Setup Rules Channel')
+                    .addChannelOption(option =>
+                        option
+                            .setName('channel')
+                            .setDescription('Channel to set it up to')
+                            .addChannelTypes(ChannelType.GuildText)
                             .setRequired(true)
                     )
             );
@@ -76,13 +88,15 @@ export default class SetupCommand extends Command implements ICommand {
         }
         case 'rules': {
             const channel = options.getChannel('channel') as TextChannel;
-            if (dbGuild.channels.rules && dbGuild.channels.rules.length > 0) return interaction.reply({ content: 'Rules are already setup', ephemeral: true });
+            if (dbGuild.channels.rules && dbGuild.channels.rules.length > 0) return interaction.reply({ content: 'Rules are already setupm use /update to update it', ephemeral: true });
 
             await channel.messages.fetch();
                 
             if (channel.messages.cache.size < 1) return interaction.reply({ content: `${channel} has no messages, write rules in the channel and it will automatically set itself up. ***Last message is always the one that gets picked***`, ephemeral: true });
         
             const message = channel.messages.cache.last() as Message;
+                
+            if(message.content.length < 1) return interaction.reply({ content: 'Message is not valid', ephemeral: true });
                 
             if (message.deletable) await message.delete();
                 
