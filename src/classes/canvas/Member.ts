@@ -11,7 +11,6 @@ export default class MemberCanvas {
         this.client = client;
         this.canvas = canvas;
     }
-
     
     async welcome(member: GuildMember) {
         await member.user.fetch();
@@ -54,7 +53,6 @@ export default class MemberCanvas {
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
 
-        
         // Title
         ctx.font = '60px Bold';
         ctx.strokeText('Welcome to', canvas.width / 2, canvas.height - 125);
@@ -120,7 +118,6 @@ export default class MemberCanvas {
         ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
-
         
         // Title
         ctx.font = '60px Bold';
@@ -145,5 +142,66 @@ export default class MemberCanvas {
         ctx.drawImage(avatar, canvas.width - 590, 70, 128, 128);
         
         return this.client.util.attachment(await canvas.toBuffer('png'), `farewell-${member.user.username}.png`);
+    }
+
+    async rank(member: GuildMember) {
+        await member.user.fetch();
+
+        const canvas = new CanvasM(1024, 450);
+        const ctx = canvas.getContext('2d');
+
+        const db = await this.client.database.members.get(member);
+        const data = await this.client.util.member.getCardData(db);
+
+        const banner = member.user.banner ? member.user.bannerURL({ format: 'png' }) as string : member.avatarURL({ format: 'png' }) as string;
+        const memberColor = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
+
+        ctx.filter = 'blur(6px)';
+        const background = await loadImage(banner);
+        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        ctx.filter = 'none';
+
+        // Border Layer
+        ctx.globalAlpha = 0.1;
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, 25, canvas.height);
+        ctx.fillRect(canvas.width - 25, 0, 25, canvas.height);
+        ctx.fillRect(25, 0, canvas.width - 50, 25);
+        ctx.fillRect(25, canvas.height - 25, canvas.width - 50, 25);
+
+        // Username
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = memberColor;
+        ctx.lineWidth = 5;
+        ctx.textAlign = 'center';
+        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
+        ctx.strokeText(member.user.tag, canvas.width / 2, 255);
+        ctx.fillText(member.user.tag, canvas.width / 2, 255);
+
+        // Avatar
+        ctx.beginPath();
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = memberColor;
+        ctx.arc(canvas.width - 525, 135, 64, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.clip();
+        const avatar = await loadImage(member.displayAvatarURL({ format: 'png' }));
+        ctx.drawImage(avatar, canvas.width - 590, 70, 128, 128);
+
+        return this.client.util.attachment(await canvas.toBuffer('png'), `rank-${member.user.username}.png`);
+    }
+
+    calculateProgress(data: any) {
+        const cx = data.currentXP;
+        const rx = data.requiredXP;
+
+        if (rx <= 0) return 1;
+        if (cx > rx) return 596.5;
+
+        const width = (cx * 615) / rx;
+        if (width > 596.5) return 596.6;
+        return width;
     }
 }
