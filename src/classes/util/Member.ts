@@ -1,5 +1,6 @@
 import Client from '@classes/Client';
 import { ModalSubmitInteraction } from '@mateie/discord-modals';
+import { IMember } from '@schemas/Member';
 import { Presence, CommandInteraction, ButtonInteraction, ContextMenuInteraction, GuildMember } from 'discord.js';
 import Util from '.';
 
@@ -16,17 +17,17 @@ export default class UtilMember {
         if (!presence) return '#808080';
         switch (presence.status) {
         case 'online': {
-            return '#00FF00';
+            return '#43B581';
         }
         case 'dnd': {
-            return '#FF0000';
+            return '#F04747';
         }
         case 'idle': {
-            return '#FFFF00';
+            return '#FAA61A';
         }
         case 'offline':
         case 'invisible': {
-            return '#808080';
+            return '#747F8E';
         }
         }
     }
@@ -42,6 +43,39 @@ export default class UtilMember {
         default:
             return ':white_circle:';
         }
+    }
+
+    
+    async getCardData(member: IMember) {
+        const currentXP = member.xp - this.client.xp.calculateXPForLevel(member.level);
+        const neededXP = this.client.xp.calculateReqXP(member.xp) + currentXP;
+
+        const rank = await this.getRank(member);
+
+        const info = {
+            rank,
+            level: member.level,
+            currentXP,
+            neededXP,
+        };
+
+        return info;
+    }
+
+
+    async getRank(member: IMember) {
+        const members = await this.client.database.members.getAll();
+        const sorted = members.sort((a, b) => b.xp - a.xp);
+
+        const mapped = sorted.map((u, i) => ({
+            id: u.id,
+            xp: u.xp,
+            rank: i + 1
+        }));
+
+        const rank = mapped.find(u => u.id === member.id)?.rank;
+
+        return rank;
     }
 
     async info(

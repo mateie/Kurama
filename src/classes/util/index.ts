@@ -27,7 +27,7 @@ export default class Util {
     mentionRole = (roleId: string) => roleMention(roleId);
     mentionChannel = (channelId: string) => channelMention(channelId);
     durationMs = (dur: string) => dur.split(':').map(Number).reduce((acc, curr) => curr + acc * 60) * 1000;
-    embed = () => new MessageEmbed().setColor('PURPLE').setTimestamp(new Date()).setFooter({ text: 'Owned by Stealth and Bunzi' });
+    embed = () => new MessageEmbed().setColor('ORANGE').setTimestamp(new Date()).setFooter({ text: 'Owned by Stealth' });
     convertToPercentage = (num: number) => Math.floor(num * 100);
     attachment = (file: BufferResolvable | Stream, name?: string) => new MessageAttachment(file, name);
     embedURL = (title: string, url: string, display?: string) => `[${title}](${url.replace(/\)/g, '%29')}${display ? ` "${display}"` : ''})`;
@@ -80,5 +80,25 @@ export default class Util {
         });
 
         return temp.join(' ');
+    }
+
+    abbrev(num: any) {
+        if (!num || isNaN(num)) return '0';
+        if (typeof num === 'string') num = parseInt(num);
+        const decPlaces = Math.pow(10, 1);
+        const abbrev = ['K', 'M', 'B', 'T'];
+        for (let i = abbrev.length - 1; i >= 0; i--) {
+            const size = Math.pow(10, (i + 1) * 3);
+            if (size <= num) {
+                num = Math.round((num * decPlaces) / size) / decPlaces;
+                if (num == 1000 && i < abbrev.length - 1) {
+                    num = 1;
+                    i++;
+                }
+                num += abbrev[i];
+                break;
+            }
+        }
+        return num;
     }
 }
