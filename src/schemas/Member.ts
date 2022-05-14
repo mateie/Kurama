@@ -10,6 +10,13 @@ export interface IMember extends Document {
         text: string;
         progressbar: string;
     },
+    warns: [
+        {
+            guildId: string;
+            by: string;
+            reason: string;
+        }
+    ]
 }
 
 export const Member: Schema = new Schema({
@@ -44,6 +51,13 @@ export const Member: Schema = new Schema({
             default: '#FF5349',
         },
     },
+    warns: [
+        {
+            guildId: String,
+            by: String,
+            reason: String,
+        }
+    ]
 });
 
 const name = 'members';
