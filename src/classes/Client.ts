@@ -9,6 +9,7 @@ import Database from './database';
 import Moderation from './moderation';
 import Music from './Music';
 import Util from './util';
+import XP from './XP';
 
 import EventHandler from './handlers/EventHandler';
 import CommandHandler from './handlers/CommandHandler';
@@ -24,6 +25,7 @@ export default class Client extends DiscordClient {
     music: Music;
     nekos: Nekos;
     util: Util;
+    xp: XP;
 
     eventHandler: EventHandler;
     commandHandler: CommandHandler;
@@ -35,7 +37,7 @@ export default class Client extends DiscordClient {
     constructor() {
         super({ intents: 32767 });
 
-        this.botOwners = ['401269337924829186', '190120411864891392'];
+        this.botOwners = ['401269337924829186'];
 
         this.canvas = new Canvas(this);
         this.database = new Database(this);
@@ -43,6 +45,7 @@ export default class Client extends DiscordClient {
         this.music = new Music(this);
         this.nekos = new Nekos();
         this.util = new Util(this);
+        this.xp = new XP(this);
 
         this.eventHandler = new EventHandler(this, { directory: path.resolve(process.cwd(), 'build', 'events') });
         this.commandHandler = new CommandHandler(this, { directory: path.resolve(process.cwd(), 'build', 'commands') });
