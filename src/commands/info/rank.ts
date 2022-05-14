@@ -28,6 +28,8 @@ export default class RankCommand extends Command implements ICommand {
 
         if (member.user.bot) return interaction.reply({ content: `${member} is a bot`, ephemeral: true });
 
-        return interaction.reply({ content: 'Work in Progress', ephemeral: true });
+        const attachment = await this.client.canvas.member.rank(member);
+
+        return interaction.reply({ files: [attachment] });
     }
 }
