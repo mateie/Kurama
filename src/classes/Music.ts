@@ -24,7 +24,7 @@ export default class Music extends Player {
 
     async buttons(message: Message) {
         const topRow = this.client.util.row()
-            .addComponents(
+            .addComponents([
                 this.client.util.button()
                     .setCustomId('show_queue')
                     .setLabel('Show Queue')
@@ -37,10 +37,10 @@ export default class Music extends Player {
                     .setCustomId('show_track_lyrics')
                     .setLabel('Show Lyrics')
                     .setStyle('PRIMARY')
-            );
+            ]);
 
         const midRow = this.client.util.row()
-            .addComponents(
+            .addComponents([
                 this.client.util.button()
                     .setCustomId('pause_track')
                     .setLabel('Pause Track')
@@ -53,15 +53,15 @@ export default class Music extends Player {
                     .setCustomId('skip_to_track')
                     .setLabel('Skip to Track')
                     .setStyle('SUCCESS')
-            );
+            ]);
 
         const bottomRow = this.client.util.row()
-            .addComponents(
+            .addComponents([
                 this.client.util.button()
                     .setCustomId('add_tracks')
                     .setLabel('Add Track(s)')
                     .setStyle('SUCCESS'),
-            );
+            ]);
 
         await message.edit({ components: [topRow, midRow, bottomRow] });
     }
