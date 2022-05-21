@@ -3225,6 +3225,11 @@ underscore@*:
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.3.tgz#54bc95f7648c5557897e5e968d0f76bc062c34ee"
   integrity sha512-QvjkYpiD+dJJraRA8+dGAU4i7aBbb2s0S3jA45TFOvg2VgqvdCDd/3N6CqA8gluk1W91GLoXg5enMUx560QzuA==
 
+undici@^5.0.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/undici/-/undici-5.2.0.tgz#18c5bd59f8f1b1ed8dcc9dca2f754c44ec994059"
+  integrity sha512-XY6+NS3WH9b3TKOHeNz2CjR+qrVz/k4fO9g3etPpLozRvULoQmZ1+dk9JbIz40ehn27xzFk4jYVU2MU3Nle62A==
+
 uniq@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
@@ -3274,6 +3279,13 @@ v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
   integrity sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==
+
+valorant-wrapper@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/valorant-wrapper/-/valorant-wrapper-1.1.3.tgz#f4de664c93e8412199d3e7f7f4bce2a1c86f3ac7"
+  integrity sha512-P3og6y9w2TVeszgGAvqk0dXa4A1qHdU8ZvbzwFyZj+ExExoi/ZBlQYwZJO/g1PCheb0VeYJMzebLCQ20KQO4qQ==
+  dependencies:
+    undici "^5.0.0"
 
 verror@1.10.0:
   version "1.10.0"

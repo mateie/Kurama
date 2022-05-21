@@ -45,6 +45,7 @@
     "skia-canvas": "^0.9.29",
     "songlyrics": "^2.2.4",
     "stinger.js": "^1.0.8",
+    "valorant-wrapper": "^1.1.3",
     "weather-js": "^2.0.0"
   }
 }
