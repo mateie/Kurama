@@ -12,6 +12,7 @@ export default class PreventProfanityEvent extends Event implements IEvent {
     }
 
     async run(message: Message) {
+        return;
         if (message.author.bot) return;
 
         const guild = await this.client.database.guilds.get(message.guild as Guild);
