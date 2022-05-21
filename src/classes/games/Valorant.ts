@@ -5,6 +5,8 @@ import { RiotApiClient } from '@survfate/valorant.js';
 
 import StingerJS, { Agent, Gamemode, IStatsInfo } from 'stinger.js';
 
+import { ValAPI } from 'valorant-wrapper';
+
 import { ValorantLogin } from '@types';
 import { IStorefrontParsed } from '@survfate/valorant.js/dist/models/IStorefrontParsed';
 
@@ -191,6 +193,8 @@ export default class Valorant {
         }
 
         try {
+            const agentsInfo = await ValAPI.agents.get({ isPlayableCharacter: true });
+
             const userInfo = await user.info();
             const agents = await user.agents();
 
@@ -216,6 +220,7 @@ export default class Valorant {
                 const value = i.values[0];
 
                 const agent = agents[value as Agent] as IStatsInfo;
+                const agentInfo = agentsInfo.find(agent => agent.displayName === value);
 
                 const embed = this.client.util.embed()
                     .setAuthor({ name: member.user.tag, iconURL: member.displayAvatarURL({ dynamic: true }) })
@@ -237,7 +242,9 @@ export default class Valorant {
 
                         ***__Deaths__*** - *${agent.deaths}*
                         ***__Damage__*** - *${agent.damage}*
-                    `);
+                    `)
+                    .setThumbnail(agentInfo?.displayIcon as string)
+                    .setImage(agentInfo?.fullPortraitV2 as string);
                 
                 await i.update({ embeds: [embed] });
                 
