@@ -1,7 +1,7 @@
 import Client from '@classes/Client';
 import Event from '@classes/base/Event';
 import { IEvent } from '@types';
-import { ButtonInteraction, Guild, GuildMember, Message, MessageButton, MessageEmbed, VoiceChannel } from 'discord.js';
+import { ButtonInteraction, Guild, GuildMember, Message, MessageButton, VoiceChannel } from 'discord.js';
 
 export default class MusicButtonsEvent extends Event implements IEvent {
 
@@ -50,11 +50,11 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         case 'show_track_progress': {
             const rows = message.components;
             const button = message.components[0].components[1] as MessageButton;
-            const embed = message.embeds[0] as MessageEmbed;
+            const embed = message.embeds[0];
             const showButton = button.setDisabled(true);
 
-            if (!embed.fields[2]) embed.addField('\u200b', queue.createProgressBar());
-            else embed.fields[2] = { name: '\u200b', value: queue.createProgressBar(), inline: false };
+            if (!embed.fields[2]) embed.addField('Track Progress', queue.createProgressBar());
+            else embed.fields[2] = { name: 'Track Progress', value: queue.createProgressBar(), inline: false };
 
             message.edit({ embeds: [embed], components: rows });
 
@@ -62,7 +62,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 showButton.setDisabled(false);
                 message.edit({ components: rows });
             }, 3000);
-            return interaction.deferReply({ ephemeral: true });
+            return interaction.deferUpdate();
         }
         case 'show_track_lyrics': {
             const rows = message.components;
@@ -139,8 +139,6 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         }
         case 'skip_to_track': {
             const rows = message.components;
-            if (rows[3] && rows[3].components[0].customId === 'select_filter_enable') return interaction.reply({ content: 'You are selecting filter to enable, choose or cancel to select a track', ephemeral: true });
-            if (rows[3] && rows[3].components[0].customId === 'select_filter_disable') return interaction.reply({ content: 'You are selecting filter to disable, choose or cancel to select a track', ephemeral: true });
             if (queue.tracks.length < 1) return interaction.reply({ content: 'There are no upcoming tracks', ephemeral: true });
             const tracks = queue.tracks;
             const mapped = tracks.filter((_, i) => i < 25).map(track => {
@@ -156,12 +154,12 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 .setLabel('Cancel Track Selection')
                 .setStyle('SECONDARY');
 
-            const dropdown = this.client.util.dropdown()
+            const dropdown = [this.client.util.dropdown()
                 .setCustomId('select_track')
                 .setPlaceholder('Select a track')
                 .setMinValues(1)
                 .setMaxValues(1)
-                .setOptions(mapped);
+                .setOptions(mapped)];
 
             message.components[1].components[2] = cancelButton;
 
@@ -177,7 +175,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
             if (!message.components[3] || message.components[3].components[0].customId !== 'select_track') return interaction.reply({ content: 'There is no track selection', ephemeral: true });
             const rows = [message.components[0], message.components[1], message.components[2]];
 
-            interaction.reply({ content: 'Cancelled track selection', ephemeral: true });
+            interaction.deferUpdate();
             const button = message.components[1].components[2] as MessageButton;
             const skipToTrackButton = button.setCustomId('skip_to_track').setStyle('DANGER').setLabel('Skip to Track');
             rows[1].components[2] = skipToTrackButton;
@@ -187,17 +185,20 @@ export default class MusicButtonsEvent extends Event implements IEvent {
             const modal = this.client.util.modal()
                 .setCustomId('add_tracks_modal')
                 .setTitle('Adding Track(s) to the queue')
-                .addComponents([
-                    this.client.util.input()
-                        .setCustomId('track_query')
-                        .setLabel('Track/Playlist URL or a name')
-                        .setStyle('SHORT')
-                        .setMinLength(1)
-                        .setMaxLength(100)
-                        .setRequired(true)
-                ]);
+                .addComponents(
+                    this.client.util.modalRow()
+                        .addComponents(
+                            this.client.util.input()
+                                .setCustomId('track_query')
+                                .setLabel('Track/Playlist URL or a name')
+                                .setStyle('SHORT')
+                                .setMinLength(1)
+                                .setMaxLength(100)
+                                .setRequired(true)
+                        )
+                );
 
-            this.client.util.showModal(modal, { client: this.client, interaction });
+            interaction.showModal(modal);
             break;
         }
         }
