@@ -1,8 +1,6 @@
 import Client from '../Client';
-import { BufferResolvable, Interaction, MessageActionRow, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu } from 'discord.js';
-import { Modal, TextInputComponent, showModal as modalShow } from '@mateie/discord-modals';
+import { BufferResolvable, MessageActionRow, MessageActionRowComponent, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu, Modal, ModalActionRowComponent, TextInputComponent } from 'discord.js';
 import { Stream } from 'stream';
-import { channelMention, roleMention } from '@discordjs/builders';
 
 import UtilPagination from './Pagination';
 import UtilMember from './Member';
@@ -19,26 +17,19 @@ export default class Util {
         this.pagination = new UtilPagination(this.client, this);
     }
 
-    row = () => new MessageActionRow();
+
+    row = (): MessageActionRow<MessageActionRowComponent> => new MessageActionRow<MessageActionRowComponent>();
+    modalRow = (): MessageActionRow<ModalActionRowComponent> => new MessageActionRow<ModalActionRowComponent>();
     button = () => new MessageButton();
     dropdown = () => new MessageSelectMenu();
     modal = () => new Modal();
     input = () => new TextInputComponent();
-    mentionRole = (roleId: string) => roleMention(roleId);
-    mentionChannel = (channelId: string) => channelMention(channelId);
     durationMs = (dur: string) => dur.split(':').map(Number).reduce((acc, curr) => curr + acc * 60) * 1000;
     embed = () => new MessageEmbed().setColor('ORANGE').setTimestamp(new Date()).setFooter({ text: 'Owned by Stealth' });
     convertToPercentage = (num: number) => Math.floor(num * 100);
     attachment = (file: BufferResolvable | Stream, name?: string) => new MessageAttachment(file, name);
     embedURL = (title: string, url: string, display?: string) => `[${title}](${url.replace(/\)/g, '%29')}${display ? ` "${display}"` : ''})`;
     capFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-    showModal = (
-        modal: Modal,
-        options: {
-            client: Client,
-            interaction: Interaction
-        }
-    ) => modalShow(modal, options);
 
     optionType(number: number) {
         switch (number) {

@@ -1,7 +1,7 @@
 import Client from '@classes/Client';
-import { ModalSubmitInteraction } from '@mateie/discord-modals';
 import { IMember } from '@schemas/Member';
-import { Presence, CommandInteraction, ButtonInteraction, ContextMenuInteraction, GuildMember } from 'discord.js';
+import { Presence, CommandInteraction, ButtonInteraction, ContextMenuInteraction, GuildMember, ModalSubmitInteraction, MessageActionRow } from 'discord.js';
+import { roleMention } from '@discordjs/builders';
 import Util from '.';
 
 export default class UtilMember {
@@ -103,7 +103,7 @@ export default class UtilMember {
         }
 
         const roles = member.roles.cache.filter(role => role.name !== '@everyone');
-        const mappedRoles = roles.map(role => this.util.mentionRole(role.id)).join(', ');
+        const mappedRoles = roles.map(role => roleMention(role.id)).join(', ');
 
         const embed = this.util.embed()
             .setAuthor({ name: member.user.tag, iconURL: avatar, url: avatar })
@@ -122,7 +122,7 @@ export default class UtilMember {
         return interaction.reply({ embeds: [embed], components: rows });
     }
 
-    async actionRow(executer: GuildMember) {
+    async actionRow(executer: GuildMember): Promise<MessageActionRow[]> {
         const blocked = false;
         const muted = false;
 

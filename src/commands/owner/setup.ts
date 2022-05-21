@@ -103,7 +103,7 @@ export default class SetupCommand extends Command implements ICommand {
             const embed = this.client.util.embed()
                 .setDescription(message.content);
                 
-            const row = this.client.util.row().setComponents(this.client.util.button().setCustomId('accept_rules').setLabel('Accept Rules').setStyle('SUCCESS'));
+            const row = this.client.util.row().setComponents([this.client.util.button().setCustomId('accept_rules').setLabel('Accept Rules').setStyle('SUCCESS')]);
                 
             await channel.send({ embeds: [embed], components: [row] });
                 
