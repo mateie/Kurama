@@ -12,7 +12,11 @@ export default class UtilPagination {
         this.util = util;
     }
 
-    async default(interaction: ButtonInteraction | CommandInteraction, contents: string[] | string[][], title?: string, ephemeral = false, timeout = 12000) {
+    async default(
+        interaction: ButtonInteraction | CommandInteraction,
+        contents: string[] | string[][],
+        title?: string, ephemeral = false, timeout = 12000
+    ) {
         let page = 0;
 
         const buttons = [
@@ -152,7 +156,7 @@ export default class UtilPagination {
                 break;
             case buttons[1].customId:
                 collector.stop();
-                await i.deferUpdate();
+                return await i.deferUpdate();
                 break;
             case buttons[2].customId:
                 page = page + 1 < embeds.length ? ++page : 0;
@@ -169,22 +173,14 @@ export default class UtilPagination {
         })
             .on('end', (_, reason) => {
                 if (reason !== 'messageDelete') {
-                    const disabledRow = this.util.row().setComponents(
-                        buttons[0].setDisabled(true),
-                        buttons[1].setDisabled(true),
-                        buttons[2].setDisabled(true)
-                    );
-
-                    currPage.edit({
-                        embeds: [embeds[page]],
-                        components: [disabledRow],
-                    });
+                    currPage.delete();
                 }
             });
 
     }
 
     async helpCategory(interaction: CommandInteraction | ButtonInteraction, category: any) {
+        return interaction.reply({ content: 'Work in progress', ephemeral: true });
         let page = 0;
 
         const buttons = [
