@@ -1,5 +1,6 @@
 import Client from '@classes/Client';
 import { ContextMenuCommandBuilder, SlashCommandBuilder } from '@discordjs/builders';
+import { Region } from '@survfate/valorant.js';
 import { CommandInteraction, ContextMenuInteraction, PermissionResolvable } from 'discord.js';
 
 export interface IBase {
@@ -35,6 +36,12 @@ export interface HandlerOptions {
 
 export type CommandHandlerOptions = HandlerOptions;
 export type EventHandlerOptions = HandlerOptions;
+
+export interface ValorantLogin {
+    username: string;
+    password: string;
+    region: Region;
+}
 
 export type DiscordEvents =
     | 'rateLimit'
