@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, channelMention, roleMention } from '@discordjs/builders';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { PermissionResolvable } from 'discord.js';
 import Client from '../Client';
 
@@ -20,7 +20,4 @@ export default class Command {
         this.permission = null;
         this.data = new SlashCommandBuilder();
     }
-
-    mentionRole = (roleId: string) => roleMention(roleId);
-    mentionChannel = (channelId: string) => channelMention(channelId);
 }

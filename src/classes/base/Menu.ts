@@ -1,4 +1,4 @@
-import { ContextMenuCommandBuilder, roleMention, channelMention } from '@discordjs/builders';
+import { ContextMenuCommandBuilder } from '@discordjs/builders';
 import { PermissionResolvable } from 'discord.js';
 import Client from '../Client';
 
@@ -20,7 +20,4 @@ export default class Command {
         this.permission = null;
         this.data = new ContextMenuCommandBuilder();
     }
-
-    mentionRole = (roleId: string) => roleMention(roleId);
-    mentionChannel = (channelId: string) => channelMention(channelId);
 }
