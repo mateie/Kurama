@@ -13,6 +13,7 @@ import XP from './XP';
 
 import EventHandler from './handlers/EventHandler';
 import CommandHandler from './handlers/CommandHandler';
+import Valorant from './games/Valorant';
 
 const { TOKEN } = process.env;
 
@@ -25,6 +26,7 @@ export default class Client extends DiscordClient {
     music: Music;
     nekos: Nekos;
     util: Util;
+    valorant: Valorant;
     xp: XP;
 
     eventHandler: EventHandler;
@@ -45,6 +47,7 @@ export default class Client extends DiscordClient {
         this.music = new Music(this);
         this.nekos = new Nekos();
         this.util = new Util(this);
+        this.valorant = new Valorant(this);
         this.xp = new XP(this);
 
         this.eventHandler = new EventHandler(this, { directory: path.resolve(process.cwd(), 'build', 'events') });
