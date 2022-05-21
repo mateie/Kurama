@@ -2,6 +2,7 @@ import Client from '@classes/Client';
 import Event from '@classes/base/Event';
 import { ICommand, IEvent, IMenu } from '@types';
 import { CommandInteraction, Guild, GuildMember, TextChannel } from 'discord.js';
+import { channelMention } from '@discordjs/builders';
 
 export default class SlashHandlingEvent extends Event implements IEvent {
     constructor(client: Client) {
@@ -24,13 +25,13 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             const category = this.client.commandHandler.commands.get(commandName)?.category;
             if (category?.toString().toLowerCase() === 'music' && dbGuild.toggles.strictMusicChannels) {
                 const musicChannels = dbGuild.channelsArray.music;
-                const channelMentions = musicChannels.map(id => this.client.util.mentionChannel(id)).join(', ');
+                const channelMentions = musicChannels.map(id => channelMention(id)).join(', ');
 
                 if (musicChannels.length < 1) return interaction.reply({ content: 'Strict Music Channel is enabled but there are no channels added to it\'s list', ephemeral: true });
                 if (!musicChannels.includes(channel.id)) return interaction.reply({ content: `You cannot use music commands in this channel. Use them here: ${channelMentions}`, ephemeral: true });
             } else if (dbGuild.toggles.strictCommands && category?.toString().toLowerCase() !== 'settings') {
                 const commandChannels = dbGuild.channelsArray.commands;
-                const channelMentions = commandChannels.map(id => this.client.util.mentionChannel(id)).join(', ');
+                const channelMentions = commandChannels.map(id => channelMention(id)).join(', ');
 
                 if (commandChannels.length < 1) return interaction.reply({ content: 'Strict Commands is enabled but there are no channels added to it\'s list', ephemeral: true });
                 if (!commandChannels.includes(channel.id)) return interaction.reply({ content: `You cannot use commands in this channel, Use them here: ${channelMentions}`, ephemeral: true });

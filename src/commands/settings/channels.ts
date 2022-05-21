@@ -4,6 +4,8 @@ import { ICommand } from '@types';
 import { ChannelType } from 'discord-api-types/v10';
 import { CommandInteraction, Guild, TextChannel } from 'discord.js';
 
+import { channelMention } from '@discordjs/builders';
+
 export default class ChannelsCommand extends Command implements ICommand {
     constructor(client: Client) {
         super(client);
@@ -137,7 +139,7 @@ export default class ChannelsCommand extends Command implements ICommand {
         }
         case 'list': {
             if (channels.length < 1) return interaction.reply({ content: `There are no channels for **${typeList}** Channel List`, ephemeral: true });
-            const listChannels = channels.map(id => this.mentionChannel(id)).join(', ');
+            const listChannels = channels.map(id => channelMention(id)).join(', ');
             
             const embed = this.client.util.embed()
                 .setTitle(`${typeList} Channel List`)

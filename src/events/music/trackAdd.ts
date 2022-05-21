@@ -28,6 +28,6 @@ export default class TrackAddEvent extends Event implements IEvent {
 
         const channel = queue.metadata as TextChannel;
 
-        await channel.send({ embeds: [embed] });
+        channel.send({ embeds: [embed] }).then(msg => setTimeout(() => msg.delete(), 5000));
     }
 }
