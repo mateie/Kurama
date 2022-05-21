@@ -55,16 +55,5 @@ export default class XP {
         return xp;
     }
 
-    calculateReqXP(xp: number) {
-        let currentLevel = this.calculateLevel(xp);
-        const nextLevel = this.calculateLevel(xp) + 1;
-
-        let neededXP = 0;
-        while (currentLevel < nextLevel) {
-            neededXP++;
-            currentLevel = this.calculateLevel(xp + neededXP);
-        }
-
-        return neededXP;
-    }
+    calculateReqXP = (level: number) => level * level * 100 + 100; 
 }
