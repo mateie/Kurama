@@ -153,11 +153,11 @@ export default class MemberCanvas {
         const db = await this.client.database.members.get(member);
         const data = await this.client.util.member.getCardData(db);
 
-        const banner = member.user.banner ? member.user.bannerURL({ format: 'png' }) as string : member.avatarURL({ format: 'png' }) as string;
         const memberColor = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
+        const bg = member.user.banner ? member.user.bannerURL({ format: 'png' }) as string : member.avatar ? member.avatarURL({ format: 'png' }) as string : data.background;
 
         ctx.filter = 'blur(6px)';
-        const background = await loadImage(banner);
+        const background = await loadImage(bg);
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.filter = 'none';
 
@@ -202,6 +202,6 @@ export default class MemberCanvas {
 
         const width = (cx * 615) / rx;
         if (width > 596.5) return 596.6;
-        return width;
+        return width as number;
     }
 }
