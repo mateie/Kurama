@@ -70,7 +70,21 @@ export default class MusicCommand extends Command implements ICommand {
                             .setDescription('Duration to seek to (3:00, 1:03...)')
                             .setRequired(true)
                     )
-            );
+            )
+            .addSubcommand(subcommand =>
+                subcommand
+                    .setName('volume')
+                    .setDescription('Change volume for the player')
+                    .addIntegerOption(option =>
+                        option
+                            .setName('percent')
+                            .setDescription('Volume to set (0-100)')
+                            .setRequired(true)
+                            .setMinValue(0)
+                            .setMaxValue(100)
+                    )
+            )
+        ;
     }
 
     async run(interaction: CommandInteraction) {
