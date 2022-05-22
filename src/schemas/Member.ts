@@ -6,7 +6,7 @@ export interface IMember extends Document {
     xp: number;
     level: number;
     card: {
-        background: Buffer | string;
+        background: string;
         text: string;
         progressbar: string;
     },
@@ -39,7 +39,7 @@ export const Member: Schema = new Schema({
     },
     card: {
         background: {
-            type: Schema.Types.Mixed,
+            type: String,
             default: '#222216',
         },
         text: {
