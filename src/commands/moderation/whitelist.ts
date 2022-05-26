@@ -57,7 +57,7 @@ export default class WordCommand extends Command implements ICommand {
             if (word.split(',').length > 1) {
                 const words = word.split(',');
                 const exists = await this.client.moderation.whitelist.checkMultiple(words, guild);
-                if (exists.length > 0) return interaction.reply({ content: `The word **${this.client.util.list(exists)}** are already in a whitelist`, ephemeral: true });
+                if (exists.length > 0) return interaction.reply({ content: `The word **${this.util.list(exists)}** are already in a whitelist`, ephemeral: true });
                 return this.client.moderation.whitelist.addMultiple(interaction, words, guild);
             }
                 
@@ -69,7 +69,7 @@ export default class WordCommand extends Command implements ICommand {
             if (word.split(',').length > 1) {
                 const words = word.split(',');
                 const exists = await this.client.moderation.whitelist.checkMultiple(words, guild);
-                if (exists.length < 1) return interaction.reply({ content: `The word **${this.client.util.list(words)}** are not in a whitelist`, ephemeral: true });
+                if (exists.length < 1) return interaction.reply({ content: `The word **${this.util.list(words)}** are not in a whitelist`, ephemeral: true });
                 return this.client.moderation.whitelist.removeMultiple(interaction, words, guild);
             }
                 

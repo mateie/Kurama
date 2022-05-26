@@ -12,7 +12,7 @@ export default class TrackStartEvent extends Event implements IEvent {
     }
 
     async run(queue: Queue, track: Track) {
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setAuthor({ name: track.author })
             .setTitle(track.title)
             .setURL(track.url)

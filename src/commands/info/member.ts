@@ -28,6 +28,6 @@ export default class MemberCommand extends Command implements ICommand {
 
         if (member.user.bot) return interaction.reply({ content: `${member} is a bot`, ephemeral: true });
 
-        return this.client.util.member.info(interaction, member);
+        return this.util.member.info(interaction, member);
     }
 }

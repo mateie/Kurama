@@ -14,7 +14,7 @@ export default class UncaughtExceptionMonitorEvent extends Event implements IEve
     async run(err: Error, origin: string) {
         const channel = this.client.botLogs;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle('There was an Uncaught Exception Monitor')
             .setColor('RED')
             .setURL('https://nodejs.org/api/process.html#event-uncaughtexceptionmonitor')

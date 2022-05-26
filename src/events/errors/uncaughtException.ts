@@ -14,7 +14,7 @@ export default class UncaughtExceptionEvent extends Event implements IEvent {
     async run(reason: Error, origin: string) {
         const channel = this.client.botLogs;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle('There was an Uncaught Exception/Catch')
             .setColor('RED')
             .setURL('https://nodejs.org/api/process.html#event-uncaughtexception')

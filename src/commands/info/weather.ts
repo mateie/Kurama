@@ -32,7 +32,7 @@ export default class WeatherCommand extends Command implements ICommand {
 
                 const place = result[0];
 
-                const embed = this.client.util.embed()
+                const embed = this.util.embed()
                     .setTitle(`${place.location.name}`)
                     .setThumbnail(place.current.imageUrl)
                     .addField('Temperature: ', place.current.temperature + '°F', true)

@@ -30,7 +30,7 @@ export default class StatusCommand extends Command implements ICommand {
             'Disconnecting'
         ];
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle(`${<string>this.client.user?.username} status`)
             .setDescription(<string>this.client.application?.description)
             .addFields([

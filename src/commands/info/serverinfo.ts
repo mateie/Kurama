@@ -21,7 +21,7 @@ export default class ServerInfoCommand extends Command implements ICommand {
 
         const icon = guild.iconURL({ dynamic: true }) as string;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setAuthor({ name: guild.name, iconURL: icon })
             .setThumbnail(icon)
             .addFields(

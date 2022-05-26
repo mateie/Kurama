@@ -40,11 +40,11 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 return `\`${index + 1}\`. ${track.author} - ${track.title} | ${track.duration}`;
             });
 
-            const chunked = this.client.util.chunk(mapped, 10);
+            const chunked = this.util.chunk(mapped, 10);
 
             if (chunked.length < 1) return await interaction.reply({ content: 'There are no upcoming tracks', ephemeral: true });
 
-            this.client.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
+            this.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
             break;
         }
         case 'show_track_progress': {
@@ -77,9 +77,9 @@ export default class MusicButtonsEvent extends Event implements IEvent {
 
             if (!search) return interaction.reply({ content: 'Lyrics not found', ephemeral: true });
 
-            const chunkedLyrics = this.client.util.chunk(search.lyrics, 1024);
+            const chunkedLyrics = this.util.chunk(search.lyrics, 1024);
 
-            await this.client.util.pagination.default(interaction, chunkedLyrics, `${title} Lyrics`, false, 60000);
+            await this.util.pagination.default(interaction, chunkedLyrics, `${title} Lyrics`, false, 60000);
 
             message.edit({ components: rows });
 
@@ -154,7 +154,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 .setLabel('Cancel Track Selection')
                 .setStyle('SECONDARY');
 
-            const dropdown = [this.client.util.dropdown()
+            const dropdown = [this.util.dropdown()
                 .setCustomId('select_track')
                 .setPlaceholder('Select a track')
                 .setMinValues(1)
@@ -164,7 +164,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
             message.components[1].components[2] = cancelButton;
 
             rows.push(
-                this.client.util.row()
+                this.util.row()
                     .addComponents(dropdown)
             );
 
@@ -182,13 +182,13 @@ export default class MusicButtonsEvent extends Event implements IEvent {
             return message.edit({ components: rows });
         }
         case 'add_tracks': {
-            const modal = this.client.util.modal()
+            const modal = this.util.modal()
                 .setCustomId('add_tracks_modal')
                 .setTitle('Adding Track(s) to the queue')
                 .addComponents(
-                    this.client.util.modalRow()
+                    this.util.modalRow()
                         .addComponents(
-                            this.client.util.input()
+                            this.util.input()
                                 .setCustomId('track_query')
                                 .setLabel('Track/Playlist URL or a name')
                                 .setStyle('SHORT')

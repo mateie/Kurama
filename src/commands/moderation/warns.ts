@@ -39,6 +39,6 @@ export default class WarnsCommand extends Command implements ICommand {
             **Reason**: ${warn.reason}
         `);
 
-        return this.client.util.pagination.default(interaction, warnMap, `${member.user.tag}'s Warns`);
+        return this.util.pagination.default(interaction, warnMap, `${member.user.tag}'s Warns`);
     }
 }

@@ -172,11 +172,11 @@ export default class MusicCommand extends Command implements ICommand {
                 return `\`${index + 1}\`. ${track.author} - ${track.title} | ${track.duration}`;
             });
 
-            const chunked = this.client.util.chunk(mapped, 10);
+            const chunked = this.util.chunk(mapped, 10);
 
             if (chunked.length < 1) return await interaction.reply({ content: 'There are no upcoming tracks', ephemeral: true });
 
-            this.client.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
+            this.util.pagination.default(interaction, chunked, 'Upcoming Tracks');
             break;
         }
         case 'skip': {
@@ -209,7 +209,7 @@ export default class MusicCommand extends Command implements ICommand {
             const durationPattern = /^[0-5]?[0-9](:[0-5][0-9]){1,2}$/;
             if (!durationPattern.test(duration)) return interaction.reply({ content: 'Duration provided in incorrect format' });
 
-            const durationMs = this.client.util.durationMs(duration);
+            const durationMs = this.util.durationMs(duration);
             if (durationMs > queue.current.durationMS) return interaction.reply({ content: 'Duration you provided exceeds track duration', ephemeral: true });
 
             queue.seek(durationMs);

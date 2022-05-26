@@ -141,7 +141,7 @@ export default class ChannelsCommand extends Command implements ICommand {
             if (channels.length < 1) return interaction.reply({ content: `There are no channels for **${typeList}** Channel List`, ephemeral: true });
             const listChannels = channels.map(id => channelMention(id)).join(', ');
             
-            const embed = this.client.util.embed()
+            const embed = this.util.embed()
                 .setTitle(`${typeList} Channel List`)
                 .setDescription(listChannels);
                 

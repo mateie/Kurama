@@ -75,7 +75,7 @@ export default class SetupCommand extends Command implements ICommand {
         case 'channels': {
             const channelName = options.getString('channel') as string;
             const channel = guild.channels.cache.find(ch => ch.name.includes(channelName) && ch.type === 'GUILD_TEXT');
-            const type = this.client.util.capFirstLetter(channelName);
+            const type = this.util.capFirstLetter(channelName);
                 
             if(!channel) return interaction.reply({ content: `Couldn't find **#${channelName}** text channel or similar to it, either set this up with **/channels** or create the channel`, ephemeral: true });
             if(dbGuild.channels[channelName as keyof typeof dbGuild.channels] && dbGuild.channels[channelName as keyof typeof dbGuild.channels].length > 0) return interaction.reply({ content: `**${type}** channel is already setup`, ephemeral: true });
@@ -100,10 +100,10 @@ export default class SetupCommand extends Command implements ICommand {
                 
             if (message.deletable) await message.delete();
                 
-            const embed = this.client.util.embed()
+            const embed = this.util.embed()
                 .setDescription(message.content);
                 
-            const row = this.client.util.row().setComponents([this.client.util.button().setCustomId('accept_rules').setLabel('Accept Rules').setStyle('SUCCESS')]);
+            const row = this.util.row().setComponents([this.util.button().setCustomId('accept_rules').setLabel('Accept Rules').setStyle('SUCCESS')]);
                 
             await channel.send({ embeds: [embed], components: [row] });
                 
@@ -117,7 +117,7 @@ export default class SetupCommand extends Command implements ICommand {
             const dbRole = options.getString('db_role') as string;
             const role = options.getRole('role') as Role;
 
-            if (dbGuild.roles[dbRole as keyof typeof dbGuild.roles] && dbGuild.roles[dbRole as keyof typeof dbGuild.roles].length > 0) return interaction.reply({ content: `${this.client.util.capFirstLetter(dbRole)} Role is already setup`, ephemeral: true });
+            if (dbGuild.roles[dbRole as keyof typeof dbGuild.roles] && dbGuild.roles[dbRole as keyof typeof dbGuild.roles].length > 0) return interaction.reply({ content: `${this.util.capFirstLetter(dbRole)} Role is already setup`, ephemeral: true });
                 
             dbGuild.roles[dbRole as keyof typeof dbGuild.roles] = role.id;
 

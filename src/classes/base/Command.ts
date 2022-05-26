@@ -1,9 +1,11 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
 import { PermissionResolvable } from 'discord.js';
 import Client from '../Client';
+import Util from '@classes/util';
 
 export default class Command {
     readonly client: Client;
+    readonly util: Util;
     
     name: string | undefined;
     description: string | 'No Description';
@@ -14,6 +16,7 @@ export default class Command {
 
     constructor(client: Client) {
         this.client = client;
+        this.util = client.util;
 
         this.description = 'No Description';
 

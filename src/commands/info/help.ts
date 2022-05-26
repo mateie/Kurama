@@ -47,19 +47,19 @@ export default class HelpCommand extends Command implements ICommand {
         switch (options.getSubcommand()) {
         case 'all': {
             const categories = this.client.commandHandler.categories;
-            return this.client.util.pagination.helpAll(interaction, categories);
+            return this.util.pagination.helpAll(interaction, categories);
         }
         case 'category': {
             const categoryString = options.getString('category_view', true).toLowerCase().trim();
             const category = this.client.commandHandler.categories.get(categoryString)?.filter(cat => !cat.type);
             if (!category) return interaction.reply({ content: 'That category does not exist', ephemeral: true });
-            return this.client.util.pagination.helpCategory(interaction, category);
+            return this.util.pagination.helpCategory(interaction, category);
         }
         case 'command': {
             const commandString = options.getString('command_view', true).toLowerCase().trim();
             const command = this.client.commandHandler.commands.get(commandString);
             if (!command) return interaction.reply({ content: 'That Command does not exist', ephemeral: true });
-            return this.client.util.pagination.helpCommand(interaction, command.data.toJSON());
+            return this.util.pagination.helpCommand(interaction, command.data.toJSON());
             break;
         }
         }

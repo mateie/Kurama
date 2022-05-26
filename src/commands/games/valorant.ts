@@ -62,9 +62,9 @@ export default class ValorantCommand extends Command implements ICommand {
                 const account = this.client.valorant.accounts.get(member.id);
                 return interaction.reply({ content: `You already logged in as ${account?.user.GameName}#${account?.user.TagLine}`, ephemeral: true });
             }
-            const username = this.client.util.modalRow()
+            const username = this.util.modalRow()
                 .addComponents(
-                    this.client.util.input()
+                    this.util.input()
                         .setCustomId('valorant_username')
                         .setLabel('Your Username')
                         .setStyle('SHORT')
@@ -73,9 +73,9 @@ export default class ValorantCommand extends Command implements ICommand {
                         .setRequired(true),
                 );
 
-            const password = this.client.util.modalRow()
+            const password = this.util.modalRow()
                 .addComponents(
-                    this.client.util.input()
+                    this.util.input()
                         .setCustomId('valorant_password')
                         .setLabel('Your Password')
                         .setStyle('SHORT')
@@ -85,9 +85,9 @@ export default class ValorantCommand extends Command implements ICommand {
                         .setRequired(true),
                 );
 
-            const region = this.client.util.modalRow()
+            const region = this.util.modalRow()
                 .addComponents(
-                    this.client.util.input()
+                    this.util.input()
                         .setCustomId('valorant_region')
                         .setLabel('Your Region')
                         .setStyle('SHORT')
@@ -97,7 +97,7 @@ export default class ValorantCommand extends Command implements ICommand {
                         .setRequired(true),
                 );
 
-            const modal = this.client.util.modal()
+            const modal = this.util.modal()
                 .setCustomId('valorant_login')
                 .setTitle('Login to your Valorant Account')
                 .addComponents(username)

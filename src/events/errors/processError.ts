@@ -15,7 +15,7 @@ export default class ProcessErrorEvent extends Event implements IEvent {
     async run(err: Error) {
         const channel = this.client.botLogs;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle('Error')
             .setURL('https://discordjs.guide/popular-topics/errors.html#api-errors')
             .setColor('RED')

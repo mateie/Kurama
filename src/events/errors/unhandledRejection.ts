@@ -14,7 +14,7 @@ export default class UnhandledRejectionEvent extends Event implements IEvent {
     async run(reason: Error, p: Promise<any> ) {
         const channel = this.client.botLogs;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle('There was an Unhandled Rejection/Catch')
             .setURL('https://nodejs.org/api/process.html#event-unhandledrejection')
             .setColor('RED')

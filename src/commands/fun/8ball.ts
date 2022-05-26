@@ -28,7 +28,7 @@ export default class EightBallCommand extends Command implements ICommand {
 
         const { url } = await this.client.nekos.eightBall({ text: question });
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle(question)
             .setImage(url as string);
         

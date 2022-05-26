@@ -35,7 +35,7 @@ export default class ClearCommand extends Command implements ICommand {
         const amount = options.getNumber('amount') as number;;
         const member = options.getMember('target') as GuildMember;
 
-        const embed = this.client.util.embed();
+        const embed = this.util.embed();
 
         if (member) {
             const messages = (await channel.messages.fetch()).filter(m => m.author.id === member.id);

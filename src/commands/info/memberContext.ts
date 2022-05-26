@@ -20,6 +20,6 @@ export default class MemberContextMenu extends Menu implements IMenu {
 
         if (member.user.bot) return interaction.reply({ content: `${member} is a bot`, ephemeral: true });
 
-        return this.client.util.member.info(interaction, member);
+        return this.util.member.info(interaction, member);
     }
 }

@@ -14,7 +14,7 @@ export default class WarnEvent extends Event implements IEvent {
     async run(warn: Error) {
         const channel = this.client.botLogs;
 
-        const embed = this.client.util.embed()
+        const embed = this.util.embed()
             .setTitle('There was an Uncaught Exception Monitor Warning')
             .setColor('RED')
             .setURL('https://nodejs.org/api/process.html#event-warning')
