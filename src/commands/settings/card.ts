@@ -21,7 +21,7 @@ export default class CardCommand extends Command implements ICommand {
                     .setName('element')
                     .setDescription('What do you want to customize')
                     .addChoices(
-                        { name: 'Background', value: 'background'}
+                        { name: 'Background', value: 'background' }
                     )
                     .setRequired(true)
             )
