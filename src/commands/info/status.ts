@@ -37,7 +37,7 @@ export default class StatusCommand extends Command implements ICommand {
                 { name: 'Client', value: this.client.user?.tag as string, inline: true },
                 { name: 'Created', value: `<t:${Math.floor(this.client.user?.createdTimestamp as number / 1000)}:R>`, inline: true },
                 { name: 'Verified', value: this.client.user?.flags?.has('VERIFIED_BOT') ? 'Yes' : 'No', inline: true },
-                { name: 'Owners', value: 'Stealth and Bunzi', inline: true },
+                { name: 'Owners', value: 'Stealth', inline: true },
                 { name: 'Database', value: mongoStatus[connection.readyState], inline: true },
                 { name: 'System', value: os.type().replace('Windows_NT', 'Windows').replace('Darwin', 'macOS'), inline: true },
                 { name: 'CPU Model', value: os.cpus()[0].model, inline: true },
