@@ -124,37 +124,26 @@ export default class UtilMember {
     }
 
     async actionRow(executer: GuildMember): Promise<MessageActionRow[]> {
-        const blocked = false;
-        const muted = false;
-
         const topRow = this.util.row()
             .addComponents(
                 this.util.button()
                     .setCustomId('show_rank')
                     .setLabel('Show Rank')
                     .setStyle('SECONDARY'),
-                this.util.button()
-                    .setCustomId('report_member')
-                    .setLabel('Report Member')
-                    .setStyle('DANGER')
             );
-
+        
         const midRow = this.util.row()
             .addComponents(
                 this.util.button()
-                    .setCustomId('show_warns')
-                    .setLabel('Show Warns')
-                    .setStyle('PRIMARY'),
+                    .setCustomId('report_member')
+                    .setLabel('Report Member')
+                    .setStyle('DANGER'),
                 this.util.button()
-                    .setCustomId('show_blocks')
-                    .setLabel('Show Blocks')
-                    .setStyle('PRIMARY'),
-                this.util.button()
-                    .setCustomId('show_mutes')
-                    .setLabel('Show Mutes')
-                    .setStyle('PRIMARY'),
+                    .setCustomId('show_reports')
+                    .setLabel('Show Reports')
+                    .setStyle('PRIMARY')
             );
-
+        
         const bottomRow = this.util.row()
             .addComponents(
                 this.util.button()
@@ -162,13 +151,9 @@ export default class UtilMember {
                     .setLabel('Warn Member')
                     .setStyle('DANGER'),
                 this.util.button()
-                    .setCustomId(blocked ? 'unblock_member' : 'block_member')
-                    .setLabel(blocked ? 'Unblock Member' : 'Block Member')
-                    .setStyle(blocked ? 'SUCCESS' : 'DANGER'),
-                this.util.button()
-                    .setCustomId(muted ? 'unmute_member' : 'mute_member')
-                    .setLabel(muted ? 'Unmute Member' : 'Mute Member')
-                    .setStyle(muted ? 'SUCCESS' : 'DANGER'),
+                    .setCustomId('show_warns')
+                    .setLabel('Show Warns')
+                    .setStyle('PRIMARY'),
             );
 
         return executer.permissions.has('VIEW_AUDIT_LOG') ? [topRow, midRow, bottomRow] : [topRow];
