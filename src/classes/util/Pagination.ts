@@ -15,7 +15,9 @@ export default class UtilPagination {
     async default(
         interaction: ButtonInteraction | CommandInteraction,
         contents: string[] | string[][],
-        title?: string, ephemeral = false, timeout = 12000
+        title?: string,
+        ephemeral = false,
+        timeout = 12000
     ) {
         let page = 0;
 
