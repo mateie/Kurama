@@ -1,13 +1,19 @@
 import Client from '@classes/Client';
+import Util from '@classes/util';
 import { ContextMenuCommandBuilder, SlashCommandBuilder } from '@discordjs/builders';
 import { Region } from '@survfate/valorant.js';
 import { CommandInteraction, ContextMenuInteraction, PermissionResolvable } from 'discord.js';
 
 export interface IBase {
     readonly client: Client;
+    readonly util: Util;
+    
     name: string | undefined;
     description: string | 'No Description';
     category: string | undefined;
+
+    ownerOnly: boolean;
+
     permission: PermissionResolvable | null;
 }
 

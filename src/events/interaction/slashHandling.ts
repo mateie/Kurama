@@ -1,6 +1,6 @@
 import Client from '@classes/Client';
 import Event from '@classes/base/Event';
-import { ICommand, IEvent, IMenu } from '@types';
+import { IBase, ICommand, IEvent, IMenu } from '@types';
 import { CommandInteraction, Guild, GuildMember, TextChannel } from 'discord.js';
 import { channelMention } from '@discordjs/builders';
 
@@ -38,8 +38,12 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             }
         }
 
+        const base = this.client.commandHandler.commands.get(commandName) as IBase;
+        if (base.ownerOnly && member.id !== this.client.owner) return interaction.reply({ content: 'This command is owner only', ephemeral: true }); 
+        if (base.permission && member.permissions.has(base.permission)) return interaction.reply({ content: 'Not enough permissions', ephemeral: true });
+
         if (interaction.isCommand()) {
-            const command = this.client.commandHandler.commands.get(commandName) as ICommand;
+            const command = base as ICommand;
 
             try {
                 command.run(interaction);
@@ -50,7 +54,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
         }
 
         if (interaction.isContextMenu()) {
-            const menu = this.client.commandHandler.commands.get(commandName) as IMenu;
+            const menu = base as IMenu;
 
             try {
                 menu.run(interaction);

@@ -7,9 +7,11 @@ export default class Command {
     readonly client: Client;
     readonly util: Util;
     
-    name: string | undefined;
-    description: string | 'No Description';
+    name!: string | undefined;
+    description!: string | 'No Description';
     category: string | undefined;
+
+    ownerOnly: boolean;
 
     permission: PermissionResolvable | null;
     data!: SlashCommandBuilder;
@@ -19,6 +21,8 @@ export default class Command {
         this.util = client.util;
 
         this.description = 'No Description';
+
+        this.ownerOnly = false;
 
         this.permission = null;
         this.data = new SlashCommandBuilder();

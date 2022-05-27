@@ -11,6 +11,8 @@ export default class Command {
     description: string | 'No Description';
     category: string | undefined;
 
+    ownerOnly: boolean;
+
     permission: PermissionResolvable | null;
     data!: ContextMenuCommandBuilder;
 
@@ -19,6 +21,8 @@ export default class Command {
         this.util = client.util;
 
         this.description = 'No Description';
+
+        this.ownerOnly = false;
 
         this.permission = null;
         this.data = new ContextMenuCommandBuilder();
