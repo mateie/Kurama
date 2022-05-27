@@ -22,7 +22,7 @@ export default class Warns {
             by: by.id,
             reason
         });
-        ;
+        
         await db.save();
 
         return interaction.reply({ content: `${member} was warned by ${by} - ***Reason***: ${reason}`});
