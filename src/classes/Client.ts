@@ -19,7 +19,7 @@ import Valorant from './games/Valorant';
 const { TOKEN } = process.env;
 
 export default class Client extends DiscordClient {
-    readonly botOwners: string[];
+    readonly owner: string;
 
     canvas: Canvas;
     database: Database;
@@ -40,7 +40,7 @@ export default class Client extends DiscordClient {
     constructor() {
         super({ intents: 32767 });
 
-        this.botOwners = ['401269337924829186'];
+        this.owner = '401269337924829186';
 
         this.canvas = new Canvas(this);
         this.database = new Database(this);
