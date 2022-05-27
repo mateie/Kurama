@@ -3,6 +3,7 @@ import path from 'path';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 import Nekos from 'nekos.life';
+import logs from 'discord-logs';
 
 import Canvas from './canvas';
 import Database from './database';
@@ -61,6 +62,8 @@ export default class Client extends DiscordClient {
 
         this.eventHandler.loadAll();
         this.commandHandler.loadAll();
+
+        logs(this, { debug: true });
     }
 
     async deploy() {

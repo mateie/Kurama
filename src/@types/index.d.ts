@@ -43,55 +43,14 @@ export interface ValorantLogin {
     region: Region;
 }
 
-export type DiscordEvents =
+export type ClientEvents =
     | 'rateLimit'
     | 'invalidRequestWarning'
     | 'apiResponse'
     | 'apiRequest'
     | 'ready'
-    | 'guildCreate'
-    | 'guildDelete'
-    | 'guildUpdate'
     | 'inviteCreate'
     | 'inviteDelete'
-    | 'guildUnavailable'
-    | 'guildMemberAdd'
-    | 'guildMemberRemove'
-    | 'guildMemberUpdate'
-    | 'guildMemberAvailable'
-    | 'guildMembersChunk'
-    | 'guildIntegrationsUpdate'
-    | 'roleCreate'
-    | 'roleDelete'
-    | 'roleUpdate'
-    | 'emojiCreate'
-    | 'emojiDelete'
-    | 'emojiUpdate'
-    | 'guildBanAdd'
-    | 'guildBanRemove'
-    | 'channelCreate'
-    | 'channelDelete'
-    | 'channelUpdate'
-    | 'channelPinsUpdate'
-    | 'messageCreate'
-    | 'messageDelete'
-    | 'messageUpdate'
-    | 'messageDeleteBulk'
-    | 'messageReactionAdd'
-    | 'messageReactionRemove'
-    | 'messageReactionRemoveAll'
-    | 'messageReactionRemoveEmoji'
-    | 'threadCreate'
-    | 'threadDelete'
-    | 'threadUpdate'
-    | 'threadListSync'
-    | 'threadMemberUpdate'
-    | 'threadMembersUpdate'
-    | 'userUpdate'
-    | 'presenceUpdate'
-    | 'voiceServerUpdate'
-    | 'voiceStateUpdate'
-    | 'typingStart'
     | 'webhookUpdate'
     | 'interactionCreate'
     | 'error'
@@ -110,12 +69,118 @@ export type DiscordEvents =
     | 'stageInstanceDelete'
     | 'stickerCreate'
     | 'stickerDelete'
-    | 'stickerUpdate'
+    | 'stickerUpdate';
+
+export type ChannelEvents =
+    | 'channelCreate'
+    | 'channelDelete'
+    | 'channelUpdate'
+    | 'channelPinsUpdate'
+    | 'typingStart'
+    | 'guildChannelPermissionsUpdate'
+    | 'guildChannelTopicUpdate';
+
+export type ThreadChannelEvents =
+    | 'threadCreate'
+    | 'threadDelete'
+    | 'threadUpdate'
+    | 'threadListSync'
+    | 'threadMemberUpdate'
+    | 'threadMembersUpdate'
+    | 'threadStateUpdate'
+    | 'threadNameUpdate'
+    | 'threadLockStateUpdate'
+    | 'threadRateLimitPerUserUpdate'
+    | 'threadAutoArchiveDurationUpdate';
+
+export type MemberEvents =
+    | 'guildMemberAdd'
+    | 'guildMemberRemove'
+    | 'guildMemberUpdate'
+    | 'guildMemberAvailable'
+    | 'guildMembersChunk'
+    | 'guildMemberBoost'
+    | 'guildMemberUnboost'
+    | 'guildMemberRoleAdd'
+    | 'guildMemberRoleRemove'
+    | 'guildMemberNicknameUpdate'
+    | 'guildMemberEntered'
+    | 'guildMemberOffline'
+    | 'guildMemberOnline';
+
+export type UserEvents =
+    | 'userUpdate'
+    | 'presenceUpdate'
+    | 'userAvatarUpdate'
+    | 'userUsernameUpdate'
+    | 'userDiscriminatorUpdate'
+    | 'userFlagsUpdate';
+
+
+export type VoiceChannelEvents =
+    | 'voiceServerUpdate'
+    | 'voiceStateUpdate'
+    | 'voiceChannelJoin'
+    | 'voiceChannelLeave'
+    | 'voiceChannelSwitch'
+    | 'voiceChannelMute'
+    | 'voiceChannelUnmute'
+    | 'voiceChannelDeaf'
+    | 'voiceChannelUndeaf'
+    | 'voiceStreamingStart'
+    | 'voiceStreamingStop';
+
+
+export type GuildEvents =
+    | 'guildCreate'
+    | 'guildDelete'
+    | 'guildUpdate'
+    | 'guildUnavailable'
+    | 'guildBoostLevelUp'
+    | 'guildBoostLevelDown'
+    | 'guildBannerAdd'
+    | 'guildAfkChannelAdd'
+    | 'guildVanityURLAdd'
+    | 'guildVanityURLRemove'
+    | 'guildVanityURLUpdate'
+    | 'guildFeaturesUpdate'
+    | 'guildAcronymUpdate'
+    | 'guildOwnerUpdate'
+    | 'guildPartnerAdd'
+    | 'guildPartnerRemove'
+    | 'guildVerificationAdd'
+    | 'guildIntegrationsUpdate'
+    | 'guildBanAdd'
+    | 'guildBanRemove'
     | 'guildScheduledEventCreate'
     | 'guildScheduledEventUpdate'
     | 'guildScheduledEventDelete'
     | 'guildScheduledEventUserAdd'
     | 'guildScheduledEventUserRemove';
+
+export type MessageEvents =
+    | 'messageCreate'
+    | 'messageDelete'
+    | 'messageUpdate'
+    | 'messageDeleteBulk'
+    | 'messagePinned'
+    | 'messageContentEdited'
+    | 'messageReactionAdd'
+    | 'messageReactionRemove'
+    | 'messageReactionRemoveAll'
+    | 'messageReactionRemoveEmoji';
+
+export type RoleEvents =
+    | 'roleCreate'
+    | 'roleDelete'
+    | 'roleUpdate'
+    | 'rolePositionUpdate'
+    | 'rolePermissionsUpdate';
+
+export type EmojiEvents =
+    | 'emojiCreate'
+    | 'emojiDelete'
+    | 'emojiUpdate';
 
 export type MusicEvents =
     | 'botDisconnect'
@@ -133,5 +198,7 @@ export type ProcessEvents =
     | 'uncaughtException'
     | 'uncaughtExceptionMonitor'
     | 'unhandledRejection';
+
+export type DiscordEvents = ClientEvents | ChannelEvents | ThreadChannelEvents | MemberEvents | UserEvents | VoiceChannelEvents | GuildEvents | MessageEvents | RoleEvents | EmojiEvents;
 
 export type Events = DiscordEvents | MusicEvents | ProcessEvents;
