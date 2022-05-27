@@ -11,6 +11,8 @@ export default class EmitCommand extends Command implements ICommand {
         this.description = 'Event Emitter';
         this.permission = 'ADMINISTRATOR';
 
+        this.ownerOnly = true;
+
         this.data
             .setName(this.name)
             .setDescription(this.description)
@@ -26,7 +28,7 @@ export default class EmitCommand extends Command implements ICommand {
                                 { name: 'Member Joining', value: 'guildMemberAdd' },
                                 { name: 'Member Leaving', value: 'guildMemberRemove' },
                                 { name: 'Member Available', value: 'guildMemberAvailable' },
-                                { name: 'Member Update', value: 'guildMemberUpdate'},
+                                { name: 'Member Update', value: 'guildMemberUpdate' },
                             )
                             .setRequired(true)
                     )
