@@ -31,7 +31,7 @@ export default class ServerInfoCommand extends Command implements ICommand {
                         value: `
                             Name: ${guild.name}
                             Created: <t:${Math.floor(createdTimestamp / 1000)}:R>
-                            Owners: ${guild.members.cache.get(this.client.botOwners[0])}
+                            Owner: ${guild.members.cache.get(guild.ownerId)}
 
                             Description: ${description}
                         `
