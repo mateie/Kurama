@@ -31,7 +31,6 @@ export default class CommandHandler extends Handler {
 
         if (!command.name) return this.table.addRow(file.split('/')[6], 'Missing Name', '❌ Failed');
         if (!command.description) return this.table.addRow(command.name, 'Missing Description', '❌ Failed');
-        if (command.data && command.permission) command.data.defaultPermission = false;
         if (!command.run) return this.table.addRow(command.name, 'Missing `run` function', '❌ Failed');
         if (typeof command.run !== 'function') return this.table.addRow(command.name, '`run` should be a function', '❌ Failed');
 
