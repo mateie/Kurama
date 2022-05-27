@@ -1,18 +1,18 @@
 import Client from '@classes/Client';
 
+import Reports from './Reports';
 import Warns from './Warns';
-import Whitelist from './Whitelist';
 
 export default class Moderation {
     client: Client;
 
+    reports: Reports;
     warns: Warns;
-    whitelist: Whitelist;
 
     constructor(client: Client) {
         this.client = client;
 
+        this.reports = new Reports(this.client);
         this.warns = new Warns(this.client);
-        this.whitelist = new Whitelist(this.client);
     }
 }

@@ -16,6 +16,13 @@ export interface IMember extends Document {
             by: string;
             reason: string;
         }
+    ],
+    reports: [
+        {
+            guildId: string,
+            by: string,
+            reason: string,
+        }
     ]
 }
 
@@ -52,6 +59,13 @@ export const Member: Schema = new Schema({
         },
     },
     warns: [
+        {
+            guildId: String,
+            by: String,
+            reason: String,
+        }
+    ],
+    reports: [
         {
             guildId: String,
             by: String,
