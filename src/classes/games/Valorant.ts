@@ -255,8 +255,9 @@ export default class Valorant {
                         message.delete();
                     }
                 });
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
+            await interaction.editReply({ content: `${err}` });
         }
     }
 
