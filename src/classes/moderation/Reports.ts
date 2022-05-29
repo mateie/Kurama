@@ -1,5 +1,5 @@
 import Client from '@classes/Client';
-import { ButtonInteraction, CommandInteraction, Guild, GuildMember, ModalSubmitInteraction } from 'discord.js';
+import { ButtonInteraction, CommandInteraction, Guild, GuildMember, ModalSubmitInteraction, TextChannel } from 'discord.js';
 
 export default class Reports {
     client: Client;
@@ -15,15 +15,27 @@ export default class Reports {
     ) {
         const guild = interaction.guild as Guild;
         const by = interaction.member as GuildMember;
-        const db = await this.client.database.members.get(member);
+        const dbMember = await this.client.database.members.get(member);
+        const dbGuild = await this.client.database.guilds.get(guild);
 
-        db.reports.push({
+        dbMember.reports.push({
             guildId: guild.id,
             by: by.id,
             reason
         });
 
-        await db.save();
+        await dbMember.save();
+
+        if (dbGuild.channels.reports) {
+            const channel = guild.channels.cache.get(dbGuild.channels.reports) as TextChannel;
+
+            const embed = this.client.util.embed()
+                .setAuthor({ name: by.user.tag, iconURL: by.displayAvatarURL({ dynamic: true }) })
+                .setTitle(`${by.user.tag} reported ${member.user.tag}`)
+                .addField('Reason', reason);
+
+            channel.send({ embeds: [embed] });
+        }
 
         return interaction.reply({ content: `You reported ${member} for **${reason}**`, ephemeral: true });
     }
@@ -35,4 +47,20 @@ export default class Reports {
     }
 
     total = async (member: GuildMember) => (await this.get(member)).length;
+
+    modal = (member: GuildMember) => this.client.util.modal()
+        .setCustomId(`report_member_${member.id}`)
+        .setTitle(`Reporting ${member.user.tag}`)
+        .setComponents(
+            this.client.util.modalRow()
+                .setComponents(this.client.util.input()
+                    .setCustomId('report_reason')
+                    .setLabel('Report Reason')
+                    .setStyle('SHORT')
+                    .setMinLength(4)
+                    .setMaxLength(100)
+                    .setPlaceholder('Type your reason here')
+                    .setRequired(true)
+                )
+        );
 }
