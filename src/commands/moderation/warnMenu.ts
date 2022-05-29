@@ -8,6 +8,7 @@ export default class WarnMenu extends Menu implements IMenu {
         super(client);
 
         this.name = 'Warn Member';
+        this.permission = 'MODERATE_MEMBERS';
 
         this.data
             .setName(this.name)
