@@ -9,6 +9,7 @@ export default class WarnsCommand extends Command implements ICommand {
 
         this.name = 'warns';
         this.description = 'Check warns of a member';
+        this.permission = 'VIEW_AUDIT_LOG';
 
         this.data
             .setName(this.name)

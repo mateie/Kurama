@@ -10,6 +10,7 @@ export default class VoiceMoveCommand extends Command implements ICommand {
 
         this.name = 'voicemove';
         this.description = 'Move all members to a different voice channel';
+        this.permission = 'MOVE_MEMBERS';
 
         this.data
             .setName(this.name)

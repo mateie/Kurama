@@ -9,6 +9,7 @@ export default class WarnCommand extends Command implements ICommand {
 
         this.name = 'warn';
         this.description = 'Warn a memebr';
+        this.permission = 'MODERATE_MEMBERS';
 
         this.data
             .setName(this.name)
@@ -22,7 +23,7 @@ export default class WarnCommand extends Command implements ICommand {
             .addStringOption(option =>
                 option
                     .setName('reason')
-                    .setDescription('REason to warn this member')
+                    .setDescription('Reason to warn this member')
             );
     }
 
