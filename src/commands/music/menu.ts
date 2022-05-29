@@ -20,7 +20,7 @@ export default class MusicMenu extends Menu implements IMenu {
         const guild = interaction.guild as Guild;
         const member = interaction.member as GuildMember;
         const channel = interaction.channel as TextChannel;
-        const message = await channel.messages.fetch(targetId) as Message;
+        const message = await channel.messages.fetch(targetId);
 
         const voiceChannel = member.voice.channel as VoiceChannel;
 
