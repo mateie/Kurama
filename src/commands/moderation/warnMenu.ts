@@ -18,6 +18,8 @@ export default class WarnMenu extends Menu implements IMenu {
         const guild = interaction.guild as Guild;
         const member = await guild.members.fetch(interaction.targetId);
 
+        if (member.user.bot) return interaction.reply({ content: `${member} is a bot`, ephemeral: true });
+
         return interaction.showModal(this.client.moderation.warns.modal(member));
     }
 }
