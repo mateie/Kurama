@@ -13,9 +13,9 @@ export default class ValorantLoginEvent extends Event implements IEvent {
     }
 
     async run(interaction: ModalSubmitInteraction) {
-        const { customId } = interaction;
+        if (!interaction.isModalSubmit()) return;
         
-        if (customId !== 'valorant_login') return;
+        if (interaction.customId !== 'valorant_login') return;
 
         const username = interaction.fields.getTextInputValue('valorant_username');
         const password = interaction.fields.getTextInputValue('valorant_password');
