@@ -50,7 +50,8 @@ export default class ChannelsCommand extends Command implements ICommand {
                             .addChoices(
                                 { name: 'Welcome', value: 'welcome' },
                                 { name: 'Goodbye', value: 'goodbye' },
-                                { name: 'Rules', value: 'rules'}
+                                { name: 'Rules', value: 'rules' },
+                                { name: 'Reports', value: 'reports' }
                             )
                             .setRequired(true)
                     )

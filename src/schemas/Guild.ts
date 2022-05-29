@@ -7,6 +7,7 @@ export interface IGuild extends Document {
         welcome: string;
         goodbye: string;
         rules: string;
+        reports: string;
     };
     channelsArray: {
         commands: string[];
@@ -39,6 +40,7 @@ export const Guild: Schema = new Schema({
         welcome: String,
         goodbye: String,
         rules: String,
+        reports: String,
     },
     channelsArray: {
         commands: [String],
