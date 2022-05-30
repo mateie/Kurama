@@ -154,11 +154,25 @@ export default class MemberCanvas {
         const data = await this.client.util.member.getCardData(db);
 
         const memberColor = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
-        const bg = member.user.banner ? member.user.bannerURL({ format: 'png' }) as string : member.avatar ? member.avatarURL({ format: 'png' }) as string : data.background;
 
         ctx.filter = 'blur(6px)';
-        const background = await loadImage(bg);
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        switch (data.background.type) {
+        case 'banner': {
+            const background = await loadImage(member.user.bannerURL({ format: 'png' }) as string);
+            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+            break;
+        }
+        case 'color': {
+            ctx.fillStyle = data.background.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            break;
+        }
+        case 'image': {
+            const background = await loadImage(data.background.image);
+            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+            break;
+        }
+        }
         ctx.filter = 'none';
 
         // Border Layer

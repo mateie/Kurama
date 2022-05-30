@@ -6,9 +6,11 @@ export interface IMember extends Document {
     xp: number;
     level: number;
     card: {
-        background: string;
-        text: string;
-        progressbar: string;
+        type: 'banner' | 'color' | 'image';
+        background: {
+            color: string;
+            image: Buffer;
+        };
     },
     warns: [
         {
@@ -45,18 +47,17 @@ export const Member: Schema = new Schema({
         default: 0,
     },
     card: {
+        type: {
+            type: String,
+            default: 'color',
+        },
         background: {
-            type: String,
-            default: '#222216',
-        },
-        text: {
-            type: String,
-            default: '#ec8e44',
-        },
-        progressbar: {
-            type: String,
-            default: '#FF5349',
-        },
+            color: {
+                type: String,
+                default: '#222216'
+            },
+            image: Buffer,
+        }
     },
     warns: [
         {
