@@ -1,4 +1,5 @@
 import Client from '../Client';
+import axios from 'axios';
 import { BufferResolvable, MessageActionRow, MessageActionRowComponent, MessageAttachment, MessageButton, MessageEmbed, MessageSelectMenu, Modal, ModalActionRowComponent, TextInputComponent } from 'discord.js';
 import { Stream } from 'stream';
 
@@ -30,6 +31,11 @@ export default class Util {
     attachment = (file: BufferResolvable | Stream, name?: string) => new MessageAttachment(file, name);
     embedURL = (title: string, url: string, display?: string) => `[${title}](${url.replace(/\)/g, '%29')}${display ? ` "${display}"` : ''})`;
     capFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+    async imageToBuffer(url: string) {
+        const response = await axios.get(url, { responseType: 'arraybuffer' });
+        return response.data;
+    }
 
     optionType(number: number) {
         switch (number) {
