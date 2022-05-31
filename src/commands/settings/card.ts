@@ -46,21 +46,6 @@ export default class CardCommand extends Command implements ICommand {
                             )
                     )
             );
-        /*.addStringOption(option =>
-                option
-                    .setName('element')
-                    .setDescription('What do you want to customize')
-                    .addChoices(
-                        { name: 'Background', value: 'background' }
-                    )
-                    .setRequired(true)
-            )
-            .addStringOption(option =>
-                option
-                    .setName('color')
-                    .setDescription('What color do you want it to be?')
-                    .setRequired(true)
-            );*/
     }
 
     async run(interaction: CommandInteraction) {
@@ -83,11 +68,11 @@ export default class CardCommand extends Command implements ICommand {
             return interaction.reply({ content: 'Your background will be your banner from now on', ephemeral: true });
         }
         case 'color': {
-            if (dbMember.card.type === 'color') return interaction.reply({ content: `Your background is already using a color, **Current Color**: ${dbMember.card.background.color}`, ephemeral: true });
             const color = options.getString('color');
             dbMember.card.type = 'color';
             if (!color) {
                 await dbMember.save();
+                if (dbMember.card.type === 'color') return interaction.reply({ content: `Your background is already using a color, **Current Color**: ${dbMember.card.background.color}`, ephemeral: true });
                 return interaction.reply({ content: `Switched the background to a color, **Current Color**: ${dbMember.card.background.color}`, ephemeral: true });
             };
             let hex: string = color;
@@ -101,13 +86,13 @@ export default class CardCommand extends Command implements ICommand {
             return interaction.reply({ content: `Your background was changed to **${color}** `, ephemeral: true });
         }
         case 'image': {
-            if(dbMember.card.type === 'image') return interaction.reply({ files: [this.client.util.attachment(dbMember.card.background.image, 'current_image.png')], content: 'Your backgroud is already using an image, ***Current Image Below***', ephemeral: true });
             let attachment = options.getAttachment('bg_image');
             dbMember.card.type = 'image';
             if (!attachment) {
                 if (!dbMember.card.background.image) return interaction.reply({ content: 'You don\'t have any images uploaded as your background before', ephemeral: true });
                 attachment = this.client.util.attachment(dbMember.card.background.image, 'current_image.png');
                 await dbMember.save();
+                if(dbMember.card.type === 'image') return interaction.reply({ files: [this.client.util.attachment(dbMember.card.background.image, 'current_image.png')], content: 'Your backgroud is already using an image, ***Current Image Below***', ephemeral: true });
                 return interaction.reply({ files: [attachment], content: 'Switched the background to an image, **Current image below**', ephemeral: true });
             }
             if (!attachment.contentType?.includes('image') || attachment.contentType === 'image/gif') return interaction.reply({ content: 'File has to be an image', ephemeral: true });
