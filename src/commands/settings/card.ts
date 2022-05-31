@@ -73,7 +73,7 @@ export default class CardCommand extends Command implements ICommand {
             dbMember.card.type = 'color';
             if (!color) {
                 await dbMember.save();
-                const colorName = fromHex(dbMember.card.background.color);
+                const colorName = fromHex(dbMember.card.background.color).basic[0].name;
                 if (dbMember.card.type === 'color') return interaction.reply({ content: `Your background is already using a color, **Current Color**: ${colorName}`, ephemeral: true });
                 return interaction.reply({ content: `Switched the background to a color, **Current Color**: ${colorName}`, ephemeral: true });
             };
