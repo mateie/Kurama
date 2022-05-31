@@ -3,7 +3,8 @@ import Client from '@classes/Client';
 import Command from '@classes/base/Command';
 import { ICommand } from '@types';
 
-import colornames from 'colornames';
+import toHex from 'colornames';
+import fromHex from 'color-namer';
 import isHexColor from 'is-hex-color';
 
 export default class CardCommand extends Command implements ICommand {
@@ -72,11 +73,12 @@ export default class CardCommand extends Command implements ICommand {
             dbMember.card.type = 'color';
             if (!color) {
                 await dbMember.save();
-                if (dbMember.card.type === 'color') return interaction.reply({ content: `Your background is already using a color, **Current Color**: ${dbMember.card.background.color}`, ephemeral: true });
-                return interaction.reply({ content: `Switched the background to a color, **Current Color**: ${dbMember.card.background.color}`, ephemeral: true });
+                const colorName = fromHex(dbMember.card.background.color);
+                if (dbMember.card.type === 'color') return interaction.reply({ content: `Your background is already using a color, **Current Color**: ${colorName}`, ephemeral: true });
+                return interaction.reply({ content: `Switched the background to a color, **Current Color**: ${colorName}`, ephemeral: true });
             };
             let hex: string = color;
-            if (!isHexColor(color)) hex = colornames(color) as string;
+            if (!isHexColor(color)) hex = toHex(color) as string;
             if (!hex) return interaction.reply({ content: `${color} is not a color`, ephemeral: true });
                 
             dbMember.card.background.color = hex;
