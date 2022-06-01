@@ -1,4 +1,4 @@
-import { ContextMenuInteraction, Guild, GuildMember, Message, TextChannel, VoiceChannel } from 'discord.js';
+import { ContextMenuInteraction, Guild, GuildMember, TextChannel, VoiceChannel } from 'discord.js';
 import Client from '@classes/Client';
 import Menu from '@classes/base/Menu';
 import { IMenu } from '@types';
