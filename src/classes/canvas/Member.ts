@@ -156,19 +156,19 @@ export default class MemberCanvas {
         const memberColor = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
 
         ctx.filter = 'blur(6px)';
-        switch (data.background.type) {
+        switch (data.card.background.type) {
         case 'banner': {
             const background = await loadImage(member.user.bannerURL({ format: 'png' }) as string);
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             break;
         }
         case 'color': {
-            ctx.fillStyle = data.background.color;
+            ctx.fillStyle = data.card.background.color;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             break;
         }
         case 'image': {
-            const background = await loadImage(data.background.image);
+            const background = await loadImage(data.card.background.image);
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             break;
         }

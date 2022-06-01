@@ -54,7 +54,7 @@ export default class UtilMember {
 
         const info = {
             rank,
-            background: member.card.background,
+            card: member.card,
             level: member.level,
             currentXP,
             neededXP,
