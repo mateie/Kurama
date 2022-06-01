@@ -6,8 +6,8 @@ export interface IMember extends Document {
     xp: number;
     level: number;
     card: {
-        type: 'banner' | 'color' | 'image';
         background: {
+            type: 'banner' | 'color' | 'image';
             color: string;
             image: Buffer;
         };
@@ -47,11 +47,11 @@ export const Member: Schema = new Schema({
         default: 0,
     },
     card: {
-        type: {
-            type: String,
-            default: 'color',
-        },
         background: {
+            type: {
+                type: String,
+                default: 'color',
+            },
             color: {
                 type: String,
                 default: '#222216'
