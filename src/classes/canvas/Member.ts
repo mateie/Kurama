@@ -153,8 +153,6 @@ export default class MemberCanvas {
         const db = await this.client.database.members.get(member);
         const data = await this.client.util.member.getCardData(db);
 
-        const memberColor = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
-
         ctx.filter = 'blur(6px)';
         switch (data.card.background.type) {
         case 'banner': {
@@ -171,7 +169,7 @@ export default class MemberCanvas {
             const background = await loadImage(data.card.background.image);
             ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             break;
-        }
+        } 
         }
         ctx.filter = 'none';
 
@@ -183,10 +181,27 @@ export default class MemberCanvas {
         ctx.fillRect(25, 0, canvas.width - 50, 25);
         ctx.fillRect(25, canvas.height - 25, canvas.width - 50, 25);
 
+        let strokeStyle = '';
+
+        switch (data.card.outlines.type) {
+        case 'banner': {
+            const colors = await this.canvas.popularColor(member.user.bannerURL({ format: 'png' }) as string);
+            strokeStyle = colors[Math.floor(Math.random() * colors.length)];
+            break;
+        }
+        case 'avatar': {
+            strokeStyle = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
+            break;
+        }
+        case 'color': {
+            strokeStyle = data.card.outlines.color;
+        }
+        }
+
         // Username
         ctx.globalAlpha = 1;
         ctx.fillStyle = 'white';
-        ctx.strokeStyle = memberColor;
+        ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = 5;
         ctx.textAlign = 'center';
         ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
@@ -196,7 +211,7 @@ export default class MemberCanvas {
         // Avatar
         ctx.beginPath();
         ctx.lineWidth = 10;
-        ctx.strokeStyle = memberColor;
+        ctx.strokeStyle = strokeStyle;
         ctx.arc(canvas.width - 525, 135, 64, 0, Math.PI * 2, true);
         ctx.stroke();
         ctx.closePath();

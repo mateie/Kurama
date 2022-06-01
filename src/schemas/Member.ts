@@ -11,6 +11,10 @@ export interface IMember extends Document {
             color: string;
             image: Buffer;
         };
+        outlines: {
+            type: 'banner' | 'avatar' | 'color';
+            color: string;
+        }
     },
     warns: [
         {
@@ -57,6 +61,16 @@ export const Member: Schema = new Schema({
                 default: '#222216'
             },
             image: Buffer,
+        },
+        outlines: {
+            type: {
+                type: String,
+                default: 'avatar',
+            },
+            color: {
+                type: String,
+                default: '#222216'
+            }
         }
     },
     warns: [
