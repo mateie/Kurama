@@ -181,9 +181,15 @@ export default class MusicCommand extends Command implements ICommand {
         }
         case 'skip': {
             if (!queue) return interaction.reply({ content: 'Music is not playing', ephemeral: true });
-            if (queue.tracks.length < 1) return interaction.reply({
-                content: 'There are no upcoming tracks to skip to', ephemeral: true
-            });
+            if (queue.tracks.length < 1) {
+                return interaction.reply({
+                    content: 'There are no upcoming tracks to skip to', ephemeral: true
+                });
+            }
+                
+            const currentTrack = queue.nowPlaying();
+            const requestedBy = guild.members.cache.get(currentTrack.requestedBy.id) as GuildMember;
+            if(currentTrack.requestedBy.id !== member.id) return interaction.reply({ content: `You didn't request this track, ask ${requestedBy} to skip the track, because they requested it`, ephemeral: true });
 
             const position = options.getNumber('to');
             if (!position) {
