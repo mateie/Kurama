@@ -22,7 +22,7 @@ export default class DatabaseMembers {
     async create(member: GuildMember) {
         if (member.user.bot) return;
 
-        const newMember: IMember = new Member({
+        const newMember = new Member({
             id: member.id,
             username: member.user.username,
         });

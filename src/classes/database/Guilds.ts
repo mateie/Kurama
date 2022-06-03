@@ -20,7 +20,7 @@ export default class DatabaseGuilds {
     }
 
     async create(guild: DiscordGuild) {
-        const newGuild: IGuild = new Guild({
+        const newGuild = new Guild({
             id: guild.id,
             name: guild.name,
         });
