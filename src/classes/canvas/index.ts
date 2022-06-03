@@ -14,7 +14,7 @@ export default class Canvas {
     constructor(client: Client) {
         this.client = client;
 
-        FontLibrary.use('capuche', path.resolve(`${process.cwd()}`, 'src', 'assets', 'fonts', 'Capuche.otf'));
+        FontLibrary.use('Coffee', path.resolve(`${process.cwd()}`, 'src', 'assets', 'fonts', 'Coffee Extra.ttf'));
 
         this.member = new MemberCanvas(this.client, this);
     }

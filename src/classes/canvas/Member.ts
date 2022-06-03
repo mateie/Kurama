@@ -1,6 +1,6 @@
 import Client from '@classes/Client';
 import { GuildMember, Guild, Presence } from 'discord.js';
-import { Canvas as CanvasM, CanvasTexture, loadImage } from 'skia-canvas';
+import { Canvas as CanvasM, loadImage } from 'skia-canvas';
 import Canvas from '.';
 
 export default class MemberCanvas {
@@ -37,11 +37,6 @@ export default class MemberCanvas {
         ctx.fillRect(canvas.width - 25, 0, 25, canvas.height);
         ctx.fillRect(25, 0, canvas.width - 50, 25);
         ctx.fillRect(25, canvas.height - 25, canvas.width - 50, 25);
-
-        // Username Layer (Might come back to this)
-        /*ctx.globalAlpha = 0.5;
-        ctx.fillStyle = memberColor;
-        ctx.fillRect((canvas.width / 2) - 300, 210, 625, 60);*/
 
         // Username
         ctx.globalAlpha = 1;
@@ -103,11 +98,6 @@ export default class MemberCanvas {
         ctx.fillRect(canvas.width - 25, 0, 25, canvas.height);
         ctx.fillRect(25, 0, canvas.width - 50, 25);
         ctx.fillRect(25, canvas.height - 25, canvas.width - 50, 25);
-
-        // Username Layer (Might come back to this)
-        /*ctx.globalAlpha = 0.5;
-        ctx.fillStyle = memberColor;
-        ctx.fillRect((canvas.width / 2) - 300, 210, 625, 60);*/
 
         // Username
         ctx.globalAlpha = 1;
@@ -220,15 +210,15 @@ export default class MemberCanvas {
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = 5;
         ctx.textAlign = 'center';
-        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'bold');
+        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Coffee');
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
 
         // Progress
         ctx.font = 'bold';
         ctx.textAlign = 'start';
-        ctx.fillText('/ ' + this.canvas.abbrev(data.neededXP), 425 + ctx.measureText(this.canvas.abbrev(data.currentXP)).width + 15, 310);
-        ctx.fillText(this.canvas.abbrev(data.currentXP), 425, 310);
+        ctx.fillText('/ ' + this.canvas.abbrev(data.neededXP), 445 + ctx.measureText(this.canvas.abbrev(data.currentXP)).width + 15, 310);
+        ctx.fillText(this.canvas.abbrev(data.currentXP), 445, 310);
 
         // Avatar
         ctx.beginPath();
