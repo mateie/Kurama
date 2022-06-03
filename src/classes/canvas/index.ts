@@ -1,4 +1,5 @@
-import { Canvas as CanvasM, CanvasRenderingContext2D } from 'skia-canvas';
+import { Canvas as CanvasM, CanvasRenderingContext2D, FontLibrary } from 'skia-canvas';
+import path from 'path';
 import getColors from 'get-image-colors';
 
 import fetch from 'node-fetch';
@@ -12,6 +13,8 @@ export default class Canvas {
 
     constructor(client: Client) {
         this.client = client;
+
+        FontLibrary.use('capuche', path.resolve(`${process.cwd()}`, 'src', 'assets', 'fonts', 'Capuche.otf'));
 
         this.member = new MemberCanvas(this.client, this);
     }
@@ -57,7 +60,9 @@ export default class Canvas {
         return finalHex;
     }
 
-    abbrev(num: number) {
+    abbrev(num: any) {
+        if (!num || isNaN(num)) return '0';
+        if (typeof num === 'string') num = parseInt(num);
         const decPlaces = Math.pow(10, 1);
         const abbrev = ['K', 'M', 'B', 'T'];
         for (let i = abbrev.length - 1; i >= 0; i--) {
@@ -68,7 +73,7 @@ export default class Canvas {
                     num = 1;
                     i++;
                 }
-                (num as unknown as string) += abbrev[i];
+                num += abbrev[i];
                 break;
             }
         }

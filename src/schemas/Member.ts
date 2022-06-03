@@ -14,22 +14,26 @@ export interface IMember extends Document {
         outlines: {
             type: 'banner' | 'avatar' | 'color';
             color: string;
-        }
-    },
+        };
+        text: {
+            type: 'banner' | 'avatar' | 'color';
+            color: string;
+        };
+    };
     warns: [
         {
             guildId: string;
             by: string;
             reason: string;
         }
-    ],
+    ];
     reports: [
         {
             guildId: string,
             by: string,
             reason: string,
         }
-    ]
+    ];
 }
 
 export const Member: Schema = new Schema({
@@ -70,6 +74,16 @@ export const Member: Schema = new Schema({
             color: {
                 type: String,
                 default: '#222216'
+            }
+        },
+        text: {
+            type: {
+                type: String,
+                default: 'color',
+            },
+            color: {
+                type: String,
+                default: '#ffffff'
             }
         }
     },

@@ -64,7 +64,32 @@ export default class CardCommand extends Command implements ICommand {
                     .addSubcommand(subcommand =>
                         subcommand
                             .setName('color')
-                            .setDescription('Use a color for your background')
+                            .setDescription('Use a color for your outlines')
+                            .addStringOption(option =>
+                                option
+                                    .setName('color')
+                                    .setDescription('Color to set it to')
+                            )
+                    )
+            )
+            .addSubcommandGroup(group =>
+                group
+                    .setName('text')
+                    .setDescription('Change your text colors')
+                    .addSubcommand(subcommand =>
+                        subcommand
+                            .setName('banner')
+                            .setDescription('Uses your banner\'s colors')
+                    )
+                    .addSubcommand(subcommand =>
+                        subcommand
+                            .setName('avatar')
+                            .setDescription('Uses your avatar\'s colors')
+                    )
+                    .addSubcommand(subcommand =>
+                        subcommand
+                            .setName('color')
+                            .setDescription('Use a color for your text')
                             .addStringOption(option =>
                                 option
                                     .setName('color')
@@ -173,6 +198,49 @@ export default class CardCommand extends Command implements ICommand {
                 await dbMember.save();
 
                 return interaction.reply({ content: `Your outlines was changed to **${color}**`, ephemeral: true });
+            }
+            }
+            break;
+        }
+        case 'text': {
+            switch (options.getSubcommand()) {
+            case 'banner': {
+                const banner = member.user.banner;
+                if (!banner) return interaction.reply({ content: 'You don\'t have a banner', ephemeral: true });
+                dbMember.card.text.type = 'banner';
+
+                await dbMember.save();
+
+                return interaction.reply({ content: 'Your text is now using your banner\'s colors', ephemeral: true });
+                break;
+            }
+            case 'avatar': {
+                const avatar = member.user.avatar;
+                if (!avatar) return interaction.reply({ content: 'You don\'t have an avatar', ephemeral: true });
+                dbMember.card.text.type = 'avatar';
+
+                await dbMember.save();
+
+                return interaction.reply({ content: 'Your text is now using your avatar\'s colors', ephemeral: true });
+            }
+            case 'color': {
+                const color = options.getString('color');
+                dbMember.card.text.type = 'color';
+                if (!color) {
+                    await dbMember.save();
+                    const colorName = fromHex(dbMember.card.outlines.color).basic[0].name;
+                    return interaction.reply({ content: `Switched the text to a color, **Current Color**: ${colorName}`, ephemeral: true });
+                }
+                    
+                let hex = color;
+                if (!isHexColor(color)) hex = toHex(color) as string;
+                if (!hex) return interaction.reply({ content: `${color} is not a color`, ephemeral: true });
+                    
+                dbMember.card.text.color = hex;
+
+                await dbMember.save();
+
+                return interaction.reply({ content: `Your text was changed to **${color}**`, ephemeral: true });
             }
             }
             break;

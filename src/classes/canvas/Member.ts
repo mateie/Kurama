@@ -1,6 +1,6 @@
 import Client from '@classes/Client';
 import { GuildMember, Guild, Presence } from 'discord.js';
-import { Canvas as CanvasM, loadImage } from 'skia-canvas';
+import { Canvas as CanvasM, CanvasTexture, loadImage } from 'skia-canvas';
 import Canvas from '.';
 
 export default class MemberCanvas {
@@ -182,6 +182,7 @@ export default class MemberCanvas {
         ctx.fillRect(25, canvas.height - 25, canvas.width - 50, 25);
 
         let strokeStyle = '';
+        let fillStyle = '';
 
         switch (data.card.outlines.type) {
         case 'banner': {
@@ -198,15 +199,36 @@ export default class MemberCanvas {
         }
         }
 
+        switch (data.card.text.type) {
+        case 'banner': {
+            const colors = await this.canvas.popularColor(member.user.bannerURL({ format: 'png' }) as string);
+            fillStyle = colors[Math.floor(Math.random() * colors.length)];
+            break;
+        }
+        case 'avatar': {
+            fillStyle = member.user.hexAccentColor ? member.user.hexAccentColor as string : '#808080';
+            break;
+        }
+        case 'color': {
+            fillStyle = data.card.text.color;
+        }
+        }
+
         // Username
         ctx.globalAlpha = 1;
-        ctx.fillStyle = 'white';
+        ctx.fillStyle = fillStyle;
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = 5;
         ctx.textAlign = 'center';
-        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
+        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'bold');
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
+
+        // Progress
+        ctx.font = 'bold';
+        ctx.textAlign = 'start';
+        ctx.fillText('/ ' + this.canvas.abbrev(data.neededXP), 425 + ctx.measureText(this.canvas.abbrev(data.currentXP)).width + 15, 310);
+        ctx.fillText(this.canvas.abbrev(data.currentXP), 425, 310);
 
         // Avatar
         ctx.beginPath();
@@ -224,7 +246,7 @@ export default class MemberCanvas {
 
     calculateProgress(data: any) {
         const cx = data.currentXP;
-        const rx = data.requiredXP;
+        const rx = data.neededXP;
 
         if (rx <= 0) return 1;
         if (cx > rx) return 596.5;
