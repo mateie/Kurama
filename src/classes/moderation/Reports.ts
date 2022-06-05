@@ -1,66 +1,90 @@
-import Client from '@classes/Client';
-import { ButtonInteraction, CommandInteraction, Guild, GuildMember, ModalSubmitInteraction, TextChannel } from 'discord.js';
+import Client from "@classes/Client";
+import {
+  ButtonInteraction,
+  CommandInteraction,
+  Guild,
+  GuildMember,
+  ModalSubmitInteraction,
+  TextChannel,
+} from "discord.js";
 
 export default class Reports {
-    client: Client;
+  client: Client;
 
-    constructor(client: Client) {
-        this.client = client;
+  constructor(client: Client) {
+    this.client = client;
+  }
+
+  async create(
+    interaction:
+      | CommandInteraction
+      | ButtonInteraction
+      | ModalSubmitInteraction,
+    member: GuildMember,
+    reason: string
+  ) {
+    const guild = interaction.guild as Guild;
+    const by = interaction.member as GuildMember;
+    const dbUser = await this.client.database.users.get(member.user);
+    const dbGuild = await this.client.database.guilds.get(guild);
+
+    dbUser.reports.push({
+      guildId: guild.id,
+      by: by.id,
+      reason,
+    });
+
+    await dbUser.save();
+
+    if (dbGuild.channels.reports) {
+      const channel = guild.channels.cache.get(
+        dbGuild.channels.reports
+      ) as TextChannel;
+
+      const embed = this.client.util
+        .embed()
+        .setAuthor({
+          name: by.user.tag,
+          iconURL: by.displayAvatarURL({ dynamic: true }),
+        })
+        .setTitle(`${by.user.tag} reported ${member.user.tag}`)
+        .addField("Reason", reason);
+
+      channel.send({ embeds: [embed] });
     }
 
-    async create(
-        interaction: CommandInteraction | ButtonInteraction | ModalSubmitInteraction,
-        member: GuildMember,
-        reason: string
-    ) {
-        const guild = interaction.guild as Guild;
-        const by = interaction.member as GuildMember;
-        const dbUser = await this.client.database.users.get(member.user);
-        const dbGuild = await this.client.database.guilds.get(guild);
- 
-        dbUser.reports.push({
-            guildId: guild.id,
-            by: by.id,
-            reason
-        });
+    return interaction.reply({
+      content: `You reported ${member} for **${reason}**`,
+      ephemeral: true,
+    });
+  }
 
-        await dbUser.save();
+  async get(member: GuildMember) {
+    const db = await this.client.database.users.get(member.user);
 
-        if (dbGuild.channels.reports) {
-            const channel = guild.channels.cache.get(dbGuild.channels.reports) as TextChannel;
+    return db.reports.filter((report) => report.guildId === member.guild.id);
+  }
 
-            const embed = this.client.util.embed()
-                .setAuthor({ name: by.user.tag, iconURL: by.displayAvatarURL({ dynamic: true }) })
-                .setTitle(`${by.user.tag} reported ${member.user.tag}`)
-                .addField('Reason', reason);
+  total = async (member: GuildMember) => (await this.get(member)).length;
 
-            channel.send({ embeds: [embed] });
-        }
-
-        return interaction.reply({ content: `You reported ${member} for **${reason}**`, ephemeral: true });
-    }
-
-    async get(member: GuildMember) {
-        const db = await this.client.database.users.get(member.user);
-
-        return db.reports.filter(report => report.guildId === member.guild.id);
-    }
-
-    total = async (member: GuildMember) => (await this.get(member)).length;
-
-    modal = (member: GuildMember) => this.client.util.modal()
-        .setCustomId(`report_member_${member.id}`)
-        .setTitle(`Reporting ${member.user.tag}`)
-        .setComponents(
-            this.client.util.modalRow()
-                .setComponents(this.client.util.input()
-                    .setCustomId('report_reason')
-                    .setLabel('Report Reason')
-                    .setStyle('SHORT')
-                    .setMinLength(4)
-                    .setMaxLength(100)
-                    .setPlaceholder('Type your reason here')
-                    .setRequired(true)
-                )
-        );
+  modal = (member: GuildMember) =>
+    this.client.util
+      .modal()
+      .setCustomId(`report_member_${member.id}`)
+      .setTitle(`Reporting ${member.user.tag}`)
+      .setComponents(
+        this.client.util
+          .modalRow()
+          .setComponents(
+            this.client.util
+              .input()
+              .setCustomId("report_reason")
+              .setLabel("Report Reason")
+              .setStyle("SHORT")
+              .setMinLength(4)
+              .setMaxLength(100)
+              .setPlaceholder("Type your reason here")
+              .setRequired(true)
+          )
+      );
 }

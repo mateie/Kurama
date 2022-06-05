@@ -1,30 +1,30 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { PermissionResolvable } from 'discord.js';
-import Client from '../Client';
-import Util from '@classes/util';
+import { SlashCommandBuilder } from "@discordjs/builders";
+import { PermissionResolvable } from "discord.js";
+import Client from "../Client";
+import Util from "@classes/util";
 
 export default class Command {
-    readonly client: Client;
-    readonly util: Util;
-    
-    name!: string | undefined;
-    description!: string | 'No Description';
-    category: string | undefined;
+  readonly client: Client;
+  readonly util: Util;
 
-    ownerOnly: boolean;
+  name!: string | undefined;
+  description!: string | "No Description";
+  category: string | undefined;
 
-    permission: PermissionResolvable | null;
-    data!: SlashCommandBuilder;
+  ownerOnly: boolean;
 
-    constructor(client: Client) {
-        this.client = client;
-        this.util = client.util;
+  permission: PermissionResolvable | null;
+  data!: SlashCommandBuilder;
 
-        this.description = 'No Description';
+  constructor(client: Client) {
+    this.client = client;
+    this.util = client.util;
 
-        this.ownerOnly = false;
+    this.description = "No Description";
 
-        this.permission = null;
-        this.data = new SlashCommandBuilder();
-    }
+    this.ownerOnly = false;
+
+    this.permission = null;
+    this.data = new SlashCommandBuilder();
+  }
 }

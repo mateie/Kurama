@@ -1,59 +1,59 @@
-import { GuildMember } from 'discord.js';
-import Client from './Client';
+import { GuildMember } from "discord.js";
+import Client from "./Client";
 
 export default class XP {
-    client: Client;
+  client: Client;
 
-    constructor(client: Client) {
-        this.client = client;
-    }
-    
-    calculateLevel = (xp: number) => Math.floor(0.1 * Math.sqrt(xp));
+  constructor(client: Client) {
+    this.client = client;
+  }
 
-    async giveXP(member: GuildMember, amount = 1) {
-        const db = await this.client.database.users.get(member.user);
+  calculateLevel = (xp: number) => Math.floor(0.1 * Math.sqrt(xp));
 
-        db.xp += amount;
-        await db.save();
-    }
+  async giveXP(member: GuildMember, amount = 1) {
+    const db = await this.client.database.users.get(member.user);
 
-    async setLevel(member: GuildMember, level: number) {
-        const db = await this.client.database.users.get(member.user);
+    db.xp += amount;
+    await db.save();
+  }
 
-        db.level = level;
-        await db.save();
-    }
+  async setLevel(member: GuildMember, level: number) {
+    const db = await this.client.database.users.get(member.user);
 
-    async levelUp(member: GuildMember) {
-        const db = await this.client.database.users.get(member.user);
+    db.level = level;
+    await db.save();
+  }
 
-        db.level += 1;
-        await db.save();
-    }
+  async levelUp(member: GuildMember) {
+    const db = await this.client.database.users.get(member.user);
 
-    async getXP(member: GuildMember) {
-        const db = await this.client.database.users.get(member.user);
+    db.level += 1;
+    await db.save();
+  }
 
-        return db.xp;
-    }
+  async getXP(member: GuildMember) {
+    const db = await this.client.database.users.get(member.user);
 
-    async getLevel(member: GuildMember) {
-        const db = await this.client.database.users.get(member.user);
+    return db.xp;
+  }
 
-        return db.level;
-    }
+  async getLevel(member: GuildMember) {
+    const db = await this.client.database.users.get(member.user);
 
-    calculateXPForLevel(level: number) {
-        let xp = 0;
-        let currentLevel = 0;
+    return db.level;
+  }
 
-        while (currentLevel != level) {
-            xp++;
-            currentLevel = this.calculateLevel(xp);
-        }
+  calculateXPForLevel(level: number) {
+    let xp = 0;
+    let currentLevel = 0;
 
-        return xp;
+    while (currentLevel != level) {
+      xp++;
+      currentLevel = this.calculateLevel(xp);
     }
 
-    calculateReqXP = (level: number) => level * level * 100 + 100; 
+    return xp;
+  }
+
+  calculateReqXP = (level: number) => level * level * 100 + 100;
 }

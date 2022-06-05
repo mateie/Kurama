@@ -1,10 +1,6 @@
 {
-    "ignore": [
-        "node_modules"
-    ],
-    "watch": [
-        "src"
-    ],
-    "exec": "yarn dev",
-    "ext": "ts"
+  "ignore": ["node_modules"],
+  "watch": ["src"],
+  "exec": "yarn dev",
+  "ext": "ts"
 }

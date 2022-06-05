@@ -1,1 +1,1 @@
-declare module 'get-image-colors';
+declare module "get-image-colors";

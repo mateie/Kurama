@@ -1,1 +1,1 @@
-declare module 'ascii-table';
+declare module "ascii-table";

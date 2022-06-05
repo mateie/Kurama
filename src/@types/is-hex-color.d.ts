@@ -1,1 +1,1 @@
-declare module 'is-hex-color';
+declare module "is-hex-color";
