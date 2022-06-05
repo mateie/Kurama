@@ -70,7 +70,6 @@ export default class Client extends DiscordClient {
         this.commandHandler.loadAll();
 
         logs(this, { debug: true });
-        this.dashboard.init();
     }
 
     async deploy() {

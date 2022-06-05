@@ -1,6 +1,6 @@
-import { model, Schema, Document } from 'mongoose';
+import { HydratedDocument, model, Schema } from 'mongoose';
 
-export interface IUser extends Document {
+export interface IUser extends HydratedDocument<any> {
     id: string;
     username: string;
     xp: number;
@@ -36,7 +36,7 @@ export interface IUser extends Document {
     ];
 }
 
-export const User: Schema = new Schema({
+export const User: Schema = new Schema<IUser>({
     id: {
         type: String,
         required: true,

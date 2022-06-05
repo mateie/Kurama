@@ -1,6 +1,6 @@
-import { model, Schema, Document } from 'mongoose';
+import { model, Schema, HydratedDocument } from 'mongoose';
 
-export interface IGuild extends Document {
+export interface IGuild extends HydratedDocument<any> {
     id: string;
     name: string;
     channels: {
@@ -26,7 +26,7 @@ export interface IGuild extends Document {
     whitelistedWords: string[];
 }
 
-export const Guild: Schema = new Schema({
+export const Guild: Schema = new Schema<IGuild>({
     id: {
         type: String,
         required: true,

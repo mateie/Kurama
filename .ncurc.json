@@ -2,6 +2,7 @@
     "upgrade": true,
     "reject": [
         "ttypescript",
-        "typescript"
+        "typescript",
+        "@discordjs/rest"
     ]
 }

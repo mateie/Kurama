@@ -28,11 +28,8 @@
       }
     ]
   },
-  "include": [
-    "src/**/*.ts"
-  ],
+  "include": ["src/**/*.ts"],
   "exclude": [
-    "minecraft",
     "node_modules",
     "build"
   ]

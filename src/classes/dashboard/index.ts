@@ -2,8 +2,10 @@ import { ApolloServer } from 'apollo-server';
 
 import Client from '../Client';
 
+import resolvers from './gql/resolvers';
+import typeDefs from './gql/typeDefs';
 
-export default class Dashboard {
+export default class DashboardBE {
     readonly client: Client;
     readonly server: ApolloServer;
 
@@ -11,6 +13,8 @@ export default class Dashboard {
         this.client = client;
 
         this.server = new ApolloServer({
+            resolvers,
+            typeDefs,
             context: ({ req }) => ({ client: this.client, req }),
         });
     }
