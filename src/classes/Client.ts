@@ -5,6 +5,8 @@ import { Routes } from 'discord-api-types/v10';
 import Nekos from 'nekos.life';
 import logs from 'discord-logs';
 
+import Dashboard from './dashboard';
+
 import Canvas from './canvas';
 import Database from './database';
 import Moderation from './moderation';
@@ -19,7 +21,9 @@ import Valorant from './games/Valorant';
 const { TOKEN } = process.env;
 
 export default class Client extends DiscordClient {
-    readonly owner: string;
+    readonly owners: string[];
+
+    dashboard: Dashboard;
 
     canvas: Canvas;
     database: Database;
@@ -40,7 +44,9 @@ export default class Client extends DiscordClient {
     constructor() {
         super({ intents: 32767 });
 
-        this.owner = '401269337924829186';
+        this.owners = ['401269337924829186', '190120411864891392'];
+
+        this.dashboard = new Dashboard(this);
 
         this.canvas = new Canvas(this);
         this.database = new Database(this);
@@ -64,6 +70,7 @@ export default class Client extends DiscordClient {
         this.commandHandler.loadAll();
 
         logs(this, { debug: true });
+        this.dashboard.init();
     }
 
     async deploy() {
