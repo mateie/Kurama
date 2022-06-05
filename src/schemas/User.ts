@@ -37,70 +37,70 @@ export interface IUser extends HydratedDocument<any> {
 }
 
 export const User: Schema = new Schema<IUser>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-  xp: {
-    type: Number,
-    default: 0,
-  },
-  level: {
-    type: Number,
-    default: 0,
-  },
-  card: {
-    background: {
-      type: {
+    id: {
         type: String,
-        default: "color",
-      },
-      color: {
-        type: String,
-        default: "#222216",
-      },
-      image: Buffer,
+        required: true,
+        unique: true,
     },
-    outlines: {
-      type: {
+    username: {
         type: String,
-        default: "avatar",
-      },
-      color: {
-        type: String,
-        default: "#222216",
-      },
+        required: true,
     },
-    text: {
-      type: {
-        type: String,
-        default: "color",
-      },
-      color: {
-        type: String,
-        default: "#ffffff",
-      },
+    xp: {
+        type: Number,
+        default: 0,
     },
-  },
-  warns: [
-    {
-      guildId: String,
-      by: String,
-      reason: String,
+    level: {
+        type: Number,
+        default: 0,
     },
-  ],
-  reports: [
-    {
-      guildId: String,
-      by: String,
-      reason: String,
+    card: {
+        background: {
+            type: {
+                type: String,
+                default: "color",
+            },
+            color: {
+                type: String,
+                default: "#222216",
+            },
+            image: Buffer,
+        },
+        outlines: {
+            type: {
+                type: String,
+                default: "avatar",
+            },
+            color: {
+                type: String,
+                default: "#222216",
+            },
+        },
+        text: {
+            type: {
+                type: String,
+                default: "color",
+            },
+            color: {
+                type: String,
+                default: "#ffffff",
+            },
+        },
     },
-  ],
+    warns: [
+        {
+            guildId: String,
+            by: String,
+            reason: String,
+        },
+    ],
+    reports: [
+        {
+            guildId: String,
+            by: String,
+            reason: String,
+        },
+    ],
 });
 
 const name = "users";

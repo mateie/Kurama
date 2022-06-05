@@ -27,51 +27,51 @@ export interface IGuild extends HydratedDocument<any> {
 }
 
 export const Guild: Schema = new Schema<IGuild>({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  channels: {
-    welcome: String,
-    goodbye: String,
-    rules: String,
-    reports: String,
-  },
-  channelsArray: {
-    commands: [String],
-    music: [String],
-  },
-  roles: {
-    member: String,
-  },
-  toggles: {
-    welcomeMessage: {
-      type: Boolean,
-      default: false,
+    id: {
+        type: String,
+        required: true,
+        unique: true,
     },
-    goodbyeMessage: {
-      type: Boolean,
-      default: false,
+    name: {
+        type: String,
+        required: true,
     },
-    preventProfanity: {
-      type: Boolean,
-      default: false,
+    channels: {
+        welcome: String,
+        goodbye: String,
+        rules: String,
+        reports: String,
     },
-    strictCommands: {
-      type: Boolean,
-      default: false,
+    channelsArray: {
+        commands: [String],
+        music: [String],
     },
-    strictMusicChannels: {
-      type: Boolean,
-      default: false,
+    roles: {
+        member: String,
     },
-  },
-  whitelistedWords: [String],
+    toggles: {
+        welcomeMessage: {
+            type: Boolean,
+            default: false,
+        },
+        goodbyeMessage: {
+            type: Boolean,
+            default: false,
+        },
+        preventProfanity: {
+            type: Boolean,
+            default: false,
+        },
+        strictCommands: {
+            type: Boolean,
+            default: false,
+        },
+        strictMusicChannels: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    whitelistedWords: [String],
 });
 
 const name = "guilds";

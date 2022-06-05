@@ -4,29 +4,29 @@ import { IEvent } from "@types";
 import { Guild, GuildMember, TextChannel } from "discord.js";
 
 export default class MemberJoinEvent extends Event implements IEvent {
-  constructor(client: Client) {
-    super(client);
+    constructor(client: Client) {
+        super(client);
 
-    this.name = "guildMemberAdd";
-  }
+        this.name = "guildMemberAdd";
+    }
 
-  async run(member: GuildMember) {
-    if (member.user.bot) return;
+    async run(member: GuildMember) {
+        if (member.user.bot) return;
 
-    const guild = member.guild as Guild;
-    const dbGuild = await this.client.database.guilds.get(guild);
+        const guild = member.guild as Guild;
+        const dbGuild = await this.client.database.guilds.get(guild);
 
-    this.client.database.users.verify();
+        this.client.database.users.verify();
 
-    if (!dbGuild.toggles.welcomeMessage) return;
-    if (!dbGuild.channels.welcome) return;
+        if (!dbGuild.toggles.welcomeMessage) return;
+        if (!dbGuild.channels.welcome) return;
 
-    const channel = guild.channels.cache.get(
-      dbGuild.channels.welcome
-    ) as TextChannel;
+        const channel = guild.channels.cache.get(
+            dbGuild.channels.welcome
+        ) as TextChannel;
 
-    const attachment = await this.client.canvas.member.welcome(member);
+        const attachment = await this.client.canvas.member.welcome(member);
 
-    channel.send({ files: [attachment] });
-  }
+        channel.send({ files: [attachment] });
+    }
 }

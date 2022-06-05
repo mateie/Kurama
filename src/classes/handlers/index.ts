@@ -2,12 +2,12 @@ import Client from "@classes/Client";
 import { HandlerOptions } from "@types";
 
 export default class Handler {
-  readonly client: Client;
-  readonly directory: string;
+    readonly client: Client;
+    readonly directory: string;
 
-  constructor(client: Client, { directory }: HandlerOptions) {
-    this.client = client;
+    constructor(client: Client, { directory }: HandlerOptions) {
+        this.client = client;
 
-    this.directory = directory;
-  }
+        this.directory = directory;
+    }
 }

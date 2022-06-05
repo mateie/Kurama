@@ -4,36 +4,36 @@ import Command from "@classes/base/Command";
 import { ICommand } from "@types";
 
 export default class MemberCommand extends Command implements ICommand {
-  constructor(client: Client) {
-    super(client);
+    constructor(client: Client) {
+        super(client);
 
-    this.name = "member";
-    this.description = "Information about a member";
+        this.name = "member";
+        this.description = "Information about a member";
 
-    this.data
-      .setName(this.name)
-      .setDescription(this.description)
-      .addUserOption((option) =>
-        option
-          .setName("member")
-          .setDescription("Which user's information do you want to view?")
-          .setRequired(false)
-      );
-  }
+        this.data
+            .setName(this.name)
+            .setDescription(this.description)
+            .addUserOption((option) =>
+                option
+                    .setName("member")
+                    .setDescription("Which user's information do you want to view?")
+                    .setRequired(false)
+            );
+    }
 
-  async run(interaction: CommandInteraction) {
-    const { options } = interaction;
+    async run(interaction: CommandInteraction) {
+        const { options } = interaction;
 
-    const member = options.getMember("member")
-      ? (options.getMember("member") as GuildMember)
-      : (interaction.member as GuildMember);
+        const member = options.getMember("member")
+            ? (options.getMember("member") as GuildMember)
+            : (interaction.member as GuildMember);
 
-    if (member.user.bot)
-      return interaction.reply({
-        content: `${member} is a bot`,
-        ephemeral: true,
-      });
+        if (member.user.bot)
+            return interaction.reply({
+                content: `${member} is a bot`,
+                ephemeral: true,
+            });
 
-    return this.util.member.info(interaction, member);
-  }
+        return this.util.member.info(interaction, member);
+    }
 }

@@ -4,23 +4,23 @@ import { IEvent } from "@types";
 import { inspect } from "util";
 
 export default class ProcessErrorEvent extends Event implements IEvent {
-  constructor(client: Client) {
-    super(client);
+    constructor(client: Client) {
+        super(client);
 
-    this.name = "error";
-    this.process = true;
-  }
+        this.name = "error";
+        this.process = true;
+    }
 
-  async run(err: Error) {
-    const channel = this.client.botLogs;
+    async run(err: Error) {
+        const channel = this.client.botLogs;
 
-    const embed = this.util
-      .embed()
-      .setTitle("Error")
-      .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
-      .setColor("RED")
-      .setDescription(`\`\`\`${inspect(err, { depth: 0 })}\`\`\``);
+        const embed = this.util
+            .embed()
+            .setTitle("Error")
+            .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
+            .setColor("RED")
+            .setDescription(`\`\`\`${inspect(err, { depth: 0 })}\`\`\``);
 
-    channel.send({ embeds: [embed] });
-  }
+        channel.send({ embeds: [embed] });
+    }
 }

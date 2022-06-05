@@ -1,14 +1,14 @@
 import Client from "@classes/Client";
 import Util from "@classes/util";
 import {
-  ContextMenuCommandBuilder,
-  SlashCommandBuilder,
+    ContextMenuCommandBuilder,
+    SlashCommandBuilder,
 } from "@discordjs/builders";
 import { Region } from "@survfate/valorant.js";
 import {
-  CommandInteraction,
-  ContextMenuInteraction,
-  PermissionResolvable,
+    CommandInteraction,
+    ContextMenuInteraction,
+    PermissionResolvable,
 } from "discord.js";
 
 export interface IBase {
