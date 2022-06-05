@@ -15,16 +15,16 @@ export default class Warns {
     ) {
         const guild = interaction.guild as Guild;
         const by = interaction.member as GuildMember;
-        const dbMember = await this.client.database.members.get(member);
+        const dbUser = await this.client.database.users.get(member.user);
         const dbGuild = await this.client.database.guilds.get(guild);
 
-        dbMember.warns.push({
+        dbUser.warns.push({
             guildId: guild.id,
             by: by.id,
             reason
         });
         
-        await dbMember.save();
+        await dbUser.save();
 
         if (dbGuild.channels.reports) {
             const channel = guild.channels.cache.get(dbGuild.channels.reports) as TextChannel;
@@ -41,7 +41,7 @@ export default class Warns {
     }
 
     async get(member: GuildMember){
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         return db.warns.filter(warn => warn.guildId === member.guild.id);
     };

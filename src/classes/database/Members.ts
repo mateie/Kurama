@@ -1,10 +1,10 @@
 import Client from '@classes/Client';
-import { Guild, GuildMember } from 'discord.js';
+import { User as DiscordUser } from 'discord.js';
 import Database from '.';
 
-import Member, { IMember } from '@schemas/Member';
+import User, { IUser } from '@schemas/User';
 
-export default class DatabaseMembers {
+export default class DatabaseUsers {
     client: Client;
     database: Database;
 
@@ -13,40 +13,40 @@ export default class DatabaseMembers {
         this.database = database;
     }
 
-    async check(member: GuildMember) {
-        const dbMember = await Member.findOne({ id: member.id });
-        if (!dbMember) return false;
+    async check(user: DiscordUser) {
+        const dbUser = await User.findOne({ id: user.id });
+        if (!dbUser) return false;
         return true;
     }
 
-    async create(member: GuildMember) {
-        if (member.user.bot) return;
+    async create(user: DiscordUser) {
+        if (user.bot) return;
 
-        const newMember = new Member({
-            id: member.id,
-            username: member.user.username,
+        const dbUser = new User({
+            id: user.id,
+            username: user.username,
         });
 
-        await newMember.save().catch(console.error);
+        await dbUser.save().catch(console.error);
 
-        console.log(`Member added to the Database (ID: ${member.id} - Name: ${member.user.tag})`);
+        console.log(`Member added to the Database (ID: ${user.id} - Name: ${user.tag})`);
 
-        return newMember;
+        return dbUser;
     }
 
-    async get(member: GuildMember) {
-        const dbMember = await Member.findOne({ id: member.id });
-        if (!dbMember) return await this.create(member) as IMember;
-        return dbMember as IMember;
+    async get(user: DiscordUser) {
+        const dbUser = await User.findOne({ id: user.id });
+        if (!dbUser) return await this.create(user) as IUser;
+        return dbUser as IUser;
     }
 
-    getAll = async () => await Member.find();
+    getAll = async () => await User.find();
 
-    verify(guild: Guild) {
-        guild.members.cache.forEach(async member => {
-            const exists = await this.check(member);
+    verify() {
+        this.client.users.cache.forEach(async user => {
+            const exists = await this.check(user);
             if (exists) return;
-            this.create(member);
+            this.create(user);
         });
     }
 }

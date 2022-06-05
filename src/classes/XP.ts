@@ -11,34 +11,34 @@ export default class XP {
     calculateLevel = (xp: number) => Math.floor(0.1 * Math.sqrt(xp));
 
     async giveXP(member: GuildMember, amount = 1) {
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         db.xp += amount;
         await db.save();
     }
 
     async setLevel(member: GuildMember, level: number) {
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         db.level = level;
         await db.save();
     }
 
     async levelUp(member: GuildMember) {
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         db.level += 1;
         await db.save();
     }
 
     async getXP(member: GuildMember) {
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         return db.xp;
     }
 
     async getLevel(member: GuildMember) {
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
 
         return db.level;
     }

@@ -2,7 +2,7 @@ import Client from '@classes/Client';
 import mongoose from 'mongoose';
 
 import DatabaseGuilds from './Guilds';
-import DatabaseMembers from './Members';
+import DatabaseUsers from './Members';
 
 const { DB } = process.env;
 
@@ -12,7 +12,7 @@ export default class Database {
     connection: typeof mongoose;
 
     guilds: DatabaseGuilds;
-    members: DatabaseMembers;
+    users: DatabaseUsers;
 
     constructor(client: Client) {
         this.client = client;
@@ -20,7 +20,7 @@ export default class Database {
         this.connection = mongoose;
 
         this.guilds = new DatabaseGuilds(this.client, this);
-        this.members = new DatabaseMembers(this.client, this);
+        this.users = new DatabaseUsers(this.client, this);
     }
 
     connect() {

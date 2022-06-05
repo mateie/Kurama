@@ -1,6 +1,6 @@
 import { model, Schema, Document } from 'mongoose';
 
-export interface IMember extends Document {
+export interface IUser extends Document {
     id: string;
     username: string;
     xp: number;
@@ -36,7 +36,7 @@ export interface IMember extends Document {
     ];
 }
 
-export const Member: Schema = new Schema({
+export const User: Schema = new Schema({
     id: {
         type: String,
         required: true,
@@ -103,6 +103,6 @@ export const Member: Schema = new Schema({
     ]
 });
 
-const name = 'members';
+const name = 'users';
 
-export default model<IMember>(name, Member, name);
+export default model<IUser>(name, User, name);

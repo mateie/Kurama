@@ -140,7 +140,7 @@ export default class MemberCanvas {
         const canvas = new CanvasM(1024, 450);
         const ctx = canvas.getContext('2d');
 
-        const db = await this.client.database.members.get(member);
+        const db = await this.client.database.users.get(member.user);
         const data = await this.client.util.member.getCardData(db);
 
         ctx.filter = 'blur(6px)';

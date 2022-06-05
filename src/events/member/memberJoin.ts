@@ -17,7 +17,7 @@ export default class MemberJoinEvent extends Event implements IEvent {
         const guild = member.guild as Guild;
         const dbGuild = await this.client.database.guilds.get(guild);
 
-        this.client.database.members.verify(guild);
+        this.client.database.users.verify();
 
         if (!dbGuild.toggles.welcomeMessage) return;
         if (!dbGuild.channels.welcome) return;

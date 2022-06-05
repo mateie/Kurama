@@ -1,5 +1,5 @@
 import Client from '@classes/Client';
-import { IMember } from '@schemas/Member';
+import { IUser } from '@schemas/User';
 import { Presence, CommandInteraction, ButtonInteraction, ContextMenuInteraction, GuildMember, ModalSubmitInteraction, MessageActionRow } from 'discord.js';
 import { roleMention } from '@discordjs/builders';
 import Util from '.';
@@ -46,16 +46,16 @@ export default class UtilMember {
     }
 
     
-    async getCardData(member: IMember) {
-        const currentXP = member.xp - this.client.xp.calculateXPForLevel(member.level);
-        const neededXP = this.client.xp.calculateReqXP(member.level);
+    async getCardData(user: IUser) {
+        const currentXP = user.xp - this.client.xp.calculateXPForLevel(user.level);
+        const neededXP = this.client.xp.calculateReqXP(user.level);
 
-        const rank = await this.getRank(member);
+        const rank = await this.getRank(user);
 
         const info = {
             rank,
-            card: member.card,
-            level: member.level,
+            card: user.card,
+            level: user.level,
             currentXP,
             neededXP,
         };
@@ -64,9 +64,9 @@ export default class UtilMember {
     }
 
 
-    async getRank(member: IMember) {
-        const members = await this.client.database.members.getAll();
-        const sorted = members.sort((a, b) => b.xp - a.xp);
+    async getRank(user: IUser) {
+        const users = await this.client.database.users.getAll();
+        const sorted = users.sort((a, b) => b.xp - a.xp);
 
         const mapped = sorted.map((u, i) => ({
             id: u.id,
@@ -74,7 +74,7 @@ export default class UtilMember {
             rank: i + 1
         }));
 
-        const rank = mapped.find(u => u.id === member.id)?.rank;
+        const rank = mapped.find(u => u.id === user.id)?.rank;
 
         return rank;
     }

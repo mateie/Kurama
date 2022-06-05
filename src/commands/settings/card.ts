@@ -106,7 +106,7 @@ export default class CardCommand extends Command implements ICommand {
         const member = interaction.member as GuildMember;
         await member.user.fetch();
 
-        const dbMember = await this.client.database.members.get(member);
+        const dbMember = await this.client.database.users.get(member.user);
 
         switch (options.getSubcommandGroup()) {
         case 'background': {
