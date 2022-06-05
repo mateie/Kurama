@@ -44,18 +44,18 @@ export default class MemberCanvas {
         ctx.strokeStyle = memberColor;
         ctx.lineWidth = 5;
         ctx.textAlign = 'center';
-        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
+        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Coffee');
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
 
         // Title
-        ctx.font = '60px Bold';
+        ctx.font = 'Coffee 60px';
         ctx.strokeText('Welcome to', canvas.width / 2, canvas.height - 125);
         ctx.fillText('Welcome to', canvas.width / 2, canvas.height - 125);
 
         // Guild Name
         ctx.strokeStyle = iconColor;
-        ctx.font = this.canvas.applyText(canvas, member.user.discriminator, 53, 750, 'Bold');
+        ctx.font = this.canvas.applyText(canvas, member.user.discriminator, 53, 750, 'Coffee');
         ctx.strokeText(guild.name, canvas.width  / 2, canvas.height - 60);
         ctx.fillText(guild.name, canvas.width / 2, canvas.height - 60);
 
@@ -105,7 +105,7 @@ export default class MemberCanvas {
         ctx.strokeStyle = memberColor;
         ctx.lineWidth = 5;
         ctx.textAlign = 'center';
-        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Bold');
+        ctx.font = this.canvas.applyText(canvas, member.user.tag, 48, 500, 'Coffee');
         ctx.strokeText(member.user.tag, canvas.width / 2, 255);
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
         
