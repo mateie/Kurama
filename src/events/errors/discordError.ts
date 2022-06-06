@@ -6,6 +6,8 @@ import { inspect } from "util";
 export default class DiscordErrorEvent extends Event implements IEvent {
     constructor(client: Client) {
         super(client);
+
+        this.name = "error";
     }
 
     async run(err: Error) {
