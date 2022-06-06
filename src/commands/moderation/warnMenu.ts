@@ -23,6 +23,8 @@ export default class WarnMenu extends Menu implements IMenu {
                 ephemeral: true,
             });
 
-        return interaction.showModal(this.client.moderation.warns.modal(member));
+        return interaction.showModal(
+            this.client.moderation.warns.modal(member)
+        );
     }
 }

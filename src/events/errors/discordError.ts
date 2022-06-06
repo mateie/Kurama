@@ -16,7 +16,9 @@ export default class DiscordErrorEvent extends Event implements IEvent {
         const embed = this.util
             .embed()
             .setTitle("Error")
-            .setURL("https://discordjs.guide/popular-topics/errors.html#api-errors")
+            .setURL(
+                "https://discordjs.guide/popular-topics/errors.html#api-errors"
+            )
             .setColor("RED")
             .setDescription(`\`\`\`${inspect(err, { depth: 0 })}\`\`\``);
 

@@ -16,7 +16,9 @@ export default class MemberCommand extends Command implements ICommand {
             .addUserOption((option) =>
                 option
                     .setName("member")
-                    .setDescription("Which user's information do you want to view?")
+                    .setDescription(
+                        "Which user's information do you want to view?"
+                    )
                     .setRequired(false)
             );
     }

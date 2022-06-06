@@ -37,7 +37,8 @@ export default class AcceptRulesEvent extends Event implements IEvent {
             });
         member.roles.add(role);
         return interaction.reply({
-            content: "You accepted the rules and became a member, have a good stay",
+            content:
+                "You accepted the rules and became a member, have a good stay",
             ephemeral: true,
         });
     }

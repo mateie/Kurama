@@ -12,211 +12,211 @@ import {
 } from "discord.js";
 
 export interface IBase {
-  readonly client: Client;
-  readonly util: Util;
+    readonly client: Client;
+    readonly util: Util;
 
-  name: string | undefined;
-  description: string | "No Description";
-  category: string | undefined;
+    name: string | undefined;
+    description: string | "No Description";
+    category: string | undefined;
 
-  ownerOnly: boolean;
+    ownerOnly: boolean;
 
-  permission: PermissionResolvable | null;
+    permission: PermissionResolvable | null;
 }
 
 export interface ICommand extends IBase {
-  data: SlashCommandBuilder;
-  run(interaction: CommandInteraction);
+    data: SlashCommandBuilder;
+    run(interaction: CommandInteraction);
 }
 
 export interface IMenu extends IBase {
-  data: ContextMenuCommandBuilder;
-  run(interaction: ContextMenuInteraction);
+    data: ContextMenuCommandBuilder;
+    run(interaction: ContextMenuInteraction);
 }
 
 export interface IEvent {
-  readonly client: Client;
-  name: Events;
-  description: string | "No Description";
-  category: string | undefined;
-  once: boolean | null;
-  process: boolean | null;
+    readonly client: Client;
+    name: Events;
+    description: string | "No Description";
+    category: string | undefined;
+    once: boolean | null;
+    process: boolean | null;
 }
 
 export interface HandlerOptions {
-  directory: string;
+    directory: string;
 }
 
 export type CommandHandlerOptions = HandlerOptions;
 export type EventHandlerOptions = HandlerOptions;
 
 export interface ValorantLogin {
-  username: string;
-  password: string;
-  region: Region;
+    username: string;
+    password: string;
+    region: Region;
 }
 
 export type ClientEvents =
-  | "rateLimit"
-  | "invalidRequestWarning"
-  | "apiResponse"
-  | "apiRequest"
-  | "ready"
-  | "inviteCreate"
-  | "inviteDelete"
-  | "webhookUpdate"
-  | "interactionCreate"
-  | "error"
-  | "warn"
-  | "debug"
-  | "cacheSweep"
-  | "shardDisconnect"
-  | "shardError"
-  | "shardReconnecting"
-  | "shardReady"
-  | "shardResume"
-  | "invalidated"
-  | "raw"
-  | "stageInstanceCreate"
-  | "stageInstanceUpdate"
-  | "stageInstanceDelete"
-  | "stickerCreate"
-  | "stickerDelete"
-  | "stickerUpdate";
+    | "rateLimit"
+    | "invalidRequestWarning"
+    | "apiResponse"
+    | "apiRequest"
+    | "ready"
+    | "inviteCreate"
+    | "inviteDelete"
+    | "webhookUpdate"
+    | "interactionCreate"
+    | "error"
+    | "warn"
+    | "debug"
+    | "cacheSweep"
+    | "shardDisconnect"
+    | "shardError"
+    | "shardReconnecting"
+    | "shardReady"
+    | "shardResume"
+    | "invalidated"
+    | "raw"
+    | "stageInstanceCreate"
+    | "stageInstanceUpdate"
+    | "stageInstanceDelete"
+    | "stickerCreate"
+    | "stickerDelete"
+    | "stickerUpdate";
 
 export type ChannelEvents =
-  | "channelCreate"
-  | "channelDelete"
-  | "channelUpdate"
-  | "channelPinsUpdate"
-  | "typingStart"
-  | "guildChannelPermissionsUpdate"
-  | "guildChannelTopicUpdate";
+    | "channelCreate"
+    | "channelDelete"
+    | "channelUpdate"
+    | "channelPinsUpdate"
+    | "typingStart"
+    | "guildChannelPermissionsUpdate"
+    | "guildChannelTopicUpdate";
 
 export type ThreadChannelEvents =
-  | "threadCreate"
-  | "threadDelete"
-  | "threadUpdate"
-  | "threadListSync"
-  | "threadMemberUpdate"
-  | "threadMembersUpdate"
-  | "threadStateUpdate"
-  | "threadNameUpdate"
-  | "threadLockStateUpdate"
-  | "threadRateLimitPerUserUpdate"
-  | "threadAutoArchiveDurationUpdate";
+    | "threadCreate"
+    | "threadDelete"
+    | "threadUpdate"
+    | "threadListSync"
+    | "threadMemberUpdate"
+    | "threadMembersUpdate"
+    | "threadStateUpdate"
+    | "threadNameUpdate"
+    | "threadLockStateUpdate"
+    | "threadRateLimitPerUserUpdate"
+    | "threadAutoArchiveDurationUpdate";
 
 export type MemberEvents =
-  | "guildMemberAdd"
-  | "guildMemberRemove"
-  | "guildMemberUpdate"
-  | "guildMemberAvailable"
-  | "guildMembersChunk"
-  | "guildMemberBoost"
-  | "guildMemberUnboost"
-  | "guildMemberRoleAdd"
-  | "guildMemberRoleRemove"
-  | "guildMemberNicknameUpdate"
-  | "guildMemberEntered"
-  | "guildMemberOffline"
-  | "guildMemberOnline";
+    | "guildMemberAdd"
+    | "guildMemberRemove"
+    | "guildMemberUpdate"
+    | "guildMemberAvailable"
+    | "guildMembersChunk"
+    | "guildMemberBoost"
+    | "guildMemberUnboost"
+    | "guildMemberRoleAdd"
+    | "guildMemberRoleRemove"
+    | "guildMemberNicknameUpdate"
+    | "guildMemberEntered"
+    | "guildMemberOffline"
+    | "guildMemberOnline";
 
 export type UserEvents =
-  | "userUpdate"
-  | "presenceUpdate"
-  | "userAvatarUpdate"
-  | "userUsernameUpdate"
-  | "userDiscriminatorUpdate"
-  | "userFlagsUpdate";
+    | "userUpdate"
+    | "presenceUpdate"
+    | "userAvatarUpdate"
+    | "userUsernameUpdate"
+    | "userDiscriminatorUpdate"
+    | "userFlagsUpdate";
 
 export type VoiceChannelEvents =
-  | "voiceServerUpdate"
-  | "voiceStateUpdate"
-  | "voiceChannelJoin"
-  | "voiceChannelLeave"
-  | "voiceChannelSwitch"
-  | "voiceChannelMute"
-  | "voiceChannelUnmute"
-  | "voiceChannelDeaf"
-  | "voiceChannelUndeaf"
-  | "voiceStreamingStart"
-  | "voiceStreamingStop";
+    | "voiceServerUpdate"
+    | "voiceStateUpdate"
+    | "voiceChannelJoin"
+    | "voiceChannelLeave"
+    | "voiceChannelSwitch"
+    | "voiceChannelMute"
+    | "voiceChannelUnmute"
+    | "voiceChannelDeaf"
+    | "voiceChannelUndeaf"
+    | "voiceStreamingStart"
+    | "voiceStreamingStop";
 
 export type GuildEvents =
-  | "guildCreate"
-  | "guildDelete"
-  | "guildUpdate"
-  | "guildUnavailable"
-  | "guildBoostLevelUp"
-  | "guildBoostLevelDown"
-  | "guildBannerAdd"
-  | "guildAfkChannelAdd"
-  | "guildVanityURLAdd"
-  | "guildVanityURLRemove"
-  | "guildVanityURLUpdate"
-  | "guildFeaturesUpdate"
-  | "guildAcronymUpdate"
-  | "guildOwnerUpdate"
-  | "guildPartnerAdd"
-  | "guildPartnerRemove"
-  | "guildVerificationAdd"
-  | "guildIntegrationsUpdate"
-  | "guildBanAdd"
-  | "guildBanRemove"
-  | "guildScheduledEventCreate"
-  | "guildScheduledEventUpdate"
-  | "guildScheduledEventDelete"
-  | "guildScheduledEventUserAdd"
-  | "guildScheduledEventUserRemove";
+    | "guildCreate"
+    | "guildDelete"
+    | "guildUpdate"
+    | "guildUnavailable"
+    | "guildBoostLevelUp"
+    | "guildBoostLevelDown"
+    | "guildBannerAdd"
+    | "guildAfkChannelAdd"
+    | "guildVanityURLAdd"
+    | "guildVanityURLRemove"
+    | "guildVanityURLUpdate"
+    | "guildFeaturesUpdate"
+    | "guildAcronymUpdate"
+    | "guildOwnerUpdate"
+    | "guildPartnerAdd"
+    | "guildPartnerRemove"
+    | "guildVerificationAdd"
+    | "guildIntegrationsUpdate"
+    | "guildBanAdd"
+    | "guildBanRemove"
+    | "guildScheduledEventCreate"
+    | "guildScheduledEventUpdate"
+    | "guildScheduledEventDelete"
+    | "guildScheduledEventUserAdd"
+    | "guildScheduledEventUserRemove";
 
 export type MessageEvents =
-  | "messageCreate"
-  | "messageDelete"
-  | "messageUpdate"
-  | "messageDeleteBulk"
-  | "messagePinned"
-  | "messageContentEdited"
-  | "messageReactionAdd"
-  | "messageReactionRemove"
-  | "messageReactionRemoveAll"
-  | "messageReactionRemoveEmoji";
+    | "messageCreate"
+    | "messageDelete"
+    | "messageUpdate"
+    | "messageDeleteBulk"
+    | "messagePinned"
+    | "messageContentEdited"
+    | "messageReactionAdd"
+    | "messageReactionRemove"
+    | "messageReactionRemoveAll"
+    | "messageReactionRemoveEmoji";
 
 export type RoleEvents =
-  | "roleCreate"
-  | "roleDelete"
-  | "roleUpdate"
-  | "rolePositionUpdate"
-  | "rolePermissionsUpdate";
+    | "roleCreate"
+    | "roleDelete"
+    | "roleUpdate"
+    | "rolePositionUpdate"
+    | "rolePermissionsUpdate";
 
 export type EmojiEvents = "emojiCreate" | "emojiDelete" | "emojiUpdate";
 
 export type MusicEvents =
-  | "botDisconnect"
-  | "channelEmpty"
-  | "connectionCreate"
-  | "connectionError"
-  | "queueEnd"
-  | "trackAdd"
-  | "trackEnd"
-  | "tracksAdd"
-  | "trackStart";
+    | "botDisconnect"
+    | "channelEmpty"
+    | "connectionCreate"
+    | "connectionError"
+    | "queueEnd"
+    | "trackAdd"
+    | "trackEnd"
+    | "tracksAdd"
+    | "trackStart";
 
 export type ProcessEvents =
-  | "multipleResolves"
-  | "uncaughtException"
-  | "uncaughtExceptionMonitor"
-  | "unhandledRejection";
+    | "multipleResolves"
+    | "uncaughtException"
+    | "uncaughtExceptionMonitor"
+    | "unhandledRejection";
 
 export type DiscordEvents =
-  | ClientEvents
-  | ChannelEvents
-  | ThreadChannelEvents
-  | MemberEvents
-  | UserEvents
-  | VoiceChannelEvents
-  | GuildEvents
-  | MessageEvents
-  | RoleEvents
-  | EmojiEvents;
+    | ClientEvents
+    | ChannelEvents
+    | ThreadChannelEvents
+    | MemberEvents
+    | UserEvents
+    | VoiceChannelEvents
+    | GuildEvents
+    | MessageEvents
+    | RoleEvents
+    | EmojiEvents;
 
 export type Events = DiscordEvents | MusicEvents | ProcessEvents;

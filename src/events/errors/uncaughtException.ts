@@ -18,14 +18,20 @@ export default class UncaughtExceptionEvent extends Event implements IEvent {
             .embed()
             .setTitle("There was an Uncaught Exception/Catch")
             .setColor("RED")
-            .setURL("https://nodejs.org/api/process.html#event-uncaughtexception")
+            .setURL(
+                "https://nodejs.org/api/process.html#event-uncaughtexception"
+            )
             .addField(
                 "Error",
-                `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(reason, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             )
             .addField(
                 "Origin",
-                `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(origin, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             );
 
         channel.send({ embeds: [embed] });

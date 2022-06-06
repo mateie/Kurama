@@ -31,7 +31,9 @@ export default class CardCommand extends Command implements ICommand {
                             .setName("color")
                             .setDescription("Use a color for your background")
                             .addStringOption((option) =>
-                                option.setName("color").setDescription("Color to set it to")
+                                option
+                                    .setName("color")
+                                    .setDescription("Color to set it to")
                             )
                     )
                     .addSubcommand((subcommand) =>
@@ -39,7 +41,9 @@ export default class CardCommand extends Command implements ICommand {
                             .setName("image")
                             .setDescription("Use an image as a background")
                             .addAttachmentOption((option) =>
-                                option.setName("bg_image").setDescription("Background image")
+                                option
+                                    .setName("bg_image")
+                                    .setDescription("Background image")
                             )
                     )
             )
@@ -62,7 +66,9 @@ export default class CardCommand extends Command implements ICommand {
                             .setName("color")
                             .setDescription("Use a color for your outlines")
                             .addStringOption((option) =>
-                                option.setName("color").setDescription("Color to set it to")
+                                option
+                                    .setName("color")
+                                    .setDescription("Color to set it to")
                             )
                     )
             )
@@ -85,7 +91,9 @@ export default class CardCommand extends Command implements ICommand {
                             .setName("color")
                             .setDescription("Use a color for your text")
                             .addStringOption((option) =>
-                                option.setName("color").setDescription("Color to set it to")
+                                option
+                                    .setName("color")
+                                    .setDescription("Color to set it to")
                             )
                     )
             );
@@ -100,240 +108,251 @@ export default class CardCommand extends Command implements ICommand {
         const dbMember = await this.client.database.users.get(member.user);
 
         switch (options.getSubcommandGroup()) {
-        case "background": {
-            switch (options.getSubcommand()) {
-            case "banner": {
-                if (dbMember.card.background.type === "banner")
-                    return interaction.reply({
-                        content: "Your background is already using your banner",
-                        ephemeral: true,
-                    });
-                const banner = member.user.banner;
-                if (!banner)
-                    return interaction.reply({
-                        content: "You don't have a banner",
-                        ephemeral: true,
-                    });
-                dbMember.card.background.type = "banner";
+            case "background": {
+                switch (options.getSubcommand()) {
+                    case "banner": {
+                        if (dbMember.card.background.type === "banner")
+                            return interaction.reply({
+                                content:
+                                    "Your background is already using your banner",
+                                ephemeral: true,
+                            });
+                        const banner = member.user.banner;
+                        if (!banner)
+                            return interaction.reply({
+                                content: "You don't have a banner",
+                                ephemeral: true,
+                            });
+                        dbMember.card.background.type = "banner";
 
-                await dbMember.save();
+                        await dbMember.save();
 
-                return interaction.reply({
-                    content: "Your background will be your banner from now on",
-                    ephemeral: true,
-                });
-            }
-            case "color": {
-                const color = options.getString("color");
-                dbMember.card.background.type = "color";
-                if (!color) {
-                    await dbMember.save();
-                    const colorName = fromHex(dbMember.card.background.color).basic[0]
-                        .name;
-                    return interaction.reply({
-                        content: `Switched the background to a color, **Current Color**: ${colorName}`,
-                        ephemeral: true,
-                    });
-                }
-                let hex = color;
-                if (!isHexColor(color)) hex = toHex(color) as string;
-                if (!hex)
-                    return interaction.reply({
-                        content: `${color} is not a color`,
-                        ephemeral: true,
-                    });
-
-                dbMember.card.background.color = hex;
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    content: `Your background was changed to **${color}** `,
-                    ephemeral: true,
-                });
-            }
-            case "image": {
-                let attachment = options.getAttachment("bg_image");
-                dbMember.card.background.type = "image";
-                if (!attachment) {
-                    if (!dbMember.card.background.image)
                         return interaction.reply({
                             content:
-                    "You don't have any images uploaded as your background before",
+                                "Your background will be your banner from now on",
                             ephemeral: true,
                         });
-                    attachment = this.client.util.attachment(
-                        dbMember.card.background.image,
-                        "current_image.png"
-                    );
-                    await dbMember.save();
-                    return interaction.reply({
-                        files: [attachment],
-                        content:
-                  "Switched the background to an image, **Current image below**",
-                        ephemeral: true,
-                    });
+                    }
+                    case "color": {
+                        const color = options.getString("color");
+                        dbMember.card.background.type = "color";
+                        if (!color) {
+                            await dbMember.save();
+                            const colorName = fromHex(
+                                dbMember.card.background.color
+                            ).basic[0].name;
+                            return interaction.reply({
+                                content: `Switched the background to a color, **Current Color**: ${colorName}`,
+                                ephemeral: true,
+                            });
+                        }
+                        let hex = color;
+                        if (!isHexColor(color)) hex = toHex(color) as string;
+                        if (!hex)
+                            return interaction.reply({
+                                content: `${color} is not a color`,
+                                ephemeral: true,
+                            });
+
+                        dbMember.card.background.color = hex;
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            content: `Your background was changed to **${color}** `,
+                            ephemeral: true,
+                        });
+                    }
+                    case "image": {
+                        let attachment = options.getAttachment("bg_image");
+                        dbMember.card.background.type = "image";
+                        if (!attachment) {
+                            if (!dbMember.card.background.image)
+                                return interaction.reply({
+                                    content:
+                                        "You don't have any images uploaded as your background before",
+                                    ephemeral: true,
+                                });
+                            attachment = this.client.util.attachment(
+                                dbMember.card.background.image,
+                                "current_image.png"
+                            );
+                            await dbMember.save();
+                            return interaction.reply({
+                                files: [attachment],
+                                content:
+                                    "Switched the background to an image, **Current image below**",
+                                ephemeral: true,
+                            });
+                        }
+                        if (
+                            !attachment.contentType?.includes("image") ||
+                            attachment.contentType === "image/gif"
+                        )
+                            return interaction.reply({
+                                content: "File has to be an image",
+                                ephemeral: true,
+                            });
+                        const imageBuffer =
+                            await this.client.util.imageToBuffer(
+                                attachment.url
+                            );
+                        dbMember.card.background.image = imageBuffer;
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            files: [attachment],
+                            content:
+                                "Your background was changed to ***Image below***",
+                            ephemeral: true,
+                        });
+                    }
                 }
-                if (
-                    !attachment.contentType?.includes("image") ||
-              attachment.contentType === "image/gif"
-                )
-                    return interaction.reply({
-                        content: "File has to be an image",
-                        ephemeral: true,
-                    });
-                const imageBuffer = await this.client.util.imageToBuffer(
-                    attachment.url
-                );
-                dbMember.card.background.image = imageBuffer;
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    files: [attachment],
-                    content: "Your background was changed to ***Image below***",
-                    ephemeral: true,
-                });
-            }
-            }
-            break;
-        }
-        case "outlines": {
-            switch (options.getSubcommand()) {
-            case "banner": {
-                const banner = member.user.banner;
-                if (!banner)
-                    return interaction.reply({
-                        content: "You don't have a banner",
-                        ephemeral: true,
-                    });
-                dbMember.card.outlines.type = "banner";
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    content: "Your outlines are now using your banner's colors",
-                    ephemeral: true,
-                });
                 break;
             }
-            case "avatar": {
-                const avatar = member.user.avatar;
-                if (!avatar)
-                    return interaction.reply({
-                        content: "You don't have an avatar",
-                        ephemeral: true,
-                    });
-                dbMember.card.outlines.type = "avatar";
+            case "outlines": {
+                switch (options.getSubcommand()) {
+                    case "banner": {
+                        const banner = member.user.banner;
+                        if (!banner)
+                            return interaction.reply({
+                                content: "You don't have a banner",
+                                ephemeral: true,
+                            });
+                        dbMember.card.outlines.type = "banner";
 
-                await dbMember.save();
+                        await dbMember.save();
 
-                return interaction.reply({
-                    content: "Your outlines are now using your avatar's colors",
-                    ephemeral: true,
-                });
-            }
-            case "color": {
-                const color = options.getString("color");
-                dbMember.card.outlines.type = "color";
-                if (!color) {
-                    await dbMember.save();
-                    const colorName = fromHex(dbMember.card.outlines.color).basic[0]
-                        .name;
-                    return interaction.reply({
-                        content: `Switched the outlines to a color, **Current Color**: ${colorName}`,
-                        ephemeral: true,
-                    });
+                        return interaction.reply({
+                            content:
+                                "Your outlines are now using your banner's colors",
+                            ephemeral: true,
+                        });
+                        break;
+                    }
+                    case "avatar": {
+                        const avatar = member.user.avatar;
+                        if (!avatar)
+                            return interaction.reply({
+                                content: "You don't have an avatar",
+                                ephemeral: true,
+                            });
+                        dbMember.card.outlines.type = "avatar";
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            content:
+                                "Your outlines are now using your avatar's colors",
+                            ephemeral: true,
+                        });
+                    }
+                    case "color": {
+                        const color = options.getString("color");
+                        dbMember.card.outlines.type = "color";
+                        if (!color) {
+                            await dbMember.save();
+                            const colorName = fromHex(
+                                dbMember.card.outlines.color
+                            ).basic[0].name;
+                            return interaction.reply({
+                                content: `Switched the outlines to a color, **Current Color**: ${colorName}`,
+                                ephemeral: true,
+                            });
+                        }
+
+                        let hex = color;
+                        if (!isHexColor(color)) hex = toHex(color) as string;
+                        if (!hex)
+                            return interaction.reply({
+                                content: `${color} is not a color`,
+                                ephemeral: true,
+                            });
+
+                        dbMember.card.outlines.color = hex;
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            content: `Your outlines was changed to **${color}**`,
+                            ephemeral: true,
+                        });
+                    }
                 }
-
-                let hex = color;
-                if (!isHexColor(color)) hex = toHex(color) as string;
-                if (!hex)
-                    return interaction.reply({
-                        content: `${color} is not a color`,
-                        ephemeral: true,
-                    });
-
-                dbMember.card.outlines.color = hex;
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    content: `Your outlines was changed to **${color}**`,
-                    ephemeral: true,
-                });
-            }
-            }
-            break;
-        }
-        case "text": {
-            switch (options.getSubcommand()) {
-            case "banner": {
-                const banner = member.user.banner;
-                if (!banner)
-                    return interaction.reply({
-                        content: "You don't have a banner",
-                        ephemeral: true,
-                    });
-                dbMember.card.text.type = "banner";
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    content: "Your text is now using your banner's colors",
-                    ephemeral: true,
-                });
                 break;
             }
-            case "avatar": {
-                const avatar = member.user.avatar;
-                if (!avatar)
-                    return interaction.reply({
-                        content: "You don't have an avatar",
-                        ephemeral: true,
-                    });
-                dbMember.card.text.type = "avatar";
+            case "text": {
+                switch (options.getSubcommand()) {
+                    case "banner": {
+                        const banner = member.user.banner;
+                        if (!banner)
+                            return interaction.reply({
+                                content: "You don't have a banner",
+                                ephemeral: true,
+                            });
+                        dbMember.card.text.type = "banner";
 
-                await dbMember.save();
+                        await dbMember.save();
 
-                return interaction.reply({
-                    content: "Your text is now using your avatar's colors",
-                    ephemeral: true,
-                });
-            }
-            case "color": {
-                const color = options.getString("color");
-                dbMember.card.text.type = "color";
-                if (!color) {
-                    await dbMember.save();
-                    const colorName = fromHex(dbMember.card.outlines.color).basic[0]
-                        .name;
-                    return interaction.reply({
-                        content: `Switched the text to a color, **Current Color**: ${colorName}`,
-                        ephemeral: true,
-                    });
+                        return interaction.reply({
+                            content:
+                                "Your text is now using your banner's colors",
+                            ephemeral: true,
+                        });
+                        break;
+                    }
+                    case "avatar": {
+                        const avatar = member.user.avatar;
+                        if (!avatar)
+                            return interaction.reply({
+                                content: "You don't have an avatar",
+                                ephemeral: true,
+                            });
+                        dbMember.card.text.type = "avatar";
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            content:
+                                "Your text is now using your avatar's colors",
+                            ephemeral: true,
+                        });
+                    }
+                    case "color": {
+                        const color = options.getString("color");
+                        dbMember.card.text.type = "color";
+                        if (!color) {
+                            await dbMember.save();
+                            const colorName = fromHex(
+                                dbMember.card.outlines.color
+                            ).basic[0].name;
+                            return interaction.reply({
+                                content: `Switched the text to a color, **Current Color**: ${colorName}`,
+                                ephemeral: true,
+                            });
+                        }
+
+                        let hex = color;
+                        if (!isHexColor(color)) hex = toHex(color) as string;
+                        if (!hex)
+                            return interaction.reply({
+                                content: `${color} is not a color`,
+                                ephemeral: true,
+                            });
+
+                        dbMember.card.text.color = hex;
+
+                        await dbMember.save();
+
+                        return interaction.reply({
+                            content: `Your text was changed to **${color}**`,
+                            ephemeral: true,
+                        });
+                    }
                 }
-
-                let hex = color;
-                if (!isHexColor(color)) hex = toHex(color) as string;
-                if (!hex)
-                    return interaction.reply({
-                        content: `${color} is not a color`,
-                        ephemeral: true,
-                    });
-
-                dbMember.card.text.color = hex;
-
-                await dbMember.save();
-
-                return interaction.reply({
-                    content: `Your text was changed to **${color}**`,
-                    ephemeral: true,
-                });
+                break;
             }
-            }
-            break;
-        }
         }
     }
 }

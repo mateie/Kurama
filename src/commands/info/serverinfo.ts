@@ -37,8 +37,8 @@ export default class ServerInfoCommand extends Command implements ICommand {
                     value: `
                             Name: ${guild.name}
                             Created: <t:${Math.floor(
-        createdTimestamp / 1000
-    )}:R>
+                                createdTimestamp / 1000
+                            )}:R>
                             Owner: ${guild.members.cache.get(guild.ownerId)}
 
                             Description: ${description}
@@ -48,11 +48,11 @@ export default class ServerInfoCommand extends Command implements ICommand {
                     name: "👥| Users",
                     value: `
                             - Members: ${
-    members.cache.filter((m) => !m.user.bot).size
-}
+                                members.cache.filter((m) => !m.user.bot).size
+                            }
                             - Bots: ${
-    members.cache.filter((m) => m.user.bot).size
-}
+                                members.cache.filter((m) => m.user.bot).size
+                            }
                         
                             Total: ${memberCount}
                         `,
@@ -61,35 +61,35 @@ export default class ServerInfoCommand extends Command implements ICommand {
                     name: "📃 | Channels",
                     value: `
                             - Text: ${
-    channels.cache.filter(
-        (ch) => ch.type == "GUILD_TEXT"
-    ).size
-}
+                                channels.cache.filter(
+                                    (ch) => ch.type == "GUILD_TEXT"
+                                ).size
+                            }
                             - Voice: ${
-    channels.cache.filter(
-        (ch) => ch.type == "GUILD_VOICE"
-    ).size
-}
+                                channels.cache.filter(
+                                    (ch) => ch.type == "GUILD_VOICE"
+                                ).size
+                            }
                             - Threads: ${
-    channels.cache.filter((ch) =>
-        ch.type.includes("THREAD")
-    ).size
-}
+                                channels.cache.filter((ch) =>
+                                    ch.type.includes("THREAD")
+                                ).size
+                            }
                             - Categories: ${
-    channels.cache.filter(
-        (ch) => ch.type == "GUILD_CATEGORY"
-    ).size
-}
+                                channels.cache.filter(
+                                    (ch) => ch.type == "GUILD_CATEGORY"
+                                ).size
+                            }
                             - Stages: ${
-    channels.cache.filter(
-        (ch) => ch.type == "GUILD_STAGE_VOICE"
-    ).size
-}
+                                channels.cache.filter(
+                                    (ch) => ch.type == "GUILD_STAGE_VOICE"
+                                ).size
+                            }
                             - News: ${
-    channels.cache.filter(
-        (ch) => ch.type == "GUILD_NEWS"
-    ).size
-}
+                                channels.cache.filter(
+                                    (ch) => ch.type == "GUILD_NEWS"
+                                ).size
+                            }
 
                             Total: ${channels.cache.size}
                         `,
@@ -98,12 +98,12 @@ export default class ServerInfoCommand extends Command implements ICommand {
                     name: "😯 | Emojis & Stickers",
                     value: `
                             - Animated: ${
-    emojis.cache.filter((e) => e.animated == true)
-        .size
-}
+                                emojis.cache.filter((e) => e.animated == true)
+                                    .size
+                            }
                             - Static: ${
-    emojis.cache.filter((e) => !e.animated).size
-}
+                                emojis.cache.filter((e) => !e.animated).size
+                            }
                             - Stickers: ${stickers.cache.size}
 
                             Total: ${emojis.cache.size + stickers.cache.size}
@@ -115,10 +115,10 @@ export default class ServerInfoCommand extends Command implements ICommand {
                             - Tier: ${guild.premiumTier.replace("TIER_", "")}
                             - Boosts: ${guild.premiumSubscriptionCount}
                             - Boosters: ${
-    members.cache.filter(
-        (m) => m.premiumSince !== null
-    ).size
-}
+                                members.cache.filter(
+                                    (m) => m.premiumSince !== null
+                                ).size
+                            }
                         `,
                 },
             ]);

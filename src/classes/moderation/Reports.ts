@@ -17,9 +17,9 @@ export default class Reports {
 
     async create(
         interaction:
-      | CommandInteraction
-      | ButtonInteraction
-      | ModalSubmitInteraction,
+            | CommandInteraction
+            | ButtonInteraction
+            | ModalSubmitInteraction,
         member: GuildMember,
         reason: string
     ) {
@@ -45,7 +45,9 @@ export default class Reports {
                 .embed()
                 .setAuthor({
                     name: by.user.tag,
-                    iconURL: by.displayAvatarURL({ dynamic: true }),
+                    iconURL: by.displayAvatarURL({
+                        dynamic: true,
+                    }),
                 })
                 .setTitle(`${by.user.tag} reported ${member.user.tag}`)
                 .addField("Reason", reason);
@@ -62,7 +64,9 @@ export default class Reports {
     async get(member: GuildMember) {
         const db = await this.client.database.users.get(member.user);
 
-        return db.reports.filter((report) => report.guildId === member.guild.id);
+        return db.reports.filter(
+            (report) => report.guildId === member.guild.id
+        );
     }
 
     total = async (member: GuildMember) => (await this.get(member)).length;

@@ -21,7 +21,9 @@ export default class WarnEvent extends Event implements IEvent {
             .setURL("https://nodejs.org/api/process.html#event-warning")
             .addField(
                 "Warn",
-                `\`\`\`${inspect(warn, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(warn, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             );
 
         channel.send({ embeds: [embed] });

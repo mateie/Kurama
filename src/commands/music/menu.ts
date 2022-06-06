@@ -42,7 +42,7 @@ export default class MusicMenu extends Menu implements IMenu {
 
         if (
             guild?.me?.voice.channelId &&
-      voiceChannel.id !== guild?.me.voice.channelId
+            voiceChannel.id !== guild?.me.voice.channelId
         )
             return interaction.reply({
                 content: `You have to be in ${guild?.me.voice.channel} to queue a track`,

@@ -16,8 +16,10 @@ export default class ValorantLoginEvent extends Event implements IEvent {
 
         if (interaction.customId !== "valorant_login") return;
 
-        const username = interaction.fields.getTextInputValue("valorant_username");
-        const password = interaction.fields.getTextInputValue("valorant_password");
+        const username =
+            interaction.fields.getTextInputValue("valorant_username");
+        const password =
+            interaction.fields.getTextInputValue("valorant_password");
         let region: string | Region = interaction.fields
             .getTextInputValue("valorant_region")
             .toUpperCase();

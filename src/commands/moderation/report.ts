@@ -20,7 +20,9 @@ export default class ReportCommand extends Command implements ICommand {
                     .setRequired(true)
             )
             .addStringOption((option) =>
-                option.setName("reason").setDescription("Reason to report this member")
+                option
+                    .setName("reason")
+                    .setDescription("Reason to report this member")
             );
     }
 
@@ -36,6 +38,10 @@ export default class ReportCommand extends Command implements ICommand {
                 ephemeral: true,
             });
 
-        return this.client.moderation.reports.create(interaction, member, reason);
+        return this.client.moderation.reports.create(
+            interaction,
+            member,
+            reason
+        );
     }
 }

@@ -26,11 +26,15 @@ export default class UncaughtExceptionMonitorEvent
             )
             .addField(
                 "Error",
-                `\`\`\`${inspect(err, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(err, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             )
             .addField(
                 "Origin",
-                `\`\`\`${inspect(origin, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(origin, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             );
 
         channel.send({ embeds: [embed] });

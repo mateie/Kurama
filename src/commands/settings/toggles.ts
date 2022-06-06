@@ -18,7 +18,10 @@ export default class TogglesCommand extends Command implements ICommand {
             { name: "Goodbye Message", value: "goodbyeMessage" },
             { name: "Profanity Filter", value: "preventProfanity" },
             { name: "Strict Commands", value: "strictCommands" },
-            { name: "Strict Music Channels", value: "strictMusicChannels" },
+            {
+                name: "Strict Music Channels",
+                value: "strictMusicChannels",
+            },
         ];
 
         this.data
@@ -45,16 +48,20 @@ export default class TogglesCommand extends Command implements ICommand {
             ? "On"
             : "Off";
 
-        const ruleName = this.choices.find((choice) => choice.value === rule)?.name;
+        const ruleName = this.choices.find(
+            (choice) => choice.value === rule
+        )?.name;
 
         dbGuild.toggles[rule as keyof typeof dbGuild.toggles] =
-      !dbGuild.toggles[rule as keyof typeof dbGuild.toggles];
+            !dbGuild.toggles[rule as keyof typeof dbGuild.toggles];
 
         await dbGuild.save();
 
         return interaction.reply({
             content: `Toggled ***${ruleName}***, Old Value: **${oldValue}** - New Value: **${
-                dbGuild.toggles[rule as keyof typeof dbGuild.toggles] ? "On" : "Off"
+                dbGuild.toggles[rule as keyof typeof dbGuild.toggles]
+                    ? "On"
+                    : "Off"
             }**`,
             ephemeral: true,
         });

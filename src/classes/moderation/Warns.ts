@@ -17,9 +17,9 @@ export default class Warns {
 
     async create(
         interaction:
-      | CommandInteraction
-      | ButtonInteraction
-      | ModalSubmitInteraction,
+            | CommandInteraction
+            | ButtonInteraction
+            | ModalSubmitInteraction,
         member: GuildMember,
         reason: string
     ) {
@@ -45,7 +45,9 @@ export default class Warns {
                 .embed()
                 .setAuthor({
                     name: by.user.tag,
-                    iconURL: by.displayAvatarURL({ dynamic: true }),
+                    iconURL: by.displayAvatarURL({
+                        dynamic: true,
+                    }),
                 })
                 .setTitle(`${by.user.tag} warned ${member.user.tag}`)
                 .addField("Reason", reason);

@@ -50,10 +50,16 @@ export default class StatusCommand extends Command implements ICommand {
                 },
                 {
                     name: "Verified",
-                    value: this.client.user?.flags?.has("VERIFIED_BOT") ? "Yes" : "No",
+                    value: this.client.user?.flags?.has("VERIFIED_BOT")
+                        ? "Yes"
+                        : "No",
                     inline: true,
                 },
-                { name: "Owners", value: "Stealth", inline: true },
+                {
+                    name: "Owners",
+                    value: "Stealth",
+                    inline: true,
+                },
                 {
                     name: "Database",
                     value: mongoStatus[connection.readyState],
@@ -67,12 +73,18 @@ export default class StatusCommand extends Command implements ICommand {
                         .replace("Darwin", "macOS"),
                     inline: true,
                 },
-                { name: "CPU Model", value: os.cpus()[0].model, inline: true },
+                {
+                    name: "CPU Model",
+                    value: os.cpus()[0].model,
+                    inline: true,
+                },
                 {
                     name: "CPU Usage",
-                    value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(
-                        2
-                    )}%`,
+                    value: `${(
+                        process.memoryUsage().heapUsed /
+                        1024 /
+                        1024
+                    ).toFixed(2)}%`,
                     inline: true,
                 },
                 {
@@ -82,9 +94,21 @@ export default class StatusCommand extends Command implements ICommand {
                     )}:R>`,
                     inline: true,
                 },
-                { name: "Node.js", value: process.version, inline: true },
-                { name: "Discord.js", value: version, inline: true },
-                { name: "Ping", value: `${this.client.ws.ping}ms`, inline: true },
+                {
+                    name: "Node.js",
+                    value: process.version,
+                    inline: true,
+                },
+                {
+                    name: "Discord.js",
+                    value: version,
+                    inline: true,
+                },
+                {
+                    name: "Ping",
+                    value: `${this.client.ws.ping}ms`,
+                    inline: true,
+                },
                 {
                     name: "Commands",
                     value: `${this.client.commandHandler.commands.size}`,
@@ -107,7 +131,10 @@ export default class StatusCommand extends Command implements ICommand {
                 },
                 {
                     name: "Voice Channels",
-                    value: `${channelSize(["GUILD_VOICE", "GUILD_STAGE_VOICE"])}`,
+                    value: `${channelSize([
+                        "GUILD_VOICE",
+                        "GUILD_STAGE_VOICE",
+                    ])}`,
                     inline: true,
                 },
                 {

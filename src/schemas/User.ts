@@ -7,9 +7,9 @@ export interface IUser extends HydratedDocument<any> {
     level: number;
     card: {
         background: {
-        type: "banner" | "color" | "image";
-        color: string;
-        image: Buffer;
+            type: "banner" | "color" | "image";
+            color: string;
+            image: Buffer;
         };
         outlines: {
             type: "banner" | "avatar" | "color";
@@ -25,18 +25,18 @@ export interface IUser extends HydratedDocument<any> {
         sharedWith: string[];
     };
     warns: [
-    {
-      guildId: string;
-      by: string;
-      reason: string;
-    }
+        {
+            guildId: string;
+            by: string;
+            reason: string;
+        }
     ];
     reports: [
-    {
-      guildId: string;
-      by: string;
-      reason: string;
-    }
+        {
+            guildId: string;
+            by: string;
+            reason: string;
+        }
     ];
 }
 
@@ -93,7 +93,7 @@ export const User: Schema = new Schema<IUser>({
     },
     playlist: {
         channelId: String,
-        sharedWith: []
+        sharedWith: [],
     },
     warns: [
         {

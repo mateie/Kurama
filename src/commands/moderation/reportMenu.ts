@@ -22,6 +22,8 @@ export default class ReportMenu extends Menu implements IMenu {
                 ephemeral: true,
             });
 
-        return interaction.showModal(this.client.moderation.reports.modal(member));
+        return interaction.showModal(
+            this.client.moderation.reports.modal(member)
+        );
     }
 }

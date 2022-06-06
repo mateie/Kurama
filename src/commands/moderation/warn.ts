@@ -21,7 +21,9 @@ export default class WarnCommand extends Command implements ICommand {
                     .setRequired(true)
             )
             .addStringOption((option) =>
-                option.setName("reason").setDescription("Reason to warn this member")
+                option
+                    .setName("reason")
+                    .setDescription("Reason to warn this member")
             );
     }
 

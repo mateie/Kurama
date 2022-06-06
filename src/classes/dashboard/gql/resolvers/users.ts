@@ -10,15 +10,12 @@ export default {
             { id }: { id: string },
             { client }: { client: Client }
         ) => {
-            try {
-                const user = client.users.cache.get(id) as User;
-                if (user.bot) throw new UserInputError("User is a bot");
-                const db = await client.database.users.get(user);
+            const user = client.users.cache.get(id) as User;
+            if (!user) throw new UserInputError("User not found");
+            if (user.bot) throw new UserInputError("User is a bot");
+            const db = await client.database.users.get(user);
 
-                return { ...user, ...db._doc };
-            } catch (err) {
-                console.error(err);
-            }
+            return { ...user, ...db._doc };
         },
         getUsers: (_: any, __: any, { client }: { client: Client }) =>
             client.users.cache.filter((user) => !user.bot),

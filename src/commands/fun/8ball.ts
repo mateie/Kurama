@@ -26,7 +26,9 @@ export default class EightBallCommand extends Command implements ICommand {
 
         if (!question.includes("!")) question += "?";
 
-        const { url } = await this.client.nekos.eightBall({ text: question });
+        const { url } = await this.client.nekos.eightBall({
+            text: question,
+        });
 
         const embed = this.util
             .embed()

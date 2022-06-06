@@ -49,7 +49,9 @@ export default class UtilPagination {
                 embed.setDescription(content);
             }
 
-            embed.setFooter({ text: `Page ${index + 1} of ${contents.length}` });
+            embed.setFooter({
+                text: `Page ${index + 1} of ${contents.length}`,
+            });
             if (title) embed.setTitle(title);
 
             return embed;
@@ -65,7 +67,8 @@ export default class UtilPagination {
         })) as Message;
 
         const filter = (i: { customId: string | null }) =>
-            i.customId === buttons[0].customId || i.customId === buttons[1].customId;
+            i.customId === buttons[0].customId ||
+            i.customId === buttons[1].customId;
 
         const collector = currPage.createMessageComponentCollector({
             filter,
@@ -75,14 +78,14 @@ export default class UtilPagination {
         collector
             .on("collect", async (i) => {
                 switch (i.customId) {
-                case buttons[0].customId:
-                    page = page > 0 ? --page : embeds.length - 1;
-                    break;
-                case buttons[1].customId:
-                    page = page + 1 < embeds.length ? ++page : 0;
-                    break;
-                default:
-                    break;
+                    case buttons[0].customId:
+                        page = page > 0 ? --page : embeds.length - 1;
+                        break;
+                    case buttons[1].customId:
+                        page = page + 1 < embeds.length ? ++page : 0;
+                        break;
+                    default:
+                        break;
                 }
 
                 await i.deferUpdate();
@@ -163,24 +166,24 @@ export default class UtilPagination {
         const collector = currPage.createMessageComponentCollector({
             filter: (i) =>
                 i.customId === buttons[0].customId ||
-        i.customId === buttons[1].customId ||
-        i.customId === buttons[2].customId,
+                i.customId === buttons[1].customId ||
+                i.customId === buttons[2].customId,
             time: 12000,
         });
 
         collector
             .on("collect", async (i) => {
                 switch (i.customId) {
-                case buttons[0].customId:
-                    page = page > 0 ? --page : embeds.length - 1;
-                    break;
-                case buttons[1].customId:
-                    collector.stop();
-                    return await i.deferUpdate();
-                    break;
-                case buttons[2].customId:
-                    page = page + 1 < embeds.length ? ++page : 0;
-                    break;
+                    case buttons[0].customId:
+                        page = page > 0 ? --page : embeds.length - 1;
+                        break;
+                    case buttons[1].customId:
+                        collector.stop();
+                        return await i.deferUpdate();
+                        break;
+                    case buttons[2].customId:
+                        page = page + 1 < embeds.length ? ++page : 0;
+                        break;
                 }
 
                 await i.deferUpdate();
@@ -202,7 +205,10 @@ export default class UtilPagination {
         interaction: CommandInteraction | ButtonInteraction,
         category: any
     ) {
-        return interaction.reply({ content: "Work in progress", ephemeral: true });
+        return interaction.reply({
+            content: "Work in progress",
+            ephemeral: true,
+        });
         let page = 0;
 
         const buttons = [
@@ -235,7 +241,9 @@ export default class UtilPagination {
         const dropdownRow = this.util.row().setComponents(dropdown);
 
         const embeds = category.map((command: any) => {
-            const embed = this.util.embed().setTitle(`Command: ${command.name}`);
+            const embed = this.util
+                .embed()
+                .setTitle(`Command: ${command.name}`);
             const args: string[] = command.options.map((arg: any) => {
                 const argType = this.util.optionType(arg.type);
                 if (argType === "Sub Command" && arg.options.length > 0) {
@@ -268,7 +276,8 @@ export default class UtilPagination {
 
         if (interaction.deferred === false) await interaction.deferReply();
 
-        const components = dropdown.options.length > 1 ? [row, dropdownRow] : [row];
+        const components =
+            dropdown.options.length > 1 ? [row, dropdownRow] : [row];
 
         const currPage = (await interaction.editReply({
             embeds: [embeds[page]],
@@ -278,9 +287,9 @@ export default class UtilPagination {
         const collector = currPage.createMessageComponentCollector({
             filter: (i) =>
                 i.customId === buttons[0].customId ||
-        i.customId === buttons[1].customId ||
-        i.customId === buttons[2].customId ||
-        i.customId === "back_to_command",
+                i.customId === buttons[1].customId ||
+                i.customId === buttons[2].customId ||
+                i.customId === "back_to_command",
             time: 12000,
         });
 
@@ -293,20 +302,20 @@ export default class UtilPagination {
         collector
             .on("collect", async (i) => {
                 switch (i.customId) {
-                case buttons[0].customId:
-                    page = page > 0 ? --page : embeds.length - 1;
-                    break;
-                case buttons[1].customId:
-                    collector.stop();
-                    await i.deferUpdate();
-                    break;
-                case buttons[2].customId:
-                    page = page + 1 < embeds.length ? ++page : 0;
-                    break;
-                case "back_to_command":
-                    page = 0;
-                    row.setComponents(buttons);
-                    break;
+                    case buttons[0].customId:
+                        page = page > 0 ? --page : embeds.length - 1;
+                        break;
+                    case buttons[1].customId:
+                        collector.stop();
+                        await i.deferUpdate();
+                        break;
+                    case buttons[2].customId:
+                        page = page + 1 < embeds.length ? ++page : 0;
+                        break;
+                    case "back_to_command":
+                        page = 0;
+                        row.setComponents(buttons);
+                        break;
                 }
 
                 await i.deferUpdate();
@@ -357,8 +366,9 @@ export default class UtilPagination {
 
             const embed = this.util
                 .embed()
-                .setTitle(`Command: ${currentCommand} - Subcommand: ${subcommand.name}`)
-                .setDescription(`
+                .setTitle(
+                    `Command: ${currentCommand} - Subcommand: ${subcommand.name}`
+                ).setDescription(`
                 **${subcommand.description}**\n
                 ${args.join("\n")}
             `);
@@ -447,24 +457,24 @@ export default class UtilPagination {
         const collector = currPage.createMessageComponentCollector({
             filter: (i) =>
                 i.customId === buttons[0].customId ||
-        i.customId === buttons[1].customId ||
-        i.customId === buttons[2].customId,
+                i.customId === buttons[1].customId ||
+                i.customId === buttons[2].customId,
             time: 12000,
         });
 
         collector
             .on("collect", async (i) => {
                 switch (i.customId) {
-                case buttons[0].customId:
-                    page = page > 0 ? --page : embeds.length - 1;
-                    break;
-                case buttons[1].customId:
-                    collector.stop();
-                    await interaction.deleteReply();
-                    break;
-                case buttons[2].customId:
-                    page = page + 1 < embeds.length ? ++page : 0;
-                    break;
+                    case buttons[0].customId:
+                        page = page > 0 ? --page : embeds.length - 1;
+                        break;
+                    case buttons[1].customId:
+                        collector.stop();
+                        await interaction.deleteReply();
+                        break;
+                    case buttons[2].customId:
+                        page = page + 1 < embeds.length ? ++page : 0;
+                        break;
                 }
 
                 await i.deferUpdate();

@@ -51,40 +51,45 @@ export default class Util {
     attachment = (file: BufferResolvable | Stream, name?: string) =>
         new MessageAttachment(file, name);
     embedURL = (title: string, url: string, display?: string) =>
-        `[${title}](${url.replace(/\)/g, "%29")}${display ? ` "${display}"` : ""})`;
-    capFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+        `[${title}](${url.replace(/\)/g, "%29")}${
+            display ? ` "${display}"` : ""
+        })`;
+    capFirstLetter = (str: string) =>
+        str.charAt(0).toUpperCase() + str.slice(1);
 
     async imageToBuffer(url: string) {
-        const response = await axios.get(url, { responseType: "arraybuffer" });
+        const response = await axios.get(url, {
+            responseType: "arraybuffer",
+        });
         return response.data;
     }
 
     optionType(number: number) {
         switch (number) {
-        case 1:
-            return "Sub Command";
-        case 2:
-            return "Sub Command Group";
-        case 3:
-            return "String";
-        case 4:
-            return "Integer";
-        case 5:
-            return "Boolean";
-        case 6:
-            return "User";
-        case 7:
-            return "Channel";
-        case 8:
-            return "Role";
-        case 9:
-            return "Mentionable";
-        case 10:
-            return "Number";
-        case 11:
-            return "Attachment";
-        default:
-            return "Unknown";
+            case 1:
+                return "Sub Command";
+            case 2:
+                return "Sub Command Group";
+            case 3:
+                return "String";
+            case 4:
+                return "Integer";
+            case 5:
+                return "Boolean";
+            case 6:
+                return "User";
+            case 7:
+                return "Channel";
+            case 8:
+                return "Role";
+            case 9:
+                return "Mentionable";
+            case 10:
+                return "Number";
+            case 11:
+                return "Attachment";
+            default:
+                return "Unknown";
         }
     }
 

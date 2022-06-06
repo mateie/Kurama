@@ -54,7 +54,10 @@ export default class Valorant {
             }, parseInt(account.auth.accessToken.expires_in));
         } catch (err: any) {
             console.error(err);
-            interaction.reply({ content: `${err.message}`, ephemeral: true });
+            interaction.reply({
+                content: `${err.message}`,
+                ephemeral: true,
+            });
         }
     }
 
@@ -86,7 +89,8 @@ export default class Valorant {
 
         if (!tagline && !this.accounts.has(member.id))
             return interaction.reply({
-                content: "Either you are not logged in or you didn't provide a tagline",
+                content:
+                    "Either you are not logged in or you didn't provide a tagline",
                 ephemeral: true,
             });
 
@@ -105,8 +109,8 @@ export default class Valorant {
         } else {
             const account = this.accounts.get(member.id) as RiotApiClient;
             user = new StingerJS(
-        account.user.GameName as string,
-        account.user.TagLine as string
+                account.user.GameName as string,
+                account.user.TagLine as string
             );
         }
 
@@ -153,10 +157,14 @@ export default class Valorant {
                         .embed()
                         .setAuthor({
                             name: member.user.tag,
-                            iconURL: member.displayAvatarURL({ dynamic: true }),
+                            iconURL: member.displayAvatarURL({
+                                dynamic: true,
+                            }),
                         })
                         .setTitle(
-                            `${userInfo.tagline}'s (${this.client.util.capFirstLetter(
+                            `${
+                                userInfo.tagline
+                            }'s (${this.client.util.capFirstLetter(
                                 value
                             )}) Stats`
                         );
@@ -166,55 +174,57 @@ export default class Valorant {
                             .setDescription(
                                 `
                             ***__Current Rank__***: ${
-    userInfo.rank.current.tierName
-}
+                                userInfo.rank.current.tierName
+                            }
                             ***__Peak Rank__***:  ${userInfo.rank.peak.tierName}
 
                             ***__Time Played__***: ${moment(
-        gamemode.timePlayed
-    ).format("H")} Hours
+                                gamemode.timePlayed
+                            ).format("H")} Hours
 
                             ***__Matches__*** - *${gamemode.matchesPlayed}*
                             **Won**: ${gamemode.matchesWon}
                             **Lost**: ${gamemode.matchesLost}
                             **Win Percentage**: ${gamemode.matchesWinPct?.toFixed(
-        2
-    )}%
+                                2
+                            )}%
 
                             ***__Kills__*** - *${gamemode.kills}*
                             **K/D**: ${gamemode.kDRatio}
                             **First Bloods**: ${gamemode.firstBloods}
                             **Headshots**: ${gamemode.headshots}
                             **Headshot Percentage**: ${gamemode.headshotsPercentage?.toFixed(
-        2
-    )}%
+                                2
+                            )}%
                             **Aces**: ${gamemode.aces}
 
                             ***__Deaths__*** - *${gamemode.deaths}*
                             ***__Damage__***: ${gamemode.damage}
                         `
                             )
-                            .setThumbnail(userInfo.rank.current.iconUrl as string);
+                            .setThumbnail(
+                                userInfo.rank.current.iconUrl as string
+                            );
                     } else {
                         embed.setDescription(`
                             ***__Time Played__***: ${moment(
-        gamemode.timePlayed
-    ).format("H")} Hours
+                                gamemode.timePlayed
+                            ).format("H")} Hours
 
                             ***__Matches__*** - *${gamemode.matchesPlayed}*
                             **Won**: ${gamemode.matchesWon}
                             **Lost**: ${gamemode.matchesLost}
                             **Win Percentage**: ${gamemode.matchesWinPct?.toFixed(
-        2
-    )}%
+                                2
+                            )}%
 
                             ***__Kills__*** - *${gamemode.kills}*
                             **K/D**: ${gamemode.kDRatio?.toFixed(2)}
                             **First Bloods**: ${gamemode.firstBloods}
                             **Headshots**: ${gamemode.headshots}
                             **Headshot Percentage**: ${gamemode.headshotsPercentage?.toFixed(
-        2
-    )}%
+                                2
+                            )}%
                             **Aces**: ${gamemode.aces}
 
                             ***__Deaths__*** - *${gamemode.deaths}*
@@ -245,7 +255,8 @@ export default class Valorant {
 
         if (!tagline && !this.accounts.has(member.id))
             return interaction.reply({
-                content: "Either you are not logged in or you didn't provide a tagline",
+                content:
+                    "Either you are not logged in or you didn't provide a tagline",
                 ephemeral: true,
             });
 
@@ -264,13 +275,15 @@ export default class Valorant {
         } else {
             const account = this.accounts.get(member.id) as RiotApiClient;
             user = new StingerJS(
-        account.user.GameName as string,
-        account.user.TagLine as string
+                account.user.GameName as string,
+                account.user.TagLine as string
             );
         }
 
         try {
-            const agentsInfo = await ValAPI.agents.get({ isPlayableCharacter: true });
+            const agentsInfo = await ValAPI.agents.get({
+                isPlayableCharacter: true,
+            });
 
             const userInfo = await user.info();
             const agents = await user.agents();
@@ -296,7 +309,8 @@ export default class Valorant {
 
             const selectCollector = message.createMessageComponentCollector({
                 componentType: "SELECT_MENU",
-                filter: (i) => i.customId === "select_agent" && i.user.id === member.id,
+                filter: (i) =>
+                    i.customId === "select_agent" && i.user.id === member.id,
                 time: 12000,
             });
 
@@ -313,14 +327,16 @@ export default class Valorant {
                         .embed()
                         .setAuthor({
                             name: member.user.tag,
-                            iconURL: member.displayAvatarURL({ dynamic: true }),
+                            iconURL: member.displayAvatarURL({
+                                dynamic: true,
+                            }),
                         })
                         .setTitle(`${userInfo.tagline}'s (${value}) Stats`)
                         .setDescription(
                             `
                         ***__Time Played__***: ${moment(
-        agent.timePlayed
-    ).format("H")} Hours
+                            agent.timePlayed
+                        ).format("H")} Hours
 
                         ***__Matches__*** - *${agent.matchesPlayed}*
                         **Won**: ${agent.matchesWon}
@@ -332,8 +348,8 @@ export default class Valorant {
                         **First Bloods**: ${agent.firstBloods}
                         **Headshots**: ${agent.headshots}
                         **Headshot Percentage**: ${agent.headshotsPercentage?.toFixed(
-        2
-    )}%
+                            2
+                        )}%
                         **Aces**: ${agent.aces}
 
                         ***__Deaths__*** - *${agent.deaths}*
@@ -375,10 +391,11 @@ export default class Valorant {
         try {
             if (!interaction.deferred) interaction.deferReply();
 
-            const { skins, featured, bonus } = (await account.storeApi.getStorefront(
-                account.user.Subject,
-                true
-            )) as IStorefrontParsed;
+            const { skins, featured, bonus } =
+                (await account.storeApi.getStorefront(
+                    account.user.Subject,
+                    true
+                )) as IStorefrontParsed;
 
             // Bottom Buttons
             const buttons = [
@@ -470,7 +487,8 @@ export default class Valorant {
                     (level: any) => level.uuid === skin.offer.rewards[0].id
                 ).displayIcon;
                 const ogPrice = Math.ceil(
-                    (skin.discountCost.amount * 100) / (100 - skin.discountPercent)
+                    (skin.discountCost.amount * 100) /
+                        (100 - skin.discountPercent)
                 );
                 nightEmbeds.push(
                     this.client.util
@@ -497,40 +515,40 @@ export default class Valorant {
             const collector = message.createMessageComponentCollector({
                 filter: (i) =>
                     (i.customId === "weekly_store" ||
-            i.customId === "daily_store" ||
-            i.customId === "night_market" ||
-            i.customId === "previous_page" ||
-            i.customId === "next_page") &&
-          i.user.id === member.id,
+                        i.customId === "daily_store" ||
+                        i.customId === "night_market" ||
+                        i.customId === "previous_page" ||
+                        i.customId === "next_page") &&
+                    i.user.id === member.id,
                 time: 12000,
             });
 
             collector
                 .on("collect", async (i) => {
                     switch (i.customId) {
-                    case "weekly_store": {
-                        page = 0;
-                        currentEmbeds = weeklyEmbeds;
-                        break;
-                    }
-                    case "daily_store": {
-                        page = 0;
-                        currentEmbeds = dailyEmbeds;
-                        break;
-                    }
-                    case "night_market": {
-                        page = 0;
-                        currentEmbeds = nightEmbeds;
-                        break;
-                    }
-                    case "previous_page": {
-                        page = page > 0 ? --page : currentEmbeds.length - 1;
-                        break;
-                    }
-                    case "next_page": {
-                        page = page + 1 < currentEmbeds.length ? ++page : 0;
-                        break;
-                    }
+                        case "weekly_store": {
+                            page = 0;
+                            currentEmbeds = weeklyEmbeds;
+                            break;
+                        }
+                        case "daily_store": {
+                            page = 0;
+                            currentEmbeds = dailyEmbeds;
+                            break;
+                        }
+                        case "night_market": {
+                            page = 0;
+                            currentEmbeds = nightEmbeds;
+                            break;
+                        }
+                        case "previous_page": {
+                            page = page > 0 ? --page : currentEmbeds.length - 1;
+                            break;
+                        }
+                        case "next_page": {
+                            page = page + 1 < currentEmbeds.length ? ++page : 0;
+                            break;
+                        }
                     }
 
                     await i.update({

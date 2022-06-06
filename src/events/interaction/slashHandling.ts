@@ -28,7 +28,10 @@ export default class SlashHandlingEvent extends Event implements IEvent {
 
         if (interaction.isApplicationCommand()) {
             if (guild.ownerId !== member.id) {
-                const category = this.client.commandHandler.commands.get(commandName)?.category;
+                const category =
+                    this.client.commandHandler.commands.get(
+                        commandName
+                    )?.category;
                 if (
                     category?.toString().toLowerCase() === "music" &&
                     dbGuild.toggles.strictMusicChannels
@@ -38,14 +41,17 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                         .map((id) => channelMention(id))
                         .join(", ");
 
-                    if (musicChannels.length < 1) return interaction.reply({
-                        content: "Strict Music Channel is enabled but there are no channels added to it's list",
-                        ephemeral: true
-                    });
-                    if (!musicChannels.includes(channel.id)) return interaction.reply({
-                        content: `You cannot use music commands in this channel. Use them here: ${channelMentions}`,
-                        ephemeral: true,
-                    });
+                    if (musicChannels.length < 1)
+                        return interaction.reply({
+                            content:
+                                "Strict Music Channel is enabled but there are no channels added to it's list",
+                            ephemeral: true,
+                        });
+                    if (!musicChannels.includes(channel.id))
+                        return interaction.reply({
+                            content: `You cannot use music commands in this channel. Use them here: ${channelMentions}`,
+                            ephemeral: true,
+                        });
                 } else if (
                     dbGuild.toggles.strictCommands &&
                     category?.toString().toLowerCase() !== "settings"
@@ -55,18 +61,23 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                         .map((id) => channelMention(id))
                         .join(", ");
 
-                    if (commandChannels.length < 1) return interaction.reply({
-                        content: "Strict Commands is enabled but there are no channels added to it's list",
-                        ephemeral: true,
-                    });
-                    if (!commandChannels.includes(channel.id)) return interaction.reply({
-                        content: `You cannot use commands in this channel, Use them here: ${channelMentions}`,
-                        ephemeral: true,
-                    });
+                    if (commandChannels.length < 1)
+                        return interaction.reply({
+                            content:
+                                "Strict Commands is enabled but there are no channels added to it's list",
+                            ephemeral: true,
+                        });
+                    if (!commandChannels.includes(channel.id))
+                        return interaction.reply({
+                            content: `You cannot use commands in this channel, Use them here: ${channelMentions}`,
+                            ephemeral: true,
+                        });
                 }
             }
 
-            const base = this.client.commandHandler.commands.get(commandName) as IBase;
+            const base = this.client.commandHandler.commands.get(
+                commandName
+            ) as IBase;
             if (base.ownerOnly && !this.client.owners.includes(member.id)) {
                 return interaction.reply({
                     content: "This command is owner only",

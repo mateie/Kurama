@@ -24,37 +24,38 @@ export default class UtilMember {
     statusColor(presence: Presence) {
         if (!presence) return "#808080";
         switch (presence.status) {
-        case "online": {
-            return "#43B581";
-        }
-        case "dnd": {
-            return "#F04747";
-        }
-        case "idle": {
-            return "#FAA61A";
-        }
-        case "offline":
-        case "invisible": {
-            return "#747F8E";
-        }
+            case "online": {
+                return "#43B581";
+            }
+            case "dnd": {
+                return "#F04747";
+            }
+            case "idle": {
+                return "#FAA61A";
+            }
+            case "offline":
+            case "invisible": {
+                return "#747F8E";
+            }
         }
     }
 
     statusEmoji(type: string): string {
         switch (type) {
-        case "dnd":
-            return ":red_circle:";
-        case "idle":
-            return ":yellow_circle:";
-        case "online":
-            return ":green_circle:";
-        default:
-            return ":white_circle:";
+            case "dnd":
+                return ":red_circle:";
+            case "idle":
+                return ":yellow_circle:";
+            case "online":
+                return ":green_circle:";
+            default:
+                return ":white_circle:";
         }
     }
 
     async getCardData(user: IUser) {
-        const currentXP = user.xp - this.client.xp.calculateXPForLevel(user.level);
+        const currentXP =
+            user.xp - this.client.xp.calculateXPForLevel(user.level);
         const neededXP = this.client.xp.calculateReqXP(user.level);
 
         const rank = await this.getRank(user);
@@ -87,10 +88,10 @@ export default class UtilMember {
 
     async info(
         interaction:
-      | CommandInteraction
-      | ButtonInteraction
-      | ContextMenuInteraction
-      | ModalSubmitInteraction,
+            | CommandInteraction
+            | ButtonInteraction
+            | ContextMenuInteraction
+            | ModalSubmitInteraction,
         member: GuildMember
     ) {
         const avatar = member.user.displayAvatarURL({ dynamic: true });
@@ -104,35 +105,41 @@ export default class UtilMember {
             member.presence.activities.forEach((act) => {
                 const type = `***${
                     act.type.charAt(0).toUpperCase() +
-          act.type.split("_").join(" ").slice(1).toLowerCase()
+                    act.type.split("_").join(" ").slice(1).toLowerCase()
                 }***:`;
 
                 activities.push(`
                     ${type} ${
-    act.state ? this.util.list(act.state.split("; ")) : ""
-} ${act.type === "PLAYING" ? act.name : ""} ${
-    act.type === "LISTENING" ? "-" : ""
-} ${act.details ? act.details : ""}
+                    act.state ? this.util.list(act.state.split("; ")) : ""
+                } ${act.type === "PLAYING" ? act.name : ""} ${
+                    act.type === "LISTENING" ? "-" : ""
+                } ${act.details ? act.details : ""}
                 `);
             });
 
             status.emoji = this.statusEmoji(member.presence.status);
             status.text =
-        member.presence.status !== "dnd"
-            ? `${member.presence.status
-                .charAt(0)
-                .toUpperCase()}${member.presence.status.slice(1)}`
-            : "Do Not Disturb";
+                member.presence.status !== "dnd"
+                    ? `${member.presence.status
+                          .charAt(0)
+                          .toUpperCase()}${member.presence.status.slice(1)}`
+                    : "Do Not Disturb";
         }
 
         const roles = member.roles.cache.filter(
             (role) => role.name !== "@everyone"
         );
-        const mappedRoles = roles.map((role) => roleMention(role.id)).join(", ");
+        const mappedRoles = roles
+            .map((role) => roleMention(role.id))
+            .join(", ");
 
         const embed = this.util
             .embed()
-            .setAuthor({ name: member.user.tag, iconURL: avatar, url: avatar })
+            .setAuthor({
+                name: member.user.tag,
+                iconURL: avatar,
+                url: avatar,
+            })
             .setColor(member.displayHexColor)
             .setURL(avatar)
             .setThumbnail(avatar)
@@ -158,7 +165,10 @@ export default class UtilMember {
                     )}:R>`,
                     inline: true,
                 },
-                { name: `Roles(${roles.size})`, value: mappedRoles },
+                {
+                    name: `Roles(${roles.size})`,
+                    value: mappedRoles,
+                },
             ])
             .setFooter({ text: `ID: ${member.id}` });
 

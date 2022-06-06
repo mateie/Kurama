@@ -13,10 +13,8 @@ export default class PlaylistCommand extends Command implements ICommand {
         this.data
             .setName(this.name)
             .setDescription(this.description)
-            .addSubcommand(subcommand =>
-                subcommand
-                    .setName("create")
-                    .setDescription("Create a playlist")
+            .addSubcommand((subcommand) =>
+                subcommand.setName("create").setDescription("Create a playlist")
             );
     }
 
@@ -26,14 +24,18 @@ export default class PlaylistCommand extends Command implements ICommand {
         const guild = interaction.guild as Guild;
         const dbGuild = await this.client.database.guilds.get(guild);
         const category = guild.channels.cache.get(dbGuild.channels.playlists);
-        if (!category) return interaction.reply({ content: "Playlist category not found or not set up", ephemeral: true });
+        if (!category)
+            return interaction.reply({
+                content: "Playlist category not found or not set up",
+                ephemeral: true,
+            });
 
         const member = interaction.member as GuildMember;
 
         switch (options.getSubcommand()) {
-        case "create": {
-            return this.client.playlists.create(interaction, member);
-        }
+            case "create": {
+                return this.client.playlists.create(interaction, member);
+            }
         }
     }
 }

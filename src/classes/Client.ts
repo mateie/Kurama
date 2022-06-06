@@ -101,13 +101,19 @@ export default class Client extends DiscordClient {
         try {
             console.info("Pushing Application Commands to REST");
 
-            await rest.put(Routes.applicationGuildCommands(clientId, guild.id), {
-                body,
-            });
+            await rest.put(
+                Routes.applicationGuildCommands(clientId, guild.id),
+                {
+                    body,
+                }
+            );
 
-            await rest.put(Routes.applicationGuildCommands(clientId, guild2.id), {
-                body,
-            });
+            await rest.put(
+                Routes.applicationGuildCommands(clientId, guild2.id),
+                {
+                    body,
+                }
+            );
 
             console.info("Pushed Application Commands to REST");
         } catch (err) {
@@ -145,7 +151,7 @@ export default class Client extends DiscordClient {
 
         setInterval(() => {
             const activity =
-        activities[Math.floor(Math.random() * activities.length)];
+                activities[Math.floor(Math.random() * activities.length)];
 
             this.user?.setPresence(activity);
         }, 60000);

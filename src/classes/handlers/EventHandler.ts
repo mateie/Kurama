@@ -62,7 +62,9 @@ export default class EventHandler extends Handler {
             }
 
             if (category?.id.toLowerCase() == "music") {
-                this.client.music.on(event.name, (...args: any) => event.run(...args));
+                this.client.music.on(event.name, (...args: any) =>
+                    event.run(...args)
+                );
             } else {
                 this.client.on(event.name, (...args) => event.run(...args));
             }
@@ -91,7 +93,9 @@ export default class EventHandler extends Handler {
             );
             files.forEach(
                 async (file) =>
-                    await this.load(path.resolve(this.directory, category, file))
+                    await this.load(
+                        path.resolve(this.directory, category, file)
+                    )
             );
         });
 

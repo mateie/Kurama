@@ -49,13 +49,14 @@ export default class Canvas {
     async popularColor(url: string) {
         const buffer = await fetch(url).then((res) => res.buffer());
 
-        const colors = (await getColors(buffer, "image/png")).map((color: any) =>
-            color.hex()
+        const colors = (await getColors(buffer, "image/png")).map(
+            (color: any) => color.hex()
         );
         return colors;
     }
 
-    validateHex = (hex: string) => /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
+    validateHex = (hex: string) =>
+        /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);
 
     invertColor(hex?: string) {
         if (!hex) return "#FFFFFF";
@@ -107,10 +108,10 @@ export default class Canvas {
         ctx,
         maxWidth,
     }: {
-    text: string;
-    ctx: CanvasRenderingContext2D;
-    maxWidth: number;
-  }) {
+        text: string;
+        ctx: CanvasRenderingContext2D;
+        maxWidth: number;
+    }) {
         if (!text) return [];
         if (!ctx) throw new Error("Canvas context was not provided!");
         if (!maxWidth) throw new Error("No max-width provided!");

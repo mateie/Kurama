@@ -25,7 +25,7 @@ export interface IGuild extends HydratedDocument<any> {
         strictMusicChannels: boolean;
     };
     whitelistedWords: string[];
-};
+}
 
 export const Guild: Schema = new Schema<IGuild>({
     id: {

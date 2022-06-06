@@ -27,20 +27,26 @@ export default class MemberActionsModalEvent extends Event implements IEvent {
         const target = await guild.members.fetch(id);
 
         switch (interaction.customId) {
-        case `report_member_${id}`: {
-            const reason = interaction.fields.getTextInputValue("report_reason");
+            case `report_member_${id}`: {
+                const reason =
+                    interaction.fields.getTextInputValue("report_reason");
 
-            return this.client.moderation.reports.create(
-                interaction,
-                target,
-                reason
-            );
-        }
-        case `warn_member_${id}`: {
-            const reason = interaction.fields.getTextInputValue("warn_reason");
+                return this.client.moderation.reports.create(
+                    interaction,
+                    target,
+                    reason
+                );
+            }
+            case `warn_member_${id}`: {
+                const reason =
+                    interaction.fields.getTextInputValue("warn_reason");
 
-            return this.client.moderation.warns.create(interaction, target, reason);
-        }
+                return this.client.moderation.warns.create(
+                    interaction,
+                    target,
+                    reason
+                );
+            }
         }
     }
 }

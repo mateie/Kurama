@@ -32,9 +32,18 @@ export default class SetupCommand extends Command implements ICommand {
                             .setName("channel")
                             .setDescription("Channel to setup")
                             .addChoices(
-                                { name: "Welcome", value: "welcome" },
-                                { name: "Goodbye", value: "goodbye" },
-                                { name: "Playlists", value: "playlists" },
+                                {
+                                    name: "Welcome",
+                                    value: "welcome",
+                                },
+                                {
+                                    name: "Goodbye",
+                                    value: "goodbye",
+                                },
+                                {
+                                    name: "Playlists",
+                                    value: "playlists",
+                                }
                             )
                             .setRequired(true)
                     )
@@ -47,7 +56,10 @@ export default class SetupCommand extends Command implements ICommand {
                         option
                             .setName("db_role")
                             .setDescription("Which Role to setup?")
-                            .setChoices({ name: "Member", value: "member" })
+                            .setChoices({
+                                name: "Member",
+                                value: "member",
+                            })
                             .setRequired(true)
                     )
                     .addRoleOption((option) =>
@@ -78,108 +90,119 @@ export default class SetupCommand extends Command implements ICommand {
         const dbGuild = await this.client.database.guilds.get(guild);
 
         switch (options.getSubcommand()) {
-        case "channels": {
-            const channelName = options.getString("channel") as string;
-            const channel = guild.channels.cache.find(
-                (ch) => ch.name.includes(channelName)
-            );
-            const type = this.util.capFirstLetter(channelName);
+            case "channels": {
+                const channelName = options.getString("channel") as string;
+                const channel = guild.channels.cache.find((ch) =>
+                    ch.name.includes(channelName)
+                );
+                const type = this.util.capFirstLetter(channelName);
 
-            if (!channel)
+                if (!channel)
+                    return interaction.reply({
+                        content: `Couldn't find **#${channelName}** text channel or similar to it, either set this up with **/channels** or create the channel`,
+                        ephemeral: true,
+                    });
+                if (
+                    dbGuild.channels[
+                        channelName as keyof typeof dbGuild.channels
+                    ] &&
+                    dbGuild.channels[
+                        channelName as keyof typeof dbGuild.channels
+                    ].length > 0
+                )
+                    return interaction.reply({
+                        content: `**${type}** channel is already setup`,
+                        ephemeral: true,
+                    });
+
+                dbGuild.channels[channelName as keyof typeof dbGuild.channels] =
+                    channel.id;
+                await dbGuild.save();
+
                 return interaction.reply({
-                    content: `Couldn't find **#${channelName}** text channel or similar to it, either set this up with **/channels** or create the channel`,
+                    content: `**${type}** channel setup finished`,
                     ephemeral: true,
                 });
-            if (
-                dbGuild.channels[channelName as keyof typeof dbGuild.channels] &&
-                dbGuild.channels[channelName as keyof typeof dbGuild.channels].length > 0
-            ) return interaction.reply({
-                content: `**${type}** channel is already setup`,
-                ephemeral: true,
-            });
+                break;
+            }
+            case "rules": {
+                const channel = options.getChannel("channel") as TextChannel;
+                if (dbGuild.channels.rules && dbGuild.channels.rules.length > 0)
+                    return interaction.reply({
+                        content:
+                            "Rules are already setupm use /update to update it",
+                        ephemeral: true,
+                    });
 
-            dbGuild.channels[channelName as keyof typeof dbGuild.channels] = channel.id;
-            await dbGuild.save();
+                await channel.messages.fetch();
 
-            return interaction.reply({
-                content: `**${type}** channel setup finished`,
-                ephemeral: true,
-            });
-            break;
-        }
-        case "rules": {
-            const channel = options.getChannel("channel") as TextChannel;
-            if (dbGuild.channels.rules && dbGuild.channels.rules.length > 0)
-                return interaction.reply({
-                    content: "Rules are already setupm use /update to update it",
-                    ephemeral: true,
+                if (channel.messages.cache.size < 1)
+                    return interaction.reply({
+                        content: `${channel} has no messages, write rules in the channel and it will automatically set itself up. ***Last message is always the one that gets picked***`,
+                        ephemeral: true,
+                    });
+
+                const message = channel.messages.cache.last() as Message;
+
+                if (message.content.length < 1)
+                    return interaction.reply({
+                        content: "Message is not valid",
+                        ephemeral: true,
+                    });
+
+                if (message.deletable) await message.delete();
+
+                const embed = this.util.embed().setDescription(message.content);
+
+                const row = this.util
+                    .row()
+                    .setComponents([
+                        this.util
+                            .button()
+                            .setCustomId("accept_rules")
+                            .setLabel("Accept Rules")
+                            .setStyle("SUCCESS"),
+                    ]);
+
+                await channel.send({
+                    embeds: [embed],
+                    components: [row],
                 });
 
-            await channel.messages.fetch();
+                dbGuild.channels.rules = channel.id;
 
-            if (channel.messages.cache.size < 1)
+                await dbGuild.save();
+
                 return interaction.reply({
-                    content: `${channel} has no messages, write rules in the channel and it will automatically set itself up. ***Last message is always the one that gets picked***`,
+                    content: `Finished setting up rules in ${channel}`,
                     ephemeral: true,
                 });
+            }
+            case "roles": {
+                const dbRole = options.getString("db_role") as string;
+                const role = options.getRole("role") as Role;
 
-            const message = channel.messages.cache.last() as Message;
+                if (
+                    dbGuild.roles[dbRole as keyof typeof dbGuild.roles] &&
+                    dbGuild.roles[dbRole as keyof typeof dbGuild.roles].length >
+                        0
+                )
+                    return interaction.reply({
+                        content: `${this.util.capFirstLetter(
+                            dbRole
+                        )} Role is already setup`,
+                        ephemeral: true,
+                    });
 
-            if (message.content.length < 1)
+                dbGuild.roles[dbRole as keyof typeof dbGuild.roles] = role.id;
+
+                await dbGuild.save();
+
                 return interaction.reply({
-                    content: "Message is not valid",
+                    content: `Assigned **${dbRole}** to ${role} in the database`,
                     ephemeral: true,
                 });
-
-            if (message.deletable) await message.delete();
-
-            const embed = this.util.embed().setDescription(message.content);
-
-            const row = this.util
-                .row()
-                .setComponents([
-                    this.util
-                        .button()
-                        .setCustomId("accept_rules")
-                        .setLabel("Accept Rules")
-                        .setStyle("SUCCESS"),
-                ]);
-
-            await channel.send({ embeds: [embed], components: [row] });
-
-            dbGuild.channels.rules = channel.id;
-
-            await dbGuild.save();
-
-            return interaction.reply({
-                content: `Finished setting up rules in ${channel}`,
-                ephemeral: true,
-            });
-        }
-        case "roles": {
-            const dbRole = options.getString("db_role") as string;
-            const role = options.getRole("role") as Role;
-
-            if (
-                dbGuild.roles[dbRole as keyof typeof dbGuild.roles] &&
-          dbGuild.roles[dbRole as keyof typeof dbGuild.roles].length > 0
-            )
-                return interaction.reply({
-                    content: `${this.util.capFirstLetter(
-                        dbRole
-                    )} Role is already setup`,
-                    ephemeral: true,
-                });
-
-            dbGuild.roles[dbRole as keyof typeof dbGuild.roles] = role.id;
-
-            await dbGuild.save();
-
-            return interaction.reply({
-                content: `Assigned **${dbRole}** to ${role} in the database`,
-                ephemeral: true,
-            });
-        }
+            }
         }
     }
 }

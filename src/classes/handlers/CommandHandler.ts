@@ -31,13 +31,34 @@ export default class CommandHandler extends Handler {
 
     async load(file: string) {
         const { default: Command } = require(file);
-        if (typeof Command !== "function") return this.table.addRow("❌ Command is not a class");
+        if (typeof Command !== "function")
+            return this.table.addRow("❌ Command is not a class");
         const command = new Command(this.client);
 
-        if (!command.name) return this.table.addRow(file.split("/")[6], "Missing Name", "❌ Failed");
-        if (!command.description)  return this.table.addRow(command.name, "Missing Description","❌ Failed");
-        if (!command.run) return this.table.addRow(command.name, "Missing `run` function", "❌ Failed");
-        if (typeof command.run !== "function") return this.table.addRow(command.name, "`run` should be a function", "❌ Failed");
+        if (!command.name)
+            return this.table.addRow(
+                file.split("/")[6],
+                "Missing Name",
+                "❌ Failed"
+            );
+        if (!command.description)
+            return this.table.addRow(
+                command.name,
+                "Missing Description",
+                "❌ Failed"
+            );
+        if (!command.run)
+            return this.table.addRow(
+                command.name,
+                "Missing `run` function",
+                "❌ Failed"
+            );
+        if (typeof command.run !== "function")
+            return this.table.addRow(
+                command.name,
+                "`run` should be a function",
+                "❌ Failed"
+            );
 
         let type = "Slash";
 
@@ -49,7 +70,12 @@ export default class CommandHandler extends Handler {
         command.category = category;
         category?.set(command.name, command.data.toJSON());
 
-        await this.table.addRow(command.name, command.category, type, "✔ Loaded");
+        await this.table.addRow(
+            command.name,
+            command.category,
+            type,
+            "✔ Loaded"
+        );
     }
 
     async loadAll() {
@@ -67,7 +93,9 @@ export default class CommandHandler extends Handler {
             );
             files.forEach(
                 async (file) =>
-                    await this.load(path.resolve(this.directory, category, file))
+                    await this.load(
+                        path.resolve(this.directory, category, file)
+                    )
             );
         });
 

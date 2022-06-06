@@ -17,15 +17,21 @@ export default class UnhandledRejectionEvent extends Event implements IEvent {
         const embed = this.util
             .embed()
             .setTitle("There was an Unhandled Rejection/Catch")
-            .setURL("https://nodejs.org/api/process.html#event-unhandledrejection")
+            .setURL(
+                "https://nodejs.org/api/process.html#event-unhandledrejection"
+            )
             .setColor("RED")
             .addField(
                 "Reason",
-                `\`\`\`${inspect(reason, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(reason, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             )
             .addField(
                 "Promise",
-                `\`\`\`${inspect(p, { depth: 0 })}\`\`\``.substring(0, 1000)
+                `\`\`\`${inspect(p, {
+                    depth: 0,
+                })}\`\`\``.substring(0, 1000)
             );
 
         channel.send({ embeds: [embed] });

@@ -60,7 +60,10 @@ export default class ChannelsCommand extends Command implements ICommand {
                         option
                             .setName("channel")
                             .setDescription("Channel to set")
-                            .addChannelTypes(ChannelType.GuildText, ChannelType.GuildCategory)
+                            .addChannelTypes(
+                                ChannelType.GuildText,
+                                ChannelType.GuildCategory
+                            )
                             .setRequired(true)
                     )
             )
@@ -112,69 +115,71 @@ export default class ChannelsCommand extends Command implements ICommand {
         const type = options.getString("type") as string;
         const channel = options.getChannel("channel") as TextChannel;
         const channels =
-      dbGuild.channelsArray[type as keyof typeof dbGuild.channelsArray];
+            dbGuild.channelsArray[type as keyof typeof dbGuild.channelsArray];
 
         const typeList = this.client.util.capFirstLetter(type);
 
         switch (options.getSubcommand()) {
-        case "add": {
-            if (channels.includes(channel.id))
+            case "add": {
+                if (channels.includes(channel.id))
+                    return interaction.reply({
+                        content: `${channel} is already in **${typeList}** Channel List`,
+                        ephemeral: true,
+                    });
+                channels.push(channel.id);
+
+                await dbGuild.save();
+
                 return interaction.reply({
-                    content: `${channel} is already in **${typeList}** Channel List`,
+                    content: `Added ${channel} to the **${typeList}** Channel List`,
                     ephemeral: true,
                 });
-            channels.push(channel.id);
+            }
+            case "set": {
+                dbGuild.channels[type as keyof typeof dbGuild.channels] =
+                    channel.id;
 
-            await dbGuild.save();
+                await dbGuild.save();
 
-            return interaction.reply({
-                content: `Added ${channel} to the **${typeList}** Channel List`,
-                ephemeral: true,
-            });
-        }
-        case "set": {
-            dbGuild.channels[type as keyof typeof dbGuild.channels] = channel.id;
-
-            await dbGuild.save();
-
-            return interaction.reply({
-                content: `Set ${channel} as a **${typeList}** channel`,
-                ephemeral: true,
-            });
-        }
-        case "remove": {
-            if (!channels.includes(channel.id))
                 return interaction.reply({
-                    content: `${channel} is not in **${typeList}** Channel List`,
+                    content: `Set ${channel} as a **${typeList}** channel`,
                     ephemeral: true,
                 });
-            dbGuild.channelsArray[type as keyof typeof dbGuild.channelsArray] =
-          channels.filter((ch) => ch !== channel.id);
+            }
+            case "remove": {
+                if (!channels.includes(channel.id))
+                    return interaction.reply({
+                        content: `${channel} is not in **${typeList}** Channel List`,
+                        ephemeral: true,
+                    });
+                dbGuild.channelsArray[
+                    type as keyof typeof dbGuild.channelsArray
+                ] = channels.filter((ch) => ch !== channel.id);
 
-            await dbGuild.save();
+                await dbGuild.save();
 
-            return interaction.reply({
-                content: `Removed ${channel} from the **${typeList}** Channel List`,
-                ephemeral: true,
-            });
-        }
-        case "list": {
-            if (channels.length < 1)
                 return interaction.reply({
-                    content: `There are no channels for **${typeList}** Channel List`,
+                    content: `Removed ${channel} from the **${typeList}** Channel List`,
                     ephemeral: true,
                 });
-            const listChannels = channels
-                .map((id) => channelMention(id))
-                .join(", ");
+            }
+            case "list": {
+                if (channels.length < 1)
+                    return interaction.reply({
+                        content: `There are no channels for **${typeList}** Channel List`,
+                        ephemeral: true,
+                    });
+                const listChannels = channels
+                    .map((id) => channelMention(id))
+                    .join(", ");
 
-            const embed = this.util
-                .embed()
-                .setTitle(`${typeList} Channel List`)
-                .setDescription(listChannels);
+                const embed = this.util
+                    .embed()
+                    .setTitle(`${typeList} Channel List`)
+                    .setDescription(listChannels);
 
-            return interaction.reply({ embeds: [embed], ephemeral: true });
-        }
+                return interaction.reply({ embeds: [embed], ephemeral: true });
+            }
         }
     }
 }

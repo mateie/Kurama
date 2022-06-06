@@ -25,10 +25,22 @@ export default class EmitCommand extends Command implements ICommand {
                             .setName("event")
                             .setDescription("Guild Member Events")
                             .addChoices(
-                                { name: "Member Joining", value: "guildMemberAdd" },
-                                { name: "Member Leaving", value: "guildMemberRemove" },
-                                { name: "Member Available", value: "guildMemberAvailable" },
-                                { name: "Member Update", value: "guildMemberUpdate" }
+                                {
+                                    name: "Member Joining",
+                                    value: "guildMemberAdd",
+                                },
+                                {
+                                    name: "Member Leaving",
+                                    value: "guildMemberRemove",
+                                },
+                                {
+                                    name: "Member Available",
+                                    value: "guildMemberAvailable",
+                                },
+                                {
+                                    name: "Member Update",
+                                    value: "guildMemberUpdate",
+                                }
                             )
                             .setRequired(true)
                     )
@@ -45,14 +57,17 @@ export default class EmitCommand extends Command implements ICommand {
         const { options } = interaction;
         const choices = options.getString("event") as string;
         switch (options.getSubcommand()) {
-        case "member": {
-            const member = options.getMember("member_emit")
-                ? (options.getMember("member_emit") as GuildMember)
-                : (interaction.member as GuildMember);
-            this.client.emit(choices, member);
-        }
+            case "member": {
+                const member = options.getMember("member_emit")
+                    ? (options.getMember("member_emit") as GuildMember)
+                    : (interaction.member as GuildMember);
+                this.client.emit(choices, member);
+            }
         }
 
-        await interaction.reply({ content: "Emitted", ephemeral: true });
+        await interaction.reply({
+            content: "Emitted",
+            ephemeral: true,
+        });
     }
 }
