@@ -1,30 +1,31 @@
 import { model, Schema, HydratedDocument } from "mongoose";
 
 export interface IGuild extends HydratedDocument<any> {
-  id: string;
-  name: string;
-  channels: {
-    welcome: string;
-    goodbye: string;
-    rules: string;
-    reports: string;
-  };
-  channelsArray: {
-    commands: string[];
-    music: string[];
-  };
-  roles: {
-    member: string;
-  };
-  toggles: {
-    welcomeMessage: boolean;
-    goodbyeMessage: boolean;
-    preventProfanity: boolean;
-    strictCommands: boolean;
-    strictMusicChannels: boolean;
-  };
-  whitelistedWords: string[];
-}
+    id: string;
+    name: string;
+    channels: {
+        welcome: string;
+        goodbye: string;
+        rules: string;
+        reports: string;
+        playlists: string;
+    };
+    channelsArray: {
+        commands: string[];
+        music: string[];
+    };
+    roles: {
+        member: string;
+    };
+    toggles: {
+        welcomeMessage: boolean;
+        goodbyeMessage: boolean;
+        preventProfanity: boolean;
+        strictCommands: boolean;
+        strictMusicChannels: boolean;
+    };
+    whitelistedWords: string[];
+};
 
 export const Guild: Schema = new Schema<IGuild>({
     id: {
@@ -41,6 +42,7 @@ export const Guild: Schema = new Schema<IGuild>({
         goodbye: String,
         rules: String,
         reports: String,
+        playlists: String,
     },
     channelsArray: {
         commands: [String],

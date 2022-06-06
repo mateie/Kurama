@@ -51,7 +51,8 @@ export default class ChannelsCommand extends Command implements ICommand {
                                 { name: "Welcome", value: "welcome" },
                                 { name: "Goodbye", value: "goodbye" },
                                 { name: "Rules", value: "rules" },
-                                { name: "Reports", value: "reports" }
+                                { name: "Reports", value: "reports" },
+                                { name: "Playlists", value: "playlists" }
                             )
                             .setRequired(true)
                     )
@@ -59,7 +60,7 @@ export default class ChannelsCommand extends Command implements ICommand {
                         option
                             .setName("channel")
                             .setDescription("Channel to set")
-                            .addChannelTypes(ChannelType.GuildText)
+                            .addChannelTypes(ChannelType.GuildText, ChannelType.GuildCategory)
                             .setRequired(true)
                     )
             )
@@ -132,6 +133,7 @@ export default class ChannelsCommand extends Command implements ICommand {
             });
         }
         case "set": {
+            console.log(type);
             dbGuild.channels[type as keyof typeof dbGuild.channels] = channel.id;
 
             await dbGuild.save();

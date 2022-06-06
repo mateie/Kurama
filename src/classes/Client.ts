@@ -16,6 +16,7 @@ import Canvas from "./canvas";
 import Database from "./database";
 import Moderation from "./moderation";
 import Music from "./Music";
+import Playlists from "./systems/Playlists";
 import Util from "./util";
 import XP from "./XP";
 
@@ -35,6 +36,7 @@ export default class Client extends DiscordClient {
     moderation: Moderation;
     music: Music;
     nekos: Nekos;
+    playlists: Playlists;
     util: Util;
     valorant: Valorant;
     xp: XP;
@@ -58,6 +60,7 @@ export default class Client extends DiscordClient {
         this.moderation = new Moderation(this);
         this.music = new Music(this);
         this.nekos = new Nekos();
+        this.playlists = new Playlists(this);
         this.util = new Util(this);
         this.valorant = new Valorant(this);
         this.xp = new XP(this);

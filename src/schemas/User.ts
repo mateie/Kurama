@@ -1,39 +1,43 @@
 import { HydratedDocument, model, Schema } from "mongoose";
 
 export interface IUser extends HydratedDocument<any> {
-  id: string;
-  username: string;
-  xp: number;
-  level: number;
-  card: {
-    background: {
-      type: "banner" | "color" | "image";
-      color: string;
-      image: Buffer;
+    id: string;
+    username: string;
+    xp: number;
+    level: number;
+    card: {
+        background: {
+        type: "banner" | "color" | "image";
+        color: string;
+        image: Buffer;
+        };
+        outlines: {
+            type: "banner" | "avatar" | "color";
+            color: string;
+        };
+        text: {
+            type: "banner" | "avatar" | "color";
+            color: string;
+        };
     };
-    outlines: {
-      type: "banner" | "avatar" | "color";
-      color: string;
+    playlist: {
+        channelId: string;
+        sharedWith: string[];
     };
-    text: {
-      type: "banner" | "avatar" | "color";
-      color: string;
-    };
-  };
-  warns: [
+    warns: [
     {
       guildId: string;
       by: string;
       reason: string;
     }
-  ];
-  reports: [
+    ];
+    reports: [
     {
       guildId: string;
       by: string;
       reason: string;
     }
-  ];
+    ];
 }
 
 export const User: Schema = new Schema<IUser>({
@@ -86,6 +90,10 @@ export const User: Schema = new Schema<IUser>({
                 default: "#ffffff",
             },
         },
+    },
+    playlist: {
+        channelId: String,
+        sharedWith: []
     },
     warns: [
         {

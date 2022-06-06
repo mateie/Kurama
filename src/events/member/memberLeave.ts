@@ -23,6 +23,12 @@ export default class MemberLeaveEvent extends Event implements IEvent {
             dbGuild.channels.goodbye
         ) as TextChannel;
 
+        if (channel.type !== "GUILD_TEXT") {
+            const owner = guild.members.cache.get(guild.ownerId);
+            owner?.send({ content: "You enabled Goodbye message and the Channel you set for it is not a Text Channel" });
+        }
+
+
         const attachment = await this.client.canvas.member.goodbye(member);
 
         channel.send({ files: [attachment] });

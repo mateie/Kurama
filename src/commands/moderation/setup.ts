@@ -33,7 +33,8 @@ export default class SetupCommand extends Command implements ICommand {
                             .setDescription("Channel to setup")
                             .addChoices(
                                 { name: "Welcome", value: "welcome" },
-                                { name: "Goodbye", value: "goodbye" }
+                                { name: "Goodbye", value: "goodbye" },
+                                { name: "Playlists", value: "playlists" },
                             )
                             .setRequired(true)
                     )
@@ -80,7 +81,7 @@ export default class SetupCommand extends Command implements ICommand {
         case "channels": {
             const channelName = options.getString("channel") as string;
             const channel = guild.channels.cache.find(
-                (ch) => ch.name.includes(channelName) && ch.type === "GUILD_TEXT"
+                (ch) => ch.name.includes(channelName)
             );
             const type = this.util.capFirstLetter(channelName);
 
@@ -91,16 +92,13 @@ export default class SetupCommand extends Command implements ICommand {
                 });
             if (
                 dbGuild.channels[channelName as keyof typeof dbGuild.channels] &&
-          dbGuild.channels[channelName as keyof typeof dbGuild.channels]
-              .length > 0
-            )
-                return interaction.reply({
-                    content: `**${type}** channel is already setup`,
-                    ephemeral: true,
-                });
+                dbGuild.channels[channelName as keyof typeof dbGuild.channels].length > 0
+            ) return interaction.reply({
+                content: `**${type}** channel is already setup`,
+                ephemeral: true,
+            });
 
-            dbGuild.channels[channelName as keyof typeof dbGuild.channels] =
-          channel.id;
+            dbGuild.channels[channelName as keyof typeof dbGuild.channels] = channel.id;
             await dbGuild.save();
 
             return interaction.reply({
