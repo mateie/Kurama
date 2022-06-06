@@ -1,6 +1,5 @@
 import Client from "@classes/Client";
 import { UserInputError } from "apollo-server";
-import { Guild } from "discord.js";
 
 export default {
     Query: {
