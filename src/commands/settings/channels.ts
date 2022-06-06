@@ -133,7 +133,6 @@ export default class ChannelsCommand extends Command implements ICommand {
             });
         }
         case "set": {
-            console.log(type);
             dbGuild.channels[type as keyof typeof dbGuild.channels] = channel.id;
 
             await dbGuild.save();

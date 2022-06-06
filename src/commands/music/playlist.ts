@@ -26,7 +26,6 @@ export default class PlaylistCommand extends Command implements ICommand {
         const guild = interaction.guild as Guild;
         const dbGuild = await this.client.database.guilds.get(guild);
         const category = guild.channels.cache.get(dbGuild.channels.playlists);
-        console.log(category);
         if (!category) return interaction.reply({ content: "Playlist category not found or not set up", ephemeral: true });
 
         const member = interaction.member as GuildMember;
