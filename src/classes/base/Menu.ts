@@ -27,4 +27,6 @@ export default class Command {
         this.permission = null;
         this.data = new ContextMenuCommandBuilder();
     }
+
+    toString = () => this.name;
 }

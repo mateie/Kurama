@@ -21,4 +21,6 @@ export default class Event {
         this.once = null;
         this.process = null;
     }
+
+    toString = () => this.name;
 }
