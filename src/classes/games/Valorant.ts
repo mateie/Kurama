@@ -21,7 +21,6 @@ export default class Valorant {
     client: Client;
 
     accounts: Collection<string, RiotApiClient>;
-    stats: any;
 
     constructor(client: Client) {
         this.client = client;
