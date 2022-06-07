@@ -12,7 +12,6 @@ export default {
             if (!guild) throw new UserInputError("Guild not found");
             return guild;
         },
-        getGuilds: (_: any, __: any, { client }: { client: Client }) =>
-            client.guilds.cache,
+        getGuilds: (_: any, __: any, { client }: { client: Client }) => client.guilds.cache,
     },
 };
