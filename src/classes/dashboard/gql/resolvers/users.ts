@@ -17,7 +17,8 @@ export default {
 
             return { ...user, ...db._doc };
         },
-        getUsers: (_: any, __: any, { client }: { client: Client }) => client.users.cache.filter(user => !user.bot),
+        getUsers: (_: any, __: any, { client }: { client: Client }) =>
+            client.users.cache.filter((user) => !user.bot),
 
         getMember: async (
             _: any,
@@ -42,7 +43,7 @@ export default {
             if (!guild) throw new UserInputError("Guild not found");
 
             const members = (await guild.members.fetch()).filter(
-                member => !member.user.bot
+                (member) => !member.user.bot
             );
 
             return members;
