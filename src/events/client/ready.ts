@@ -14,11 +14,8 @@ export default class ReadyEvent extends Event implements IEvent {
     async run() {
         console.log(`Ready! Logged in as ${this.client.user?.tag}`);
 
-        const mainGuild = await this.client.guilds.fetch("814017098409443339");
-        this.client.mainGuild = mainGuild;
-        this.client.botLogs = (await mainGuild.channels.fetch(
-            "974256729661509632"
-        )) as TextChannel;
+        this.client.mainGuild = await this.client.guilds.fetch("814017098409443339");;
+        this.client.botLogs = await this.client.mainGuild.channels.fetch("974256729661509632") as TextChannel;
 
         this.client.database.guilds.verify();
         this.client.database.users.verify();
