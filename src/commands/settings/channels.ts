@@ -60,10 +60,7 @@ export default class ChannelsCommand extends Command implements ICommand {
                         option
                             .setName("channel")
                             .setDescription("Channel to set")
-                            .addChannelTypes(
-                                ChannelType.GuildText,
-                                ChannelType.GuildCategory
-                            )
+                            .addChannelTypes(ChannelType.GuildText)
                             .setRequired(true)
                     )
             )
