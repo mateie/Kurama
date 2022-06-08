@@ -22,6 +22,7 @@ export interface IUser extends HydratedDocument<any> {
     };
     playlist: {
         channelId: string;
+        tracks: string[];
         sharedWith: string[];
     };
     warns: [
@@ -93,6 +94,7 @@ export const User: Schema = new Schema<IUser>({
     },
     playlist: {
         channelId: String,
+        tracks: [],
         sharedWith: [],
     },
     warns: [

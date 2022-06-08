@@ -13,7 +13,7 @@ export default class MusicMenu extends Menu implements IMenu {
     constructor(client: Client) {
         super(client);
 
-        this.name = "Queue Track";
+        this.name = "Queue track";
 
         this.data.setName(this.name).setType(3);
     }
