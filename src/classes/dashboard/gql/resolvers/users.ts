@@ -5,7 +5,7 @@ import { Guild, GuildMember, User } from "discord.js";
 
 export default {
     Query: {
-        getUser: async (
+        user: async (
             _: any,
             { id }: { id: string },
             { client }: { client: Client }
@@ -17,10 +17,10 @@ export default {
 
             return { ...user, ...db._doc };
         },
-        getUsers: (_: any, __: any, { client }: { client: Client }) =>
+        users: (_: any, __: any, { client }: { client: Client }) =>
             client.users.cache.filter((user) => !user.bot),
 
-        getMember: async (
+        member: async (
             _: any,
             { guildId, memberId }: { guildId: string; memberId: string },
             { client }: { client: Client }
@@ -34,7 +34,7 @@ export default {
 
             return { ...member, ...db._doc };
         },
-        getMembers: async (
+        members: async (
             _: any,
             { guildId }: { guildId: string },
             { client }: { client: Client }

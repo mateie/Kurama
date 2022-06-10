@@ -3,7 +3,7 @@ import { UserInputError } from "apollo-server";
 
 export default {
     Query: {
-        getGuild: (
+        guild: (
             _: any,
             { id }: { id: string },
             { client }: { client: Client }
@@ -12,7 +12,7 @@ export default {
             if (!guild) throw new UserInputError("Guild not found");
             return guild;
         },
-        getGuilds: (_: any, __: any, { client }: { client: Client }) =>
+        guilds: (_: any, __: any, { client }: { client: Client }) =>
             client.guilds.cache,
     },
 };

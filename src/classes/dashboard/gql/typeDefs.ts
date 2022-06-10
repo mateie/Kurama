@@ -1,18 +1,22 @@
 import { gql } from "apollo-server";
 
 export default gql`
+    scalar Client
     scalar Guild
     scalar User
     scalar Member
 
     type Query {
-        getGuild(id: String!): Guild
-        getGuilds: [Guild]
+        client: Client
+        clientUser: User
 
-        getUser(id: String!): User
-        getUsers: [User]
+        guild(id: String!): Guild
+        guilds: [Guild]
 
-        getMember(guildId: String!, memberId: String!): Member
-        getMembers(guildId: String!): [Member]
+        user(id: String!): User
+        users: [User]
+
+        member(guildId: String!, memberId: String!): Member
+        members(guildId: String!): [Member]
     }
 `;
