@@ -9,6 +9,7 @@ export default class ValorantCommand extends Command implements ICommand {
 
         this.name = "valorant";
         this.description = "Valorant Stats";
+        this.ownerOnly = true;
 
         this.data
             .setName(this.name)
