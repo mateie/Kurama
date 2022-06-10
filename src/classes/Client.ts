@@ -16,7 +16,7 @@ import Canvas from "./canvas";
 import Database from "./database";
 import Moderation from "./moderation";
 import Music from "./Music";
-import Playlists from "./systems/Playlists";
+import Playlists from "./Playlists";
 import Util from "./util";
 import XP from "./XP";
 
