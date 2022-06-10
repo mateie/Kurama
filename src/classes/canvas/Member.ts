@@ -149,7 +149,7 @@ export default class MemberCanvas {
         ctx.fillText(member.user.tag, canvas.width / 2, 255);
 
         // Title
-        ctx.font = "60px Bold";
+        ctx.font = "Coffee 60px";
         ctx.strokeText("Left", canvas.width / 2, canvas.height - 125);
         ctx.fillText("Left", canvas.width / 2, canvas.height - 125);
 
@@ -160,7 +160,7 @@ export default class MemberCanvas {
             member.user.discriminator,
             53,
             750,
-            "Bold"
+            "Coffee"
         );
         ctx.strokeText(guild.name, canvas.width / 2, canvas.height - 60);
         ctx.fillText(guild.name, canvas.width / 2, canvas.height - 60);
