@@ -41,7 +41,7 @@ export default class Playlists {
             });
 
         const category = guild.channels.cache.get(
-            dbGuild.channels.playlists
+            dbGuild.categories.playlists
         ) as CategoryChannelResolvable;
 
         if (

@@ -20,6 +20,11 @@ export interface IUser extends HydratedDocument<any> {
             color: string;
         };
     };
+    marriage: {
+        married: boolean;
+        to: string;
+        since: string;
+    };
     playlist: {
         channelId: string;
         tracks: string[];
@@ -90,6 +95,12 @@ export const User: Schema = new Schema<IUser>({
                 type: String,
                 default: "#ffffff",
             },
+        },
+    },
+    marriage: {
+        married: {
+            type: Boolean,
+            default: false,
         },
     },
     playlist: {

@@ -8,6 +8,8 @@ export interface IGuild extends HydratedDocument<any> {
         goodbye: string;
         rules: string;
         reports: string;
+    };
+    categories: {
         playlists: string;
     };
     channelsArray: {
@@ -42,6 +44,8 @@ export const Guild: Schema = new Schema<IGuild>({
         goodbye: String,
         rules: String,
         reports: String,
+    },
+    categories: {
         playlists: String,
     },
     channelsArray: {

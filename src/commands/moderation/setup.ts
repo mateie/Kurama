@@ -16,6 +16,7 @@ export default class SetupCommand extends Command implements ICommand {
 
         this.name = "setup";
         this.description = "Setup certain aspect for you server";
+        this.permission = "MANAGE_GUILD";
 
         this.data
             .setName(this.name)
