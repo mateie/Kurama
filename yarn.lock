@@ -520,10 +520,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.20.tgz#268f028b36eaf51181c3300252f605488c4f0650"
   integrity sha512-Q8KKwm9YqEmUBRsqJ2GWJDtXltBDxTdC4m5vTdXBolu2PeQh8LX+f6BTwU+OuXPu37fLxoN6gidqBmnky36FXA==
 
-"@types/node@^17.0.41":
-  version "17.0.41"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.41.tgz#1607b2fd3da014ae5d4d1b31bc792a39348dfb9b"
-  integrity sha512-xA6drNNeqb5YyV5fO3OAEsnXLfO7uF0whiOfPTz5AeDo8KeZFmODKnvwPymMNO8qE/an8pVY/O50tig2SQCrGw==
+"@types/node@^17.0.42":
+  version "17.0.42"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.42.tgz#d7e8f22700efc94d125103075c074396b5f41f9b"
+  integrity sha512-Q5BPGyGKcvQgAMbsr7qEGN/kIPN6zZecYYABeTDBizOsau+2NMdSVTar9UQw21A2+JyA2KRNDYaYrPB0Rpk2oQ==
 
 "@types/puppeteer@*":
   version "5.4.6"
@@ -3679,10 +3679,10 @@ socks@^2.6.2:
     ip "^1.1.5"
     smart-buffer "^4.2.0"
 
-songlyrics@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/songlyrics/-/songlyrics-2.4.0.tgz#ad2a6e1500e6f0d5f2bffeeba47733ca7adc35ba"
-  integrity sha512-LZOONjxCVs9hn8p7clJkcSzB+KPI/rdcgfUIt0Uy96Lx/ALWShZm0aEApEpzjXkl67d6hAGLTO+vX87GDfjtpQ==
+songlyrics@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/songlyrics/-/songlyrics-2.4.1.tgz#36be54bab76ce5576f039434803c360f7fdb3a41"
+  integrity sha512-+Tf+Bvo3XCobeEUNKyfIGPybJ9VZkhWeECXW5RqwAiPoUbapdrr+T2+AgEYEltCEZhWkLLj5qfIOc06jbGiA1Q==
   dependencies:
     node-html-parser "^5.3.3"
 
