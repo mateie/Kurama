@@ -26,7 +26,9 @@ export default class ReadyEvent extends Event implements IEvent {
 
         this.client.deploy();
 
-        this.client.setPresence();
+        setInterval(() => {
+            this.client.setPresence();
+        }, 5000);
 
         this.client.dashboard.init();
     }
