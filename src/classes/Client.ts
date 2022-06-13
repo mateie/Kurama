@@ -23,6 +23,7 @@ import XP from "./XP";
 import EventHandler from "./handlers/EventHandler";
 import CommandHandler from "./handlers/CommandHandler";
 import Valorant from "./games/Valorant";
+import Marriage from "./Marriage";
 
 const { TOKEN } = process.env;
 
@@ -33,6 +34,7 @@ export default class Client extends DiscordClient {
 
     canvas: Canvas;
     database: Database;
+    marriage: Marriage;
     moderation: Moderation;
     music: Music;
     nekos: Nekos;
@@ -57,6 +59,7 @@ export default class Client extends DiscordClient {
 
         this.canvas = new Canvas(this);
         this.database = new Database(this);
+        this.marriage = new Marriage(this);
         this.moderation = new Moderation(this);
         this.music = new Music(this);
         this.nekos = new Nekos();
@@ -88,6 +91,7 @@ export default class Client extends DiscordClient {
         const clientId = this.user?.id as string;
         const guild = this.mainGuild;
         const guild2 = this.guilds.cache.get("706334426514063411") as Guild;
+        const guild3 = this.guilds.cache.get("834292702715052033") as Guild;
         const token = this.token as string;
 
         const body: any[] = [];
@@ -110,6 +114,13 @@ export default class Client extends DiscordClient {
 
             await rest.put(
                 Routes.applicationGuildCommands(clientId, guild2.id),
+                {
+                    body,
+                }
+            );
+
+            await rest.put(
+                Routes.applicationGuildCommands(clientId, guild3.id),
                 {
                     body,
                 }
@@ -148,12 +159,5 @@ export default class Client extends DiscordClient {
         this.user?.setPresence(
             activities[Math.floor(Math.random() * activities.length)]
         );
-
-        setInterval(() => {
-            const activity =
-                activities[Math.floor(Math.random() * activities.length)];
-
-            this.user?.setPresence(activity);
-        }, 60000);
     }
 }
