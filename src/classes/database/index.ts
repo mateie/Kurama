@@ -2,7 +2,7 @@ import Client from "@classes/Client";
 import mongoose from "mongoose";
 
 import DatabaseGuilds from "./Guilds";
-import DatabaseUsers from "./Members";
+import DatabaseUsers from "./Users";
 
 const { DB } = process.env;
 
