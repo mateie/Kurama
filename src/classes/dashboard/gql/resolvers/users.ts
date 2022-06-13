@@ -17,8 +17,19 @@ export default {
 
             return { ...user, ...db._doc };
         },
-        users: (_: any, __: any, { client }: { client: Client }) =>
-            client.users.cache.filter((user) => !user.bot),
+        users: async (_: any, __: any, { client }: { client: Client }) => {
+            const users = await Promise.all(
+                client.users.cache
+                    .filter((user) => !user.bot)
+                    .toJSON()
+                    .map(async (user) => {
+                        const db = await client.database.users.get(user);
+                        return { ...user, ...db._doc };
+                    })
+            );
+
+            return users;
+        },
 
         member: async (
             _: any,
@@ -42,8 +53,16 @@ export default {
             const guild = client.guilds.cache.get(guildId) as Guild;
             if (!guild) throw new UserInputError("Guild not found");
 
-            const members = (await guild.members.fetch()).filter(
-                (member) => !member.user.bot
+            const members = await Promise.all(
+                (
+                    await guild.members.fetch()
+                )
+                    .filter((member) => !member.user.bot)
+                    .toJSON()
+                    .map(async (member) => {
+                        const db = await client.database.users.get(member.user);
+                        return { ...member, ...db._doc };
+                    })
             );
 
             return members;
