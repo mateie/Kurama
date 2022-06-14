@@ -14,8 +14,8 @@ export default {
         },
         guilds: async (_: any, __: any, { client }: { client: Client }) =>
             client.guilds.cache.toJSON(),
-        
-        member: async(
+
+        member: async (
             _: any,
             { guildId, memberId }: { guildId: string; memberId: string },
             { client }: { client: Client }
@@ -29,7 +29,7 @@ export default {
 
             return { ...member, ...db._doc };
         },
-        members: async(
+        members: async (
             _: any,
             { guildId }: { guildId: string },
             { client }: { client: Client }
@@ -38,10 +38,12 @@ export default {
             if (!guild) throw new UserInputError("Guild not found");
 
             const members = await Promise.all(
-                (await guild.members.fetch())
-                    .filter(member => !member.user.bot)
+                (
+                    await guild.members.fetch()
+                )
+                    .filter((member) => !member.user.bot)
                     .toJSON()
-                    .map(async member => {
+                    .map(async (member) => {
                         const db = await client.database.users.get(member.user);
                         return { ...member, ...db._doc };
                     })
