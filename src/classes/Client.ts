@@ -15,15 +15,15 @@ import Dashboard from "./dashboard";
 import Canvas from "./canvas";
 import Database from "./database";
 import Moderation from "./moderation";
-import Music from "./Music";
-import Playlists from "./Playlists";
+import Music from "./systems/Music";
+import Playlists from "./systems/Playlists";
 import Util from "./util";
-import XP from "./XP";
+import XP from "./systems/XP";
 
 import EventHandler from "./handlers/EventHandler";
 import CommandHandler from "./handlers/CommandHandler";
 import Valorant from "./games/Valorant";
-import Marriage from "./Marriage";
+import Marriage from "./systems/Marriage";
 
 const { TOKEN } = process.env;
 
