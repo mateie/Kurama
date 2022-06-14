@@ -53,6 +53,7 @@
         "moment": "^2.29.3",
         "mongoose": "^6.3.6",
         "nekos.life": "^3.0.0",
+        "rss-feed-emitter": "^3.2.3",
         "rss-parser": "^3.12.0",
         "skia-canvas": "^0.9.30",
         "songlyrics": "^2.4.1",
