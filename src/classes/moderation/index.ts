@@ -4,10 +4,10 @@ import Reports from "./Reports";
 import Warns from "./Warns";
 
 export default class Moderation {
-    client: Client;
+    readonly client: Client;
 
-    reports: Reports;
-    warns: Warns;
+    readonly reports: Reports;
+    readonly warns: Warns;
 
     constructor(client: Client) {
         this.client = client;

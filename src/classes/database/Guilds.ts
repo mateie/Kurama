@@ -5,8 +5,8 @@ import Database from ".";
 import Guild, { IGuild } from "@schemas/Guild";
 
 export default class DatabaseGuilds {
-    client: Client;
-    database: Database;
+    readonly client: Client;
+    readonly database: Database;
 
     constructor(client: Client, database: Database) {
         this.client = client;

@@ -13,8 +13,8 @@ import { roleMention } from "@discordjs/builders";
 import Util from ".";
 
 export default class UtilMember {
-    client: Client;
-    util: Util;
+    readonly client: Client;
+    readonly util: Util;
 
     constructor(client: Client, util: Util) {
         this.client = client;

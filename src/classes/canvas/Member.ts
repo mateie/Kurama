@@ -4,8 +4,8 @@ import { Canvas as CanvasM, loadImage } from "skia-canvas";
 import Canvas from ".";
 
 export default class MemberCanvas {
-    client: Client;
-    canvas: Canvas;
+    readonly client: Client;
+    readonly canvas: Canvas;
 
     constructor(client: Client, canvas: Canvas) {
         this.client = client;

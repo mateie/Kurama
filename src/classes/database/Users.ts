@@ -5,8 +5,8 @@ import Database from ".";
 import User, { IUser } from "@schemas/User";
 
 export default class DatabaseUsers {
-    client: Client;
-    database: Database;
+    readonly client: Client;
+    readonly database: Database;
 
     constructor(client: Client, database: Database) {
         this.client = client;

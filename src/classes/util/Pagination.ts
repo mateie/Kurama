@@ -9,8 +9,8 @@ import {
 } from "discord.js";
 
 export default class UtilPagination {
-    client: Client;
-    util: Util;
+    readonly client: Client;
+    readonly util: Util;
 
     constructor(client: Client, util: Util) {
         this.client = client;

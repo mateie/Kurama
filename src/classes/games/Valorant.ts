@@ -18,9 +18,9 @@ import { ValorantLogin } from "@types";
 import { IStorefrontParsed } from "@survfate/valorant.js/dist/models/IStorefrontParsed";
 
 export default class Valorant {
-    client: Client;
+    readonly client: Client;
 
-    accounts: Collection<string, RiotApiClient>;
+    readonly accounts: Collection<string, RiotApiClient>;
 
     constructor(client: Client) {
         this.client = client;

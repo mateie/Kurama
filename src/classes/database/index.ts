@@ -7,12 +7,12 @@ import DatabaseUsers from "./Users";
 const { DB } = process.env;
 
 export default class Database {
-    client: Client;
+    readonly client: Client;
 
     connection: typeof mongoose;
 
-    guilds: DatabaseGuilds;
-    users: DatabaseUsers;
+    readonly guilds: DatabaseGuilds;
+    readonly users: DatabaseUsers;
 
     constructor(client: Client) {
         this.client = client;

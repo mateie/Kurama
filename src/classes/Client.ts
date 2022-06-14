@@ -30,21 +30,21 @@ const { TOKEN } = process.env;
 export default class Client extends DiscordClient {
     readonly owners: string[];
 
-    dashboard: Dashboard;
+    readonly dashboard: Dashboard;
 
-    canvas: Canvas;
-    database: Database;
-    marriage: Marriage;
-    moderation: Moderation;
-    music: Music;
-    nekos: Nekos;
-    playlists: Playlists;
-    util: Util;
-    valorant: Valorant;
-    xp: XP;
+    readonly canvas: Canvas;
+    readonly database: Database;
+    readonly marriage: Marriage;
+    readonly moderation: Moderation;
+    readonly music: Music;
+    readonly nekos: Nekos;
+    readonly playlists: Playlists;
+    readonly util: Util;
+    readonly valorant: Valorant;
+    readonly xp: XP;
 
-    eventHandler: EventHandler;
-    commandHandler: CommandHandler;
+    readonly eventHandler: EventHandler;
+    readonly commandHandler: CommandHandler;
 
     mainGuild!: Guild;
 

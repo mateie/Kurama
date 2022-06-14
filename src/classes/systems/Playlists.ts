@@ -15,7 +15,7 @@ import {
 } from "discord.js";
 
 export default class Playlists {
-    client: Client;
+    readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;

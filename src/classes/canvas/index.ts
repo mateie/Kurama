@@ -12,8 +12,8 @@ import Client from "../Client";
 import MemberCanvas from "./Member";
 
 export default class Canvas {
-    client: Client;
-    member: MemberCanvas;
+    readonly client: Client;
+    readonly member: MemberCanvas;
 
     constructor(client: Client) {
         this.client = client;

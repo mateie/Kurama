@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 
 export default class Reports {
-    client: Client;
+    readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;
