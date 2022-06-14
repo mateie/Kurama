@@ -1,5 +1,5 @@
 import { GuildMember } from "discord.js";
-import Client from "./Client";
+import Client from "../Client";
 
 export default class XP {
     client: Client;

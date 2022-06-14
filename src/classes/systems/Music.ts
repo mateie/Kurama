@@ -1,4 +1,4 @@
-import Client from "./Client";
+import Client from "../Client";
 import { Player } from "discord-player";
 import songlyrics from "songlyrics";
 import { Message } from "discord.js";
