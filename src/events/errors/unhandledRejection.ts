@@ -1,14 +1,16 @@
 import Client from "@classes/Client";
-import Event from "@classes/base/Event";
+import ProcessEvent from "@classes/base/event/ProcessEvent";
 import { IEvent } from "@types";
 import { inspect } from "util";
 
-export default class UnhandledRejectionEvent extends Event implements IEvent {
+export default class UnhandledRejectionEvent
+    extends ProcessEvent
+    implements IEvent
+{
     constructor(client: Client) {
         super(client);
 
         this.name = "unhandledRejection";
-        this.process = true;
     }
 
     async run(reason: Error, p: Promise<any>) {

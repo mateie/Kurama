@@ -11,6 +11,7 @@ export default class Event {
     category: string | undefined;
     once: boolean | null;
     process: boolean | null;
+    rss: boolean | null;
 
     constructor(client: Client) {
         this.client = client;
@@ -20,6 +21,7 @@ export default class Event {
 
         this.once = null;
         this.process = null;
+        this.rss = null;
     }
 
     toString = () => this.name;

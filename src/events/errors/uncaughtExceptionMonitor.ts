@@ -1,17 +1,16 @@
 import Client from "@classes/Client";
-import Event from "@classes/base/Event";
+import ProcessEvent from "@classes/base/event/ProcessEvent";
 import { IEvent } from "@types";
 import { inspect } from "util";
 
 export default class UncaughtExceptionMonitorEvent
-    extends Event
+    extends ProcessEvent
     implements IEvent
 {
     constructor(client: Client) {
         super(client);
 
         this.name = "uncaughtExceptionMonitor";
-        this.process = true;
     }
 
     async run(err: Error, origin: string) {

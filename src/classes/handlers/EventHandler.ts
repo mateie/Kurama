@@ -49,6 +49,12 @@ export default class EventHandler extends Handler {
                 process.once(event.name, (...args) => event.run(...args));
             }
 
+            if (event.rss) {
+                this.client.rss.emitter.on(event.name, (...args) =>
+                    event.run(...args)
+                );
+            }
+
             if (category?.id.toLowerCase() == "music") {
                 this.client.music.once(event.name, (...args: any) =>
                     event.run(...args)
@@ -59,6 +65,12 @@ export default class EventHandler extends Handler {
         } else {
             if (event.process) {
                 process.on(event.name, (...args) => event.run(...args));
+            }
+
+            if (event.rss) {
+                this.client.rss.emitter.on(event.name, (...args) =>
+                    event.run(...args)
+                );
             }
 
             if (category?.id.toLowerCase() == "music") {

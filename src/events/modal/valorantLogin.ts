@@ -1,5 +1,5 @@
 import Client from "@classes/Client";
-import Event from "@classes/base/Event";
+import Event from "@classes/base/event";
 import { IEvent } from "@types";
 import { Region } from "@survfate/valorant.js";
 import { ModalSubmitInteraction } from "discord.js";

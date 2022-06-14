@@ -41,6 +41,7 @@ export interface IEvent {
     category: string | undefined;
     once: boolean | null;
     process: boolean | null;
+    rss: boolean | null;
 }
 
 export interface HandlerOptions {
@@ -219,4 +220,6 @@ export type DiscordEvents =
     | RoleEvents
     | EmojiEvents;
 
-export type Events = DiscordEvents | MusicEvents | ProcessEvents;
+export type RSSEvents = "valorantRSS";
+
+export type Events = DiscordEvents | MusicEvents | ProcessEvents | RSSEvents;

@@ -1,14 +1,13 @@
 import Client from "@classes/Client";
-import Event from "@classes/base/Event";
+import ProcessEvent from "@classes/base/event/ProcessEvent";
 import { IEvent } from "@types";
 import { inspect } from "util";
 
-export default class WarnEvent extends Event implements IEvent {
+export default class WarnEvent extends ProcessEvent implements IEvent {
     constructor(client: Client) {
         super(client);
 
         this.name = "warn";
-        this.process = true;
     }
 
     async run(warn: Error) {
