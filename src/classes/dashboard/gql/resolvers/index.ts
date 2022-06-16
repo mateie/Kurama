@@ -10,4 +10,7 @@ export default {
         ...channels.Query,
         ...users.Query,
     },
+    Mutation: {
+        ...users.Mutation,
+    },
 };

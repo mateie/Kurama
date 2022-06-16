@@ -13,6 +13,8 @@ export default gql`
     scalar User
     scalar Member
 
+    scalar Object
+
     type Query {
         client: Client!
         clientUser: User!
@@ -41,5 +43,10 @@ export default gql`
 
         member(guildId: String!, memberId: String!): Member!
         members(guildId: String!): [Member]!
+    }
+
+    type Mutation {
+        login(code: String!): String!
+        authUser(auth: Object): User
     }
 `;

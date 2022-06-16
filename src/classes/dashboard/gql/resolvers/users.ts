@@ -29,4 +29,20 @@ export default {
             return users;
         },
     },
+    Mutation: {
+        login: async (
+            _: any,
+            { code }: { code: any },
+            { client }: { client: Client }
+        ) => {
+            return client.dashboard.auth.generateToken(code);
+        },
+        authUser: async (
+            _: any,
+            { auth }: { auth: any },
+            { client }: { client: Client }
+        ) => {
+            return client.dashboard.auth.authUser(auth);
+        },
+    },
 };
