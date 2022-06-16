@@ -7,13 +7,12 @@ import fs from "fs";
 
 import Ascii from "ascii-table";
 import path from "path";
-import Category from "@classes/base/Category";
 
 export default class CommandHandler extends Handler {
     table: any;
 
     readonly commands: Collection<string, ICommand | IMenu>;
-    readonly categories: Collection<string, Category>;
+    readonly categories: Collection<string, Collection<string, ICommand | IMenu>>;
 
     constructor(client: Client, { directory }: CommandHandlerOptions) {
         super(client, { directory });
@@ -68,7 +67,7 @@ export default class CommandHandler extends Handler {
 
         const category = this.categories.get(file.split("\\" || "/")[5]);
         command.category = category;
-        category?.set(command.name, command.data.toJSON());
+        category?.set(command.name, command);
 
         await this.table.addRow(
             command.name,
@@ -89,7 +88,7 @@ export default class CommandHandler extends Handler {
                 .filter((file) => file.endsWith(".js"));
             this.categories.set(
                 category,
-                new Category(this.client.util.capFirstLetter(category))
+                new Collection(),
             );
             files.forEach(
                 async (file) =>

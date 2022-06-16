@@ -6,14 +6,12 @@ import Handler from ".";
 import fs from "fs";
 
 import Ascii from "ascii-table";
-import Category from "@classes/base/Category";
 import path from "path";
 
 export default class EventHandler extends Handler {
     table: any;
 
     readonly events: Collection<string, IEvent>;
-    readonly categories: Collection<string, Category>;
 
     constructor(client: Client, { directory }: EventHandlerOptions) {
         super(client, { directory });
@@ -26,7 +24,6 @@ export default class EventHandler extends Handler {
         );
 
         this.events = new Collection();
-        this.categories = new Collection();
     }
 
     async load(file: string) {
@@ -40,10 +37,6 @@ export default class EventHandler extends Handler {
 
         this.events.set(event.name, event);
 
-        const category = this.categories.get(file.split("\\" || "/")[5]);
-        event.category = category;
-        category?.set(event.name, event);
-
         if (event.once) {
             if (event.process) {
                 process.once(event.name, (...args) => event.run(...args));
@@ -55,7 +48,7 @@ export default class EventHandler extends Handler {
                 );
             }
 
-            if (category?.id.toLowerCase() == "music") {
+            if (event.category.toLowerCase() == "music") {
                 this.client.music.once(event.name, (...args: any) =>
                     event.run(...args)
                 );
@@ -73,7 +66,7 @@ export default class EventHandler extends Handler {
                 );
             }
 
-            if (category?.id.toLowerCase() == "music") {
+            if (event.category.toLowerCase() == "music") {
                 this.client.music.on(event.name, (...args: any) =>
                     event.run(...args)
                 );
@@ -99,10 +92,6 @@ export default class EventHandler extends Handler {
             const files = fs
                 .readdirSync(path.resolve(this.directory, category))
                 .filter((file) => file.endsWith(".js"));
-            this.categories.set(
-                category,
-                new Category(this.client.util.capFirstLetter(category))
-            );
             files.forEach(
                 async (file) =>
                     await this.load(
