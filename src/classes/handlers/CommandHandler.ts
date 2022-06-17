@@ -7,11 +7,13 @@ import fs from "fs";
 
 import Ascii from "ascii-table";
 import path from "path";
+import { IBaseJSON } from "../../@types/index";
 
 export default class CommandHandler extends Handler {
     table: any;
 
     readonly commands: Collection<string, ICommand | IMenu>;
+    readonly categories: Collection<string, Collection<string, IBaseJSON>>;
 
     constructor(client: Client, { directory }: CommandHandlerOptions) {
         super(client, { directory });
@@ -24,6 +26,7 @@ export default class CommandHandler extends Handler {
         );
 
         this.commands = new Collection();
+        this.categories = new Collection();
     }
 
     async load(file: string) {
@@ -61,6 +64,10 @@ export default class CommandHandler extends Handler {
 
         if (command.data && command.data.type) type = "Menu";
 
+        command.category = file.split("\\" || "/")[5];
+        const category = this.categories.get(command.category);
+        category?.set(command.name, command.toJSON());
+
         this.commands.set(command.name, command);
 
         await this.table.addRow(command.name, type, "✔ Loaded");
@@ -75,6 +82,8 @@ export default class CommandHandler extends Handler {
             const files = fs
                 .readdirSync(path.resolve(this.directory, category))
                 .filter((file) => file.endsWith(".js"));
+
+            this.categories.set(category, new Collection());
             files.forEach(
                 async (file) =>
                     await this.load(

@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "@discordjs/builders";
 import { PermissionResolvable } from "discord.js";
 import Client from "../Client";
 import Util from "@classes/util";
+import { IBaseJSON } from "../../@types/index";
 
 export default class Command {
     readonly client: Client;
@@ -26,6 +27,17 @@ export default class Command {
 
         this.permission = null;
         this.data = new SlashCommandBuilder();
+    }
+
+    toJSON(): IBaseJSON {
+        return {
+            name: this.name,
+            description: this.description,
+            category: this.category,
+            permission: this.permission ? this.permission.toString() : null,
+            ownerOnly: this.ownerOnly,
+            data: this.data.toJSON(),
+        };
     }
 
     toString = () => this.name;
