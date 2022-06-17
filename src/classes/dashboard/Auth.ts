@@ -75,13 +75,15 @@ export default class Auth {
             const guilds = await this.oauth.getUserGuilds(auth.access_token);
 
             const avatarURL = user.avatar
-                ? user.avatar.includes("a_") ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.gif` : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+                ? user.avatar.includes("a_")
+                    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.gif`
+                    : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
                 : "https://cdn.discordapp.com/embed/avatars/0.png";
 
             return {
                 ...user,
                 avatarURL,
-                guilds
+                guilds,
             };
         } catch (err) {
             console.error(err);
