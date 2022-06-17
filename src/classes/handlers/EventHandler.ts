@@ -27,63 +27,63 @@ export default class EventHandler extends Handler {
     }
 
     async load(file: string) {
-            const { default: Event } = require(file);
-            if (typeof Event !== "function")
-                return this.table.addRow("❌ Event is not a class");
-            const event = new Event(this.client);
+        const { default: Event } = require(file);
+        if (typeof Event !== "function")
+            return this.table.addRow("❌ Event is not a class");
+        const event = new Event(this.client);
 
-            if (!event.description)
-                return this.table.addRow(event.name, "❌ Missing Description");
-        
-            const category = file.split("\\" || "/")[5];
-            event.category = category;
+        if (!event.description)
+            return this.table.addRow(event.name, "❌ Missing Description");
 
-            this.events.set(event.name, event);
+        const category = file.split("\\" || "/")[5];
+        event.category = category;
 
-            if (event.once) {
-                if (event.process) {
-                    process.once(event.name, (...args) => event.run(...args));
-                }
+        this.events.set(event.name, event);
 
-                if (event.rss) {
-                    this.client.rss.emitter.on(event.name, (...args) =>
-                        event.run(...args)
-                    );
-                }
-
-                if (event.category.toLowerCase() == "music") {
-                    this.client.music.once(event.name, (...args: any) =>
-                        event.run(...args)
-                    );
-                } else {
-                    this.client.once(event.name, (...args) => event.run(...args));
-                }
-            } else {
-                if (event.process) {
-                    process.on(event.name, (...args) => event.run(...args));
-                }
-
-                if (event.rss) {
-                    this.client.rss.emitter.on(event.name, (...args) =>
-                        event.run(...args)
-                    );
-                }
-
-                if (event.category.toLowerCase() == "music") {
-                    this.client.music.on(event.name, (...args: any) =>
-                        event.run(...args)
-                    );
-                } else {
-                    this.client.on(event.name, (...args) => event.run(...args));
-                }
+        if (event.once) {
+            if (event.process) {
+                process.once(event.name, (...args) => event.run(...args));
             }
 
-            await this.table.addRow(
-                event.name,
-                event.description,
-                event.category,
-                "✔ Loaded"
-            );
+            if (event.rss) {
+                this.client.rss.emitter.on(event.name, (...args) =>
+                    event.run(...args)
+                );
+            }
+
+            if (event.category.toLowerCase() == "music") {
+                this.client.music.once(event.name, (...args: any) =>
+                    event.run(...args)
+                );
+            } else {
+                this.client.once(event.name, (...args) => event.run(...args));
+            }
+        } else {
+            if (event.process) {
+                process.on(event.name, (...args) => event.run(...args));
+            }
+
+            if (event.rss) {
+                this.client.rss.emitter.on(event.name, (...args) =>
+                    event.run(...args)
+                );
+            }
+
+            if (event.category.toLowerCase() == "music") {
+                this.client.music.on(event.name, (...args: any) =>
+                    event.run(...args)
+                );
+            } else {
+                this.client.on(event.name, (...args) => event.run(...args));
+            }
+        }
+
+        await this.table.addRow(
+            event.name,
+            event.description,
+            event.category,
+            "✔ Loaded"
+        );
     }
 
     async loadAll() {

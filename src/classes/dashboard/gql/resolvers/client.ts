@@ -18,5 +18,8 @@ export default {
                 users: client.users.cache.size,
             };
         },
+        commands: async (_: any, __: any, { client }: { client: Client }) => {
+            console.log(client.commandHandler);
+        },
     },
 };
