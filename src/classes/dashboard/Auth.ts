@@ -50,7 +50,7 @@ export default class Auth {
                 code: Buffer.from(code, "base64").toString("ascii"),
                 scope: "identify guilds",
                 grantType: "authorization_code",
-                redirectUri: "http://localhost:3000/callback",
+                redirectUri: "http://73.185.96.104:3000/login",
             });
 
             return this.jwt.sign(
@@ -74,7 +74,15 @@ export default class Auth {
             const user = await this.oauth.getUser(auth.access_token);
             const guilds = await this.oauth.getUserGuilds(auth.access_token);
 
-            return { ...user, guilds };
+            const avatarURL = user.avatar
+                ? user.avatar.includes("a_") ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.gif` : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+                : "https://cdn.discordapp.com/embed/avatars/0.png";
+
+            return {
+                ...user,
+                avatarURL,
+                guilds
+            };
         } catch (err) {
             console.error(err);
             throw new AuthenticationError(

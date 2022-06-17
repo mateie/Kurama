@@ -19,7 +19,15 @@ export default {
             };
         },
         commands: async (_: any, __: any, { client }: { client: Client }) => {
-            console.log(client.commandHandler);
+            const categories = client.commandHandler.categories.map(category => {
+                const commands = category.filter((command: any) => !command.data.type);
+                return {
+                    id: category.first()?.category,
+                    commands: commands.toJSON(),
+                };
+            });
+
+            return categories;
         },
     },
 };

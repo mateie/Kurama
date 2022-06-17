@@ -2,6 +2,7 @@ import { gql } from "apollo-server";
 
 export default gql`
     scalar Client
+    scalar Command
 
     scalar Guild
     scalar Role
@@ -18,6 +19,7 @@ export default gql`
     type Query {
         client: Client!
         clientUser: User!
+        commands: [Command]!
 
         guild(guildId: String!): Guild!
         guilds: [Guild]!
@@ -47,6 +49,6 @@ export default gql`
 
     type Mutation {
         login(code: String!): String!
-        authUser(auth: Object): User
+        authUser(auth: Object): User!
     }
 `;
