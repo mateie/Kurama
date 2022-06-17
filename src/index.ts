@@ -3,4 +3,5 @@ dotenv.config();
 
 import Client from "@classes/Client";
 
-new Client();
+const client = new Client();
+client.init();

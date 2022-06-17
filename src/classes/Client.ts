@@ -80,14 +80,20 @@ export default class Client extends DiscordClient {
 
         this.token = TOKEN as string;
 
-        this.login();
-
-        this.database.connect();
-
-        this.eventHandler.loadAll();
-        this.commandHandler.loadAll();
-
         logs(this, { debug: true });
+    }
+
+    async init() {
+        try {
+            await this.login();
+
+            this.database.connect();
+
+            await this.eventHandler.loadAll();
+            await this.commandHandler.loadAll();
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     async deploy() {
