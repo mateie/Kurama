@@ -8,7 +8,7 @@ export default class WarnCommand extends Command implements ICommand {
         super(client);
 
         this.name = "warn";
-        this.description = "Warn a memebr";
+        this.description = "Warn a member";
         this.permission = "MODERATE_MEMBERS";
 
         this.data
