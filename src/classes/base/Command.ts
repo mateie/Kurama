@@ -27,6 +27,6 @@ export default class Command {
         this.permission = null;
         this.data = new SlashCommandBuilder();
     }
-    
+
     toString = () => this.name;
 }
