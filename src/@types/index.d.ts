@@ -11,6 +11,8 @@ import {
     PermissionResolvable,
 } from "discord.js";
 
+import { RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
+
 export interface IBase {
     readonly client: Client;
     readonly util: Util;
@@ -22,6 +24,19 @@ export interface IBase {
     ownerOnly: boolean;
 
     permission: PermissionResolvable | null;
+
+    toJSON(): IBaseJSON;
+
+    toString(): string | undefined;
+}
+
+export interface IBaseJSON {
+    name: string | undefined;
+    description: string | undefined;
+    category: string | undefined;
+    permission: string | null;
+    ownerOnly: boolean;
+    data: RESTPostAPIApplicationCommandsJSONBody;
 }
 
 export interface ICommand extends IBase {
