@@ -63,11 +63,7 @@ export default class CommandHandler extends Handler {
 
         this.commands.set(command.name, command);
 
-        await this.table.addRow(
-            command.name,
-            type,
-            "✔ Loaded"
-        );
+        await this.table.addRow(command.name, type, "✔ Loaded");
     }
 
     async loadAll() {
