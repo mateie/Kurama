@@ -142,7 +142,6 @@ export default class Client extends DiscordClient {
     }
 
     async setPresence() {
-        const users = await this.database.users.getAll();
 
         const activities: PresenceData[] = [
             {
@@ -158,7 +157,7 @@ export default class Client extends DiscordClient {
                 status: "online",
                 activities: [
                     {
-                        name: `${users.length} Users`,
+                        name: `${this.users.cache.size} Users`,
                         type: "LISTENING",
                     },
                 ],

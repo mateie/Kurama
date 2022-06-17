@@ -1,5 +1,6 @@
 import Client from "@classes/Client";
 import { ClientApplication, User } from "discord.js";
+import { UserInputError } from "apollo-server";
 
 export default {
     Query: {
@@ -17,6 +18,12 @@ export default {
                 guilds: client.guilds.cache.size,
                 users: client.users.cache.size,
             };
+        },
+
+        command: async (_: any, { commandName }: { commandName: string }, { client }: { client: Client }) => {
+            const command = client.commandHandler.commands.get(commandName);
+            if (!command) throw new UserInputError("Command not found");
+            return command;
         },
         commands: async (_: any, __: any, { client }: { client: Client }) => {
             const categories = client.commandHandler.categories.map(
