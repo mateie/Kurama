@@ -19,7 +19,7 @@ export default gql`
     type Query {
         client: Client!
         clientUser: User!
-        
+
         command(commandName: String!): Command!
         commands: [Command]!
 

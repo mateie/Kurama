@@ -20,7 +20,11 @@ export default {
             };
         },
 
-        command: async (_: any, { commandName }: { commandName: string }, { client }: { client: Client }) => {
+        command: async (
+            _: any,
+            { commandName }: { commandName: string },
+            { client }: { client: Client }
+        ) => {
             const command = client.commandHandler.commands.get(commandName);
             if (!command) throw new UserInputError("Command not found");
             return command;

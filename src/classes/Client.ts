@@ -142,7 +142,6 @@ export default class Client extends DiscordClient {
     }
 
     async setPresence() {
-
         const activities: PresenceData[] = [
             {
                 status: "online",
