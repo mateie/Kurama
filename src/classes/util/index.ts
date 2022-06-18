@@ -14,6 +14,8 @@ import {
 } from "discord.js";
 import { Stream } from "stream";
 
+import { CDN } from "@discordjs/rest";
+
 import UtilPagination from "./Pagination";
 import UtilMember from "./Member";
 
@@ -21,12 +23,14 @@ export default class Util {
     readonly client: Client;
     readonly member: UtilMember;
     readonly pagination: UtilPagination;
+    readonly cdn: CDN;
 
     constructor(client: Client) {
         this.client = client;
 
         this.member = new UtilMember(this.client, this);
         this.pagination = new UtilPagination(this.client, this);
+        this.cdn = new CDN();
     }
 
     row = (): MessageActionRow<MessageActionRowComponent> =>
