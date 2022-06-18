@@ -13,6 +13,7 @@ export default class ProcessErrorEvent extends ProcessEvent implements IEvent {
     async run(err: Error) {
         console.error(err);
         const channel = this.client.botLogs;
+        if (!channel) return;
 
         const embed = this.util
             .embed()

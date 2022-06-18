@@ -14,8 +14,9 @@ export default class UnhandledRejectionEvent
     }
 
     async run(reason: Error, p: Promise<any>) {
-        console.error(reason);
+        console.log(reason);
         const channel = this.client.botLogs;
+        if (!channel) return;
 
         const embed = this.util
             .embed()
