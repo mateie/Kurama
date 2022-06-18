@@ -15,6 +15,7 @@ export default class DashboardBE extends ApolloServer {
             resolvers,
             typeDefs,
             csrfPrevention: true,
+            cache: "bounded",
             cors: {
                 origin: [
                     "http://localhost",
