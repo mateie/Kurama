@@ -22,7 +22,6 @@ import XP from "./systems/XP";
 
 import EventHandler from "./handlers/EventHandler";
 import CommandHandler from "./handlers/CommandHandler";
-import Valorant from "./games/Valorant";
 import Marriage from "./systems/Marriage";
 import RSS from "./systems/PatchNotes";
 
@@ -42,7 +41,6 @@ export default class Client extends DiscordClient {
     readonly playlists: Playlists;
     readonly rss: RSS;
     readonly util: Util;
-    readonly valorant: Valorant;
     readonly xp: XP;
 
     readonly eventHandler: EventHandler;
@@ -68,7 +66,6 @@ export default class Client extends DiscordClient {
         this.playlists = new Playlists(this);
         this.rss = new RSS(this);
         this.util = new Util(this);
-        this.valorant = new Valorant(this);
         this.xp = new XP(this);
 
         this.eventHandler = new EventHandler(this, {
