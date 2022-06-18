@@ -5,10 +5,10 @@ export default {
     Query: {
         user: async (
             _: any,
-            { id }: { id: string },
+            { userid }: { userid: string },
             { client }: { client: Client }
         ) => {
-            const user = client.users.cache.get(id);
+            const user = client.users.cache.get(userid);
             if (!user) throw new UserInputError("User not found");
             if (user.bot) throw new UserInputError("User is a bot");
             const db = await client.database.users.get(user);
