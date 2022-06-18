@@ -28,7 +28,7 @@ export default class DashboardBE extends ApolloServer {
 
         this.client = client;
 
-        this.listen()
+        this.listen({ port: process.env.PORT || 4000})
             .then(({ url }) => console.log(`Server running at ${url}`))
             .catch(console.error);
 
