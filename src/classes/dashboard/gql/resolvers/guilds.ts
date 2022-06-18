@@ -1,5 +1,6 @@
 import Client from "@classes/Client";
 import { UserInputError } from "apollo-server";
+import { Guild } from "discord.js";
 
 export default {
     Query: {
@@ -10,14 +11,27 @@ export default {
         ) => {
             const guild = client.guilds.cache.get(guildId);
             if (!guild) throw new UserInputError("Guild not found");
-            return guild.toJSON();
+            const iconURL =
+                guild.icon && client.util.cdn.icon(guild.id, guild.icon);
+            return { ...(guild.toJSON() as Guild), iconURL };
         },
-        guilds: async (_: any, __: any, { client }: { client: Client }) =>
-            client.guilds.cache.toJSON(),
+        guilds: async (_: any, __: any, { client }: { client: Client }) => {
+            const guilds = client.guilds.cache.map((guild) => {
+                const iconURL =
+                    guild.icon && client.util.cdn.icon(guild.id, guild.icon);
+                return { ...(guild.toJSON() as Guild), iconURL };
+            });
+
+            return guilds;
+        },
 
         member: async (
             _: any,
-            { guildId, memberId }: { guildId: string; memberId: string },
+            {
+                guildId,
+                memberId,
+                database,
+            }: { guildId: string; memberId: string; database: boolean },
             { client }: { client: Client }
         ) => {
             const guild = client.guilds.cache.get(guildId);
@@ -25,13 +39,23 @@ export default {
             const member = guild.members.cache.get(memberId);
             if (!member) throw new UserInputError("Member not found");
             if (member.user.bot) throw new UserInputError("Member is a bot");
-            const db = await client.database.users.get(member.user);
-
-            return { ...member, ...db._doc };
+            const avatarURL = member.user.avatar
+                ? client.util.cdn.avatar(member.id, member.user.avatar)
+                : client.util.cdn.defaultAvatar(0);
+            if (database) {
+                const db = await client.database.users.get(member.user);
+                return {
+                    ...member,
+                    ...db._doc,
+                    avatarURL,
+                    username: member.user.username,
+                };
+            }
+            return { ...member, avatarURL, username: member.user.username };
         },
         members: async (
             _: any,
-            { guildId }: { guildId: string },
+            { guildId, database }: { guildId: string; database: boolean },
             { client }: { client: Client }
         ) => {
             const guild = client.guilds.cache.get(guildId);
@@ -44,8 +68,29 @@ export default {
                     .filter((member) => !member.user.bot)
                     .toJSON()
                     .map(async (member) => {
-                        const db = await client.database.users.get(member.user);
-                        return { ...member, ...db._doc };
+                        const avatarURL = member.user.avatar
+                            ? client.util.cdn.avatar(
+                                  member.id,
+                                  member.user.avatar
+                              )
+                            : client.util.cdn.defaultAvatar(0);
+                        if (database) {
+                            const db = await client.database.users.get(
+                                member.user
+                            );
+                            return {
+                                ...member,
+                                ...db._doc,
+                                avatarURL,
+                                username: member.user.username,
+                            };
+                        }
+
+                        return {
+                            ...member,
+                            avatarURL,
+                            username: member.user.username,
+                        };
                     })
             );
 

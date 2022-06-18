@@ -42,11 +42,11 @@ export default gql`
         emoji(guildId: String!, emojiId: String!): Emoji!
         emojis(guildId: String!): [Emoji]!
 
-        user(userId: String!): User!
-        users: [User]!
+        user(userId: String!, database: Boolean): User!
+        users(database: Boolean): [User]!
 
-        member(guildId: String!, memberId: String!): Member!
-        members(guildId: String!): [Member]!
+        member(guildId: String!, memberId: String!, database: Boolean): Member!
+        members(guildId: String!, database: Boolean): [Member]!
     }
 
     type Mutation {
