@@ -64,7 +64,7 @@ export default class CommandHandler extends Handler {
 
         if (command.data && command.data.type) type = "Menu";
 
-        command.category = file.split("\\" || "/")[5];
+        command.category = file.split("\\")[5] || file.split("/")[5];
         const category = this.categories.get(command.category);
         category?.set(command.name, command.toJSON());
 
