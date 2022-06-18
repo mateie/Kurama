@@ -14,6 +14,7 @@ export default class UncaughtExceptionMonitorEvent
     }
 
     async run(err: Error, origin: string) {
+        console.error(err);
         const channel = this.client.botLogs;
 
         const embed = this.util

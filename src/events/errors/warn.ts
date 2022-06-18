@@ -11,6 +11,7 @@ export default class WarnEvent extends ProcessEvent implements IEvent {
     }
 
     async run(warn: Error) {
+        console.error(warn);
         const channel = this.client.botLogs;
 
         const embed = this.util
