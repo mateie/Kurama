@@ -13,6 +13,7 @@ export default class AddToPlaylistEvent extends Event implements IEvent {
     async run(message: Message) {
         const guild = message.guild as Guild;
         const member = message.member as GuildMember;
+        if (!member) return;
 
         if (member.user.bot) return;
         if (message.content.length < 1) return;
