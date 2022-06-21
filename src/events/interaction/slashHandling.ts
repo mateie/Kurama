@@ -80,7 +80,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             ) as IBase;
             if (base.ownerOnly && !this.client.owners.includes(member.id)) {
                 return interaction.reply({
-                    content: "This command is owner only",
+                    content: "This command is bot owner only",
                     ephemeral: true,
                 });
             }
