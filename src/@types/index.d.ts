@@ -55,9 +55,9 @@ export interface IEvent {
     name: Events;
     description: string | "No Description";
     category: string | undefined;
-    once: boolean | null;
-    process: boolean | null;
-    rss: boolean | null;
+    once: boolean;
+    process: boolean;
+    rss: boolean;
 }
 
 export interface HandlerOptions {

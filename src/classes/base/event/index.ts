@@ -9,9 +9,9 @@ export default class Event {
     name!: Events;
     description: string | "No Description";
     category: string | undefined;
-    once: boolean | null;
-    process: boolean | null;
-    rss: boolean | null;
+    once: boolean;
+    process: boolean;
+    rss: boolean;
 
     constructor(client: Client) {
         this.client = client;
@@ -19,9 +19,9 @@ export default class Event {
 
         this.description = "No Description";
 
-        this.once = null;
-        this.process = null;
-        this.rss = null;
+        this.once = false;
+        this.process = false;
+        this.rss = false;
     }
 
     toString = () => this.name;
