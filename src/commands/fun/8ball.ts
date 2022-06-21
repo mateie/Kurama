@@ -26,6 +26,11 @@ export default class EightBallCommand extends Command implements ICommand {
 
         if (!question.includes("!")) question += "?";
 
+        if (question.includes("@")) {
+            const withAt = question.replace("<@!", "").replace(">", "").split(" ").map(word => parseInt(word) ? this.client.users.cache.get(word) ? this.client.users.cache.get(word)?.username : null : word).join(" ");
+            question = withAt;
+        }
+
         const { url } = await this.client.nekos.eightBall({
             text: question,
         });
