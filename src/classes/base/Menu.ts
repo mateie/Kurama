@@ -13,6 +13,7 @@ export default class Command {
     category: string | undefined;
 
     ownerOnly: boolean;
+    test: boolean;
 
     permission: PermissionResolvable | null;
     data!: ContextMenuCommandBuilder;
@@ -24,6 +25,7 @@ export default class Command {
         this.description = "No Description";
 
         this.ownerOnly = false;
+        this.test = false;
 
         this.permission = null;
         this.data = new ContextMenuCommandBuilder();
