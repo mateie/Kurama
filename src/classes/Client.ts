@@ -100,26 +100,25 @@ export default class Client extends DiscordClient {
         const commands: any[] = [];
         const testCommands: any[] = [];
 
-        this.commandHandler.commands.forEach(command => command.test ? testCommands.push(command.data.toJSON()) : commands.push(command.data.toJSON()));
+        this.commandHandler.commands.forEach((command) =>
+            command.test
+                ? testCommands.push(command.data.toJSON())
+                : commands.push(command.data.toJSON())
+        );
 
         const rest = new REST({ version: "10" }).setToken(token);
 
-        console.log(commands);
-
         try {
             console.info("Pushing Application Commands to REST");
-            
-            await rest.put(
-                Routes.applicationCommands(clientId),
-                {
-                    body: commands
-                }
-            );
+
+            await rest.put(Routes.applicationCommands(clientId), {
+                body: commands,
+            });
 
             await rest.put(
                 Routes.applicationGuildCommands(clientId, this.mainGuild.id),
                 {
-                    body: testCommands
+                    body: testCommands,
                 }
             );
 
