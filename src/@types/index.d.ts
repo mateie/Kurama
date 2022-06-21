@@ -22,7 +22,7 @@ export interface IBase {
     category: string | undefined;
 
     ownerOnly: boolean;
-    test: boolean;
+    global: boolean;
 
     permission: PermissionResolvable | null;
 

@@ -13,7 +13,7 @@ export default class Command {
     category: string | undefined;
 
     ownerOnly: boolean;
-    test: boolean;
+    global: boolean;
 
     permission: PermissionResolvable | null;
     data!: SlashCommandBuilder;
@@ -25,7 +25,7 @@ export default class Command {
         this.description = "No Description";
 
         this.ownerOnly = false;
-        this.test = false;
+        this.global = true;
 
         this.permission = null;
         this.data = new SlashCommandBuilder();
