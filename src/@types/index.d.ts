@@ -42,12 +42,12 @@ export interface IBaseJSON {
 
 export interface ICommand extends IBase {
     data: SlashCommandBuilder;
-    run(interaction: CommandInteraction);
+    run(interaction: CommandInteraction): any | Promise<any>;
 }
 
 export interface IMenu extends IBase {
     data: ContextMenuCommandBuilder;
-    run(interaction: ContextMenuInteraction);
+    run(interaction: ContextMenuInteraction): any | Promise<any>;
 }
 
 export interface IEvent {
