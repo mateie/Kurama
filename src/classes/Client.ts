@@ -14,6 +14,7 @@ import Dashboard from "./dashboard";
 
 import Canvas from "./canvas";
 import Database from "./database";
+import Games from "./games/index";
 import Moderation from "./moderation";
 import Music from "./systems/Music";
 import Playlists from "./systems/Playlists";
@@ -34,6 +35,7 @@ export default class Client extends DiscordClient {
 
     readonly canvas: Canvas;
     readonly database: Database;
+    readonly games: Games;
     readonly marriage: Marriage;
     readonly moderation: Moderation;
     readonly music: Music;
@@ -59,6 +61,7 @@ export default class Client extends DiscordClient {
 
         this.canvas = new Canvas(this);
         this.database = new Database(this);
+        this.games = new Games(this);
         this.marriage = new Marriage(this);
         this.moderation = new Moderation(this);
         this.music = new Music(this);
