@@ -1,6 +1,8 @@
 import Client from "@classes/Client";
 import DashboardBE from ".";
 
+import { Permissions, Guild, User } from "discord.js";
+
 import jwt from "jsonwebtoken";
 import { ExpressContext } from "apollo-server-express";
 import { AuthenticationError } from "apollo-server-express";
@@ -72,17 +74,58 @@ export default class Auth {
             throw new AuthenticationError("Authentication data not provided");
         try {
             const user = await this.oauth.getUser(auth.access_token);
-            const guilds = await this.oauth.getUserGuilds(auth.access_token);
+            const guilds = (
+                await this.oauth.getUserGuilds(auth.access_token)
+            ).map((guild) => {
+                const iconURL =
+                    guild.icon &&
+                    this.client.util.cdn.icon(guild.id, guild.icon);
+                const perms = new Permissions(guild.permissions as any);
+                const botJoined = this.client.guilds.cache.get(guild.id)
+                    ? true
+                    : false;
+                if (botJoined) {
+                    const guildJSON = this.client.guilds.cache
+                        .get(guild.id)
+                        ?.toJSON();
+                    return {
+                        ...guild,
+                        ...(guildJSON as Guild),
+                        canManage: perms.has("MANAGE_GUILD"),
+                        botJoined,
+                        iconURL,
+                    };
+                }
+
+                return {
+                    ...guild,
+                    canManage: perms.has("MANAGE_GUILD"),
+                    botJoined,
+                    iconURL,
+                };
+            });
 
             const avatarURL = user.avatar
-                ? user.avatar.includes("a_")
-                    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.gif`
-                    : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-                : "https://cdn.discordapp.com/embed/avatars/0.png";
+                ? this.client.util.cdn.avatar(user.id, user.avatar)
+                : this.client.util.cdn.defaultAvatar(0);
+
+            if (this.client.users.cache.get(user.id)) {
+                const db = await this.client.database.users.get(
+                    this.client.users.cache.get(user.id) as User
+                );
+                return {
+                    ...user,
+                    ...db._doc,
+                    database: true,
+                    avatarURL,
+                    guilds,
+                };
+            }
 
             return {
                 ...user,
                 avatarURL,
+                database: false,
                 guilds,
             };
         } catch (err) {
