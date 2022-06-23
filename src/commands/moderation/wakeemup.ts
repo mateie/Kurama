@@ -36,7 +36,7 @@ export default class WakeEmUpCommand extends Command implements ICommand {
                 content: "Member is not in a voice channel",
                 ephemeral: true,
             });
-        if (!target.voice.selfDeaf)
+        if (!target.voice.deaf)
             return interaction.reply({
                 content: "Member is not deafened",
                 ephemeral: true,
