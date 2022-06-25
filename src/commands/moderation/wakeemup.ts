@@ -1,4 +1,9 @@
-import { CommandInteraction, GuildMember, VoiceChannel } from "discord.js";
+import {
+    CommandInteraction,
+    Guild,
+    GuildMember,
+    VoiceChannel,
+} from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -28,34 +33,40 @@ export default class WakeEmUpCommand extends Command implements ICommand {
     async run(interaction: CommandInteraction) {
         const { options } = interaction;
 
-        const member = interaction.member as GuildMember;
-        const target = options.getMember("member") as GuildMember;
+        const guild = interaction.guild as Guild;
+        const member = options.getMember("member") as GuildMember;
 
-        if (!target.voice.channelId)
+        if (member.user.bot)
             return interaction.reply({
-                content: "Member is not in a voice channel",
-                ephemeral: true,
-            });
-        if (!target.voice.deaf)
-            return interaction.reply({
-                content: "Member is not deafened",
+                content: `${member} is a bot`,
                 ephemeral: true,
             });
 
-        const voiceState = target.voice;
-        const currentChannel = target.voice.channel as VoiceChannel;
-        const randomChannel = interaction.guild?.channels.cache
+        if (!member.voice.channelId)
+            return interaction.reply({
+                content: `${member} is not in a voice channel`,
+                ephemeral: true,
+            });
+        if (!member.voice.deaf)
+            return interaction.reply({
+                content: `${member} is not deafened`,
+                ephemeral: true,
+            });
+
+        const voiceState = member.voice;
+        const currentChannel = member.voice.channel as VoiceChannel;
+        const randomChannel = guild.channels.cache
             .filter(
                 (channel) =>
                     channel.permissionsFor(member).has("CONNECT") &&
-                    channel.type === "GUILD_VOICE"
+                    channel.type === "GUILD_VOICE" &&
+                    channel.id !== currentChannel.id
             )
             .random() as VoiceChannel;
 
-        if (currentChannel.equals(randomChannel))
+        if (!randomChannel)
             return interaction.reply({
-                content:
-                    "Retry the command or create a temporary voice channel",
+                content: `You have one channel that ${member} can access`,
                 ephemeral: true,
             });
 
