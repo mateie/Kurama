@@ -13,14 +13,14 @@ export default {
             if (!guild) throw new UserInputError("Guild not found");
             const iconURL = guild.icon
                 ? client.util.cdn.icon(guild.id, guild.icon)
-                : "https://imgur.com/SCv8M69";
+                : "https://i.imgur.com/SCv8M69.png";
             return { ...(guild.toJSON() as Guild), iconURL };
         },
         guilds: async (_: any, __: any, { client }: { client: Client }) => {
             const guilds = client.guilds.cache.map((guild) => {
                 const iconURL = guild.icon
                     ? client.util.cdn.icon(guild.id, guild.icon)
-                    : "https://imgur.com/SCv8M69";
+                    : "https://i.imgur.com/SCv8M69.png";
                 return { ...(guild.toJSON() as Guild), iconURL };
             });
 

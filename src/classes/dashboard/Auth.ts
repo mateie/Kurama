@@ -45,7 +45,7 @@ export default class Auth {
             .map((guild) => {
                 const iconURL = guild.icon
                     ? this.client.util.cdn.icon(guild.id, guild.icon)
-                    : "https://imgur.com/SCv8M69";
+                    : "https://i.imgur.com/SCv8M69.png";
 
                 const botJoined = this.client.guilds.cache.get(guild.id)
                     ? true
