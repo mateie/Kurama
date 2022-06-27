@@ -18,7 +18,10 @@ export default class DashboardBE extends ApolloServer {
             cache: "bounded",
             context: ({ req }) => ({ client: this.client, req }),
             cors: {
-                origin: ["http://localhost:3000", "https://kurama-bot-dashboard.herokuapp.com"]
+                origin: [
+                    "http://localhost:3000",
+                    "https://kurama-bot-dashboard.herokuapp.com",
+                ],
             },
         });
 
