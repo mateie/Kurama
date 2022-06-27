@@ -44,6 +44,7 @@ export default gql`
 
         user(userId: String!, database: Boolean): User!
         users(database: Boolean): [User]!
+        userGuilds(auth: Object): [Guild]!
 
         member(guildId: String!, memberId: String!, database: Boolean): Member!
         members(guildId: String!, database: Boolean): [Member]!

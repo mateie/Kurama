@@ -1,7 +1,7 @@
 import Client from "@classes/Client";
 import DashboardBE from ".";
 
-import { Permissions, Guild, User } from "discord.js";
+import { Guild, Permissions, User } from "discord.js";
 
 import jwt from "jsonwebtoken";
 import { ExpressContext } from "apollo-server-express";
@@ -25,6 +25,52 @@ export default class Auth {
         this.jwt = jwt;
         this.oauth = new DiscordOAuth2();
         this.secrets = { client: SECRET as string, jwt: JWT_SECRET as string };
+    }
+
+    async getUserGuilds(auth: any) {
+        if (!auth) throw new AuthenticationError("User not logged in");
+
+        const decoded = this.jwt.verify(
+            this.client.crypt.decrypt(auth),
+            this.secrets.jwt
+        );
+        const guilds = await (
+            await this.oauth.getUserGuilds(decoded.token.access_token)
+        )
+            .filter((guild) => {
+                const perms = new Permissions(guild.permissions as any);
+                return perms.has("MANAGE_GUILD");
+            })
+            .map((guild) => {
+                const iconURL =
+                    guild.icon &&
+                    this.client.util.cdn.icon(guild.id, guild.icon);
+
+                const botJoined = this.client.guilds.cache.get(guild.id)
+                    ? true
+                    : false;
+
+                if (botJoined) {
+                    const guildJSON = this.client.guilds.cache
+                        .get(guild.id)
+                        ?.toJSON();
+
+                    return {
+                        ...guild,
+                        ...(guildJSON as Guild),
+                        botJoined,
+                        iconURL,
+                    };
+                }
+
+                return {
+                    ...guild,
+                    botJoined,
+                    iconURL,
+                };
+            });
+
+        return guilds;
     }
 
     check(context: ExpressContext) {
@@ -55,11 +101,13 @@ export default class Auth {
                 redirectUri: "http://73.185.96.104:3000/login",
             });
 
-            return this.jwt.sign(
-                {
-                    token,
-                },
-                this.secrets.jwt
+            return this.client.crypt.encrypt(
+                this.jwt.sign(
+                    {
+                        token,
+                    },
+                    this.secrets.jwt
+                )
             );
         } catch (err) {
             console.error(err);
@@ -73,37 +121,11 @@ export default class Auth {
         if (!auth)
             throw new AuthenticationError("Authentication data not provided");
         try {
-            const user = await this.oauth.getUser(auth.access_token);
-            const guilds = (
-                await this.oauth.getUserGuilds(auth.access_token)
-            ).map((guild) => {
-                const iconURL =
-                    guild.icon &&
-                    this.client.util.cdn.icon(guild.id, guild.icon);
-                const perms = new Permissions(guild.permissions as any);
-                const botJoined = this.client.guilds.cache.get(guild.id)
-                    ? true
-                    : false;
-                if (botJoined) {
-                    const guildJSON = this.client.guilds.cache
-                        .get(guild.id)
-                        ?.toJSON();
-                    return {
-                        ...guild,
-                        ...(guildJSON as Guild),
-                        canManage: perms.has("MANAGE_GUILD"),
-                        botJoined,
-                        iconURL,
-                    };
-                }
-
-                return {
-                    ...guild,
-                    canManage: perms.has("MANAGE_GUILD"),
-                    botJoined,
-                    iconURL,
-                };
-            });
+            const decoded = this.jwt.verify(
+                this.client.crypt.decrypt(auth),
+                this.secrets.jwt
+            );
+            const user = await this.oauth.getUser(decoded.token.access_token);
 
             const avatarURL = user.avatar
                 ? this.client.util.cdn.avatar(user.id, user.avatar)
@@ -118,7 +140,6 @@ export default class Auth {
                     ...db._doc,
                     database: true,
                     avatarURL,
-                    guilds,
                 };
             }
 
@@ -126,7 +147,6 @@ export default class Auth {
                 ...user,
                 avatarURL,
                 database: false,
-                guilds,
             };
         } catch (err) {
             console.error(err);

@@ -45,6 +45,14 @@ export default {
 
             return users;
         },
+
+        userGuilds: async (
+            _: any,
+            { auth }: { auth: any },
+            { client }: { client: Client }
+        ) => {
+            return client.dashboard.auth.getUserGuilds(auth);
+        },
     },
     Mutation: {
         login: async (
