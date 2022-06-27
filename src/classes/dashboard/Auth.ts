@@ -34,7 +34,7 @@ export default class Auth {
             this.client.crypt.decrypt(auth),
             this.secrets.jwt
         );
-        
+
         const guilds = (
             await this.oauth.getUserGuilds(decoded.token.access_token)
         )
@@ -43,9 +43,8 @@ export default class Auth {
                 return perms.has("MANAGE_GUILD");
             })
             .map((guild) => {
-                const iconURL =
-                    guild.icon ?
-                        this.client.util.cdn.icon(guild.id, guild.icon)
+                const iconURL = guild.icon
+                    ? this.client.util.cdn.icon(guild.id, guild.icon)
                     : "https://imgur.com/SCv8M69";
 
                 const botJoined = this.client.guilds.cache.get(guild.id)
