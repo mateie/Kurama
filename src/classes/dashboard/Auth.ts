@@ -34,7 +34,8 @@ export default class Auth {
             this.client.crypt.decrypt(auth),
             this.secrets.jwt
         );
-        const guilds = await (
+        
+        const guilds = (
             await this.oauth.getUserGuilds(decoded.token.access_token)
         )
             .filter((guild) => {
@@ -43,8 +44,9 @@ export default class Auth {
             })
             .map((guild) => {
                 const iconURL =
-                    guild.icon &&
-                    this.client.util.cdn.icon(guild.id, guild.icon);
+                    guild.icon ?
+                        this.client.util.cdn.icon(guild.id, guild.icon)
+                    : "https://imgur.com/SCv8M69";
 
                 const botJoined = this.client.guilds.cache.get(guild.id)
                     ? true
