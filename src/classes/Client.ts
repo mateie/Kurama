@@ -13,6 +13,7 @@ import logs from "discord-logs";
 import Dashboard from "./dashboard";
 
 import Canvas from "./canvas";
+import Crypt from "./systems/Crypt";
 import Database from "./database";
 import Games from "./games/index";
 import Moderation from "./moderation";
@@ -34,6 +35,7 @@ export default class Client extends DiscordClient {
     readonly dashboard: Dashboard;
 
     readonly canvas: Canvas;
+    readonly crypt: Crypt;
     readonly database: Database;
     readonly games: Games;
     readonly marriage: Marriage;
@@ -60,6 +62,7 @@ export default class Client extends DiscordClient {
         this.dashboard = new Dashboard(this);
 
         this.canvas = new Canvas(this);
+        this.crypt = new Crypt(this);
         this.database = new Database(this);
         this.games = new Games(this);
         this.marriage = new Marriage(this);
