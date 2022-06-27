@@ -8,7 +8,7 @@ export default class WFCommand extends Command implements ICommand {
         super(client);
 
         this.name = "warframe";
-        this.description = "Warframe command";
+        this.description = "Warframe Utilities";
 
         this.data
             .setName(this.name)
