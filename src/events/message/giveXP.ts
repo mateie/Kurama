@@ -39,7 +39,7 @@ export default class GiveXPEvent extends Event implements IEvent {
                                 message.author
                             }, You have leveled up to **Level ${await this.client.xp.getLevel(
                                 member
-                            )}** (It's a weekend so you get double xp :>)`
+                            )}** *It's a weekend so you get double xp :>*`
                         )
                         .then((msg) => setTimeout(() => msg.delete(), 2000));
                 }
