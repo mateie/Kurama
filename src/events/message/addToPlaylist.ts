@@ -14,11 +14,15 @@ export default class AddToPlaylistEvent extends Event implements IEvent {
         const guild = message.guild as Guild;
         const member = message.member as GuildMember;
 
+        if (!member) return;
+
         if (member.user.bot) return;
         if (message.content.length < 1) return;
 
         const dbUser = await this.client.database.users.get(member.user);
         if (!dbUser) return;
+
+        if (!dbUser.playlists || dbUser.playlists.length < 1) return;
 
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id

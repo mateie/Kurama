@@ -44,10 +44,7 @@ export default class Warframe {
 
         const orders = items.payload.orders
             .filter((order) => order.order_type == type)
-            .sort(
-                (a, b) =>
-                    a.platinum - b.platinum
-            );
+            .sort((a, b) => a.platinum - b.platinum);
 
         let page = 0;
 
