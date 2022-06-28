@@ -61,6 +61,11 @@ export default class PlaylistCommand extends Command implements ICommand {
             }
             case "view": {
                 const playlist = await this.client.playlists.get(member);
+                if (!playlist)
+                    return interaction.reply({
+                        content: "You do not have a playlist in this server",
+                        ephemeral: true,
+                    });
                 const embed = this.client.util
                     .embed()
                     .setTitle("Your Playlist");

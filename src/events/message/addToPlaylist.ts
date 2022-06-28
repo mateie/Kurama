@@ -13,24 +13,27 @@ export default class AddToPlaylistEvent extends Event implements IEvent {
     async run(message: Message) {
         const guild = message.guild as Guild;
         const member = message.member as GuildMember;
-        if (!member) return;
 
         if (member.user.bot) return;
         if (message.content.length < 1) return;
 
-        const user = await this.client.database.users.get(member.user);
-        if (!user) return;
+        const dbUser = await this.client.database.users.get(member.user);
+        if (!dbUser) return;
 
-        if (!user.playlist.channelId) return;
+        const playlist = dbUser.playlists.find(
+            (playlist) => playlist.guildId === guild.id
+        );
 
-        if (message.channel.id !== user.playlist.channelId) return;
+        if (!playlist) return;
+
+        if (message.channel.id !== playlist.channelId) return;
 
         const channel = guild.channels.cache.get(
-            user.playlist.channelId
+            playlist.channelId
         ) as TextChannel;
         if (!channel) return;
 
-        if (user.playlist.tracks.includes(message.content.toLowerCase())) {
+        if (playlist.tracks.includes(message.content.toLowerCase())) {
             const msg = await message.channel.send({
                 content: `**${message.content}** is already in your playlist`,
             });
@@ -42,9 +45,9 @@ export default class AddToPlaylistEvent extends Event implements IEvent {
             return;
         }
 
-        user.playlist.tracks.push(message.content.toLowerCase());
+        playlist.tracks.push(message.content.toLowerCase());
 
-        await user.save();
+        await dbUser.save();
 
         const msg = await message.channel.send({
             content: `**${message.content}** was added to your playlist`,

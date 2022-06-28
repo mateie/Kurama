@@ -17,23 +17,26 @@ export default class RemoveFromPlaylistEvent extends Event implements IEvent {
         if (member.user.bot) return;
         if (message.content.length < 1) return;
 
-        const user = await this.client.database.users.get(member.user);
-        if (!user) return;
+        const dbUser = await this.client.database.users.get(member.user);
+        if (!dbUser) return;
 
-        if (!user.playlist.channelId) return;
+        const playlist = dbUser.playlists.find(
+            (playlist) => playlist.guildId === guild.id
+        );
+        if (!playlist) return;
 
-        if (message.channel.id !== user.playlist.channelId) return;
+        if (message.channel.id !== playlist.channelId) return;
 
         const channel = guild.channels.cache.get(
-            user.playlist.channelId
+            playlist.channelId
         ) as TextChannel;
         if (!channel) return;
 
-        user.playlist.tracks = user.playlist.tracks.filter(
+        playlist.tracks = playlist.tracks.filter(
             (track) => track.toLowerCase() !== message.content.toLowerCase()
         );
 
-        await user.save();
+        await dbUser.save();
 
         const msg = await message.channel.send({
             content: `**${message.content}** was removed from your playlist`,

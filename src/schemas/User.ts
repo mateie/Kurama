@@ -25,11 +25,14 @@ export interface IUser extends HydratedDocument<any> {
         to: string;
         since: string;
     };
-    playlist: {
-        channelId: string;
-        tracks: string[];
-        sharedWith: string[];
-    };
+    playlists: [
+        {
+            guildId: string;
+            channelId: string;
+            tracks: string[];
+            sharedWith: string[];
+        }
+    ];
     warns: [
         {
             guildId: string;
@@ -103,11 +106,14 @@ export const User: Schema = new Schema<IUser>({
             default: false,
         },
     },
-    playlist: {
-        channelId: String,
-        tracks: [],
-        sharedWith: [],
-    },
+    playlist: [
+        {
+            guildId: String,
+            channelId: String,
+            tracks: [],
+            sharedWith: [],
+        },
+    ],
     warns: [
         {
             guildId: String,
