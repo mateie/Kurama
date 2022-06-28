@@ -46,7 +46,7 @@ export default class Warframe {
             .filter((order) => order.order_type == type)
             .sort(
                 (a, b) =>
-                    moment(b.last_update).unix() - moment(a.last_update).unix()
+                    a.platinum - b.platinum
             );
 
         let page = 0;
