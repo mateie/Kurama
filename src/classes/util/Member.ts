@@ -54,8 +54,6 @@ export default class UtilMember {
     }
 
     async getCardData(user: IUser) {
-        const currentXP =
-            user.xp - this.client.xp.calculateXPForLevel(user.level);
         const neededXP = this.client.xp.calculateReqXP(user.level);
 
         const rank = await this.getRank(user);
@@ -64,7 +62,7 @@ export default class UtilMember {
             rank,
             card: user.card,
             level: user.level,
-            currentXP,
+            currentXP: user.xp,
             neededXP,
         };
 
