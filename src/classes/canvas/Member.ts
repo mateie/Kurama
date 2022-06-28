@@ -293,12 +293,12 @@ export default class MemberCanvas {
         ctx.textAlign = "start";
         ctx.fillText(
             "/ " + this.canvas.abbrev(data.neededXP),
-            445 +
+            420 +
                 ctx.measureText(this.canvas.abbrev(data.currentXP)).width +
                 15,
             310
         );
-        ctx.fillText(this.canvas.abbrev(data.currentXP), 445, 310);
+        ctx.fillText(this.canvas.abbrev(data.currentXP), 420, 310);
 
         // Avatar
         ctx.beginPath();
