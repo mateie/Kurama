@@ -19,19 +19,21 @@ export default class WFCommand extends Command implements ICommand {
                     .setDescription("Access Warframe.market")
                     .addStringOption((option) =>
                         option
-                            .setName("order_type")
-                            .setDescription("What is the order type?")
-                            .addChoices(
-                                { name: "Sellers", value: "sell" },
-                                { name: "Buyers", value: "buy" }
-                            )
+                            .setName("item")
+                            .setDescription("Item to search")
+                            .setAutocomplete(true)
                             .setRequired(true)
                     )
                     .addStringOption((option) =>
                         option
-                            .setName("item")
-                            .setDescription("Item to search")
-                            .setRequired(true)
+                            .setName("user_status")
+                            .setDescription(
+                                "Status for the user that placed the order"
+                            )
+                            .addChoices(
+                                { name: "In Game", value: "ingame" },
+                                { name: "On Site", value: "online" }
+                            )
                     )
             );
     }
