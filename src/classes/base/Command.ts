@@ -28,7 +28,7 @@ export default class Command {
         this.global = true;
 
         this.permission = null;
-        this.data = new SlashCommandBuilder();
+        this.data = new SlashCommandBuilder().setDMPermission(false);
     }
 
     toJSON(): IBaseJSON {

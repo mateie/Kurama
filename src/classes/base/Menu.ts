@@ -28,7 +28,7 @@ export default class Command {
         this.global = true;
 
         this.permission = null;
-        this.data = new ContextMenuCommandBuilder();
+        this.data = new ContextMenuCommandBuilder().setDMPermission(false);
     }
 
     toJSON(): IBaseJSON {
