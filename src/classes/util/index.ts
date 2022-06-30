@@ -14,6 +14,8 @@ import {
 } from "discord.js";
 import { Stream } from "stream";
 
+import Nekos from "nekos.life";
+
 import { CDN } from "@discordjs/rest";
 
 import UtilPagination from "./Pagination";
@@ -23,6 +25,7 @@ export default class Util {
     readonly client: Client;
     readonly member: UtilMember;
     readonly pagination: UtilPagination;
+    readonly nekos: Nekos;
     readonly cdn: CDN;
 
     constructor(client: Client) {
@@ -30,6 +33,7 @@ export default class Util {
 
         this.member = new UtilMember(this.client, this);
         this.pagination = new UtilPagination(this.client, this);
+        this.nekos = new Nekos();
         this.cdn = new CDN();
     }
 

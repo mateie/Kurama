@@ -46,7 +46,7 @@ export default class EightBallCommand extends Command implements ICommand {
             question = withAt;
         }
 
-        const { url } = await this.client.nekos.eightBall({
+        const { url } = await this.util.nekos.eightBall({
             text: question,
         });
 

@@ -7,7 +7,6 @@ import {
 import path from "path";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v10";
-import Nekos from "nekos.life";
 import logs from "discord-logs";
 
 import Dashboard from "./dashboard";
@@ -41,7 +40,6 @@ export default class Client extends DiscordClient {
     readonly marriage: Marriage;
     readonly moderation: Moderation;
     readonly music: Music;
-    readonly nekos: Nekos;
     readonly playlists: Playlists;
     readonly rss: RSS;
     readonly util: Util;
@@ -57,7 +55,7 @@ export default class Client extends DiscordClient {
     constructor() {
         super({ intents: 32767 });
 
-        this.owners = ["401269337924829186", "190120411864891392"];
+        this.owners = ["401269337924829186"];
 
         this.dashboard = new Dashboard(this);
 
@@ -68,7 +66,6 @@ export default class Client extends DiscordClient {
         this.marriage = new Marriage(this);
         this.moderation = new Moderation(this);
         this.music = new Music(this);
-        this.nekos = new Nekos();
         this.playlists = new Playlists(this);
         this.rss = new RSS(this);
         this.util = new Util(this);

@@ -24,7 +24,7 @@ export default class OwOCommand extends Command implements ICommand {
     async run(interaction: CommandInteraction) {
         const text = interaction.options.getString("text", true);
 
-        const { owo } = await this.client.nekos.OwOify({
+        const { owo } = await this.util.nekos.OwOify({
             text,
         });
 
