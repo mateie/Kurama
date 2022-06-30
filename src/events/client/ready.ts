@@ -21,8 +21,8 @@ export default class ReadyEvent extends Event implements IEvent {
             "974256729661509632"
         )) as TextChannel;
 
-        this.client.database.guilds.verify();
-        this.client.database.users.verify();
+        this.client.database.guilds.verifyAll();
+        this.client.database.users.verifyAll();
 
         this.client.deploy();
 
