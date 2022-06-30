@@ -113,8 +113,17 @@ export default class Warframe {
                 .setStyle("SECONDARY"),
         ];
 
+        const bottomButtons = [
+            this.client.util
+                .button()
+                .setCustomId("create_paste")
+                .setLabel("Create Paste")
+                .setStyle("SUCCESS"),
+        ];
+
         const typeRow = this.client.util.row().setComponents(typeButtons);
         const navRow = this.client.util.row().setComponents(navButtons);
+        const bottomRow = this.client.util.row().setComponents(bottomButtons);
 
         const sellerEmbeds = orders.map((order, index) => {
             const embed = this.client.util
@@ -176,7 +185,7 @@ export default class Warframe {
 
         const currPage = (await interaction.editReply({
             embeds: [sellerEmbeds[page]],
-            components: [typeRow, navRow],
+            components: [typeRow, navRow, bottomRow],
         })) as Message;
 
         const collector = currPage.createMessageComponentCollector({
@@ -213,7 +222,7 @@ export default class Warframe {
             await i.deferUpdate();
             await i.editReply({
                 embeds: [embeds[page]],
-                components: [typeRow, navRow],
+                components: [typeRow, navRow, bottomRow],
             });
 
             collector.resetTimer();
