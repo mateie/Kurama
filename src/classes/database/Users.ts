@@ -44,7 +44,13 @@ export default class DatabaseUsers {
 
     getAll = async () => await User.find();
 
-    verify() {
+    async verify(user: DiscordUser) {
+        const exists = await this.check(user);
+        if (exists) return;
+        this.create(user);
+    }
+
+    verifyAll() {
         this.client.users.cache.forEach(async (user) => {
             const exists = await this.check(user);
             if (exists) return;

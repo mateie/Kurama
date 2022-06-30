@@ -42,7 +42,13 @@ export default class DatabaseGuilds {
 
     getAll = async () => await Guild.find();
 
-    verify() {
+    async verify(guild: DiscordGuild) {
+        const exists = await this.check(guild);
+        if (exists) return;
+        this.create(guild);
+    }
+
+    verifyAll() {
         this.client.guilds.cache.forEach(async (guild) => {
             const exists = await this.check(guild);
             if (exists) return;
