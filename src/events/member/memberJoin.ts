@@ -36,5 +36,13 @@ export default class MemberJoinEvent extends Event implements IEvent {
         const attachment = await this.client.canvas.member.welcome(member);
 
         channel.send({ files: [attachment] });
+
+        if (!dbGuild.toggles.justJoined) return;
+
+        const joinedRole = guild.roles.cache.get(dbGuild.roles.joined);
+
+        if (!joinedRole) return;
+
+        member.roles.add(joinedRole);
     }
 }

@@ -16,7 +16,7 @@ export default class TogglesCommand extends Command implements ICommand {
         this.choices = [
             { name: "Welcome Message", value: "welcomeMessage" },
             { name: "Goodbye Message", value: "goodbyeMessage" },
-            { name: "Profanity Filter", value: "preventProfanity" },
+            { name: "Just Joined", value: "justJoined" },
             { name: "Strict Commands", value: "strictCommands" },
             {
                 name: "Strict Music Channels",

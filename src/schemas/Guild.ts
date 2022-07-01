@@ -18,11 +18,12 @@ export interface IGuild extends HydratedDocument<any> {
     };
     roles: {
         member: string;
+        joined: string;
     };
     toggles: {
         welcomeMessage: boolean;
         goodbyeMessage: boolean;
-        preventProfanity: boolean;
+        justJoined: boolean;
         strictCommands: boolean;
         strictMusicChannels: boolean;
     };
@@ -54,6 +55,7 @@ export const Guild: Schema = new Schema<IGuild>({
     },
     roles: {
         member: String,
+        joined: String,
     },
     toggles: {
         welcomeMessage: {
@@ -64,7 +66,7 @@ export const Guild: Schema = new Schema<IGuild>({
             type: Boolean,
             default: false,
         },
-        preventProfanity: {
+        justJoined: {
             type: Boolean,
             default: false,
         },
