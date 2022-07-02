@@ -16,6 +16,9 @@ export default class DashboardBE extends ApolloServer {
             typeDefs,
             csrfPrevention: true,
             cache: "bounded",
+            cors: {
+                origin: ["http://kurama.mateie.com", "http://73.185.96.104:3000"]
+            },
             context: ({ req }) => ({ client: this.client, req }),
         });
 
