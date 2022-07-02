@@ -8,7 +8,6 @@ export default {
             client,
         clientUser: async (_: any, __: any, { client }: { client: Client }) => {
             try {
-
                 const user = (await client.user?.fetch()) as User;
                 const application =
                     (await client.application?.fetch()) as ClientApplication;

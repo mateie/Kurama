@@ -41,7 +41,9 @@ export default {
                                 ? client.util.cdn.avatar(user.id, user.avatar)
                                 : client.util.cdn.defaultAvatar(0);
                             if (database) {
-                                const db = await client.database.users.get(user);
+                                const db = await client.database.users.get(
+                                    user
+                                );
                                 return { ...user, ...db._doc, avatarURL };
                             }
 

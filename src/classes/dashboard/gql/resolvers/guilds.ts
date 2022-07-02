@@ -10,7 +10,6 @@ export default {
             { client }: { client: Client }
         ) => {
             try {
-
                 const guild = client.guilds.cache.get(guildId);
                 if (!guild) throw new UserInputError("Guild not found");
                 const iconURL = guild.icon
@@ -52,7 +51,8 @@ export default {
                 if (!guild) throw new UserInputError("Guild not found");
                 const member = guild.members.cache.get(memberId);
                 if (!member) throw new UserInputError("Member not found");
-                if (member.user.bot) throw new UserInputError("Member is a bot");
+                if (member.user.bot)
+                    throw new UserInputError("Member is a bot");
                 const avatarURL = member.user.avatar
                     ? client.util.cdn.avatar(member.id, member.user.avatar)
                     : client.util.cdn.defaultAvatar(0);
@@ -77,7 +77,6 @@ export default {
             { client }: { client: Client }
         ) => {
             try {
-
                 const guild = client.guilds.cache.get(guildId);
                 if (!guild) throw new UserInputError("Guild not found");
 
@@ -90,9 +89,9 @@ export default {
                         .map(async (member) => {
                             const avatarURL = member.user.avatar
                                 ? client.util.cdn.avatar(
-                                    member.id,
-                                    member.user.avatar
-                                )
+                                      member.id,
+                                      member.user.avatar
+                                  )
                                 : client.util.cdn.defaultAvatar(0);
                             if (database) {
                                 const db = await client.database.users.get(
