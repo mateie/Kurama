@@ -19,6 +19,7 @@ export default class CreatePasteEvent extends Event implements IEvent {
 
         const embed = message.embeds[0] as MessageEmbed;
 
+        const type = embed.title?.split("Orders for")[0].trim().toLowerCase();
         const user = embed.fields[0].value
             .split("`Reputation`")[0]
             .split(":")[1]
@@ -30,7 +31,9 @@ export default class CreatePasteEvent extends Event implements IEvent {
             .trim();
 
         return interaction.reply({
-            content: `/w ${user} Hi! I want to buy: ${item} for ${price} platinum. (warframe.market)`,
+            content: `/w ${user} Hi! I want to ${
+                type === "sell" ? "buy" : "sell"
+            }: ${item} for ${price} platinum. (warframe.market)`,
             ephemeral: true,
         });
     }

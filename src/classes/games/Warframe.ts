@@ -125,21 +125,23 @@ export default class Warframe {
         const navRow = this.client.util.row().setComponents(navButtons);
         const bottomRow = this.client.util.row().setComponents(bottomButtons);
 
-        const sellerEmbeds = orders.filter(order => order.order_type === "sell").map((order, index) => {
-            const embed = this.client.util
-                .embed()
-                .setTitle(`Sell Orders for ${item}`)
-                .setDescription(
-                    `
+        const sellerEmbeds = orders
+            .filter((order) => order.order_type === "sell")
+            .map((order, index) => {
+                const embed = this.client.util
+                    .embed()
+                    .setTitle(`Sell Orders for ${item}`)
+                    .setDescription(
+                        `
                     \`Cost\`: ${order.platinum} (each)
                     \`Quantity\`: ${order.quantity}
                     \`Last Updated\`: <t:${moment(order.last_update).unix()}:R>
                     \`Created\`: <t:${moment(order.creation_date).unix()}:R>
                 `
-                )
-                .addField(
-                    "Seller",
-                    `
+                    )
+                    .addField(
+                        "Seller",
+                        `
                     \`In Game Name\`: ${order.user.ingame_name}
                     \`Reputation\`: ${order.user.reputation}
                     \`Status\`: ${this.client.util.capFirstLetter(
@@ -147,27 +149,31 @@ export default class Warframe {
                     )}
                     \`Last Seen\`*: <t:${moment(order.user.last_seen).unix()}:R>
                 `
-                )
-                .setFooter({ text: `Page ${index + 1} of ${orders.length}` });
+                    )
+                    .setFooter({
+                        text: `Page ${index + 1} of ${orders.length}`,
+                    });
 
-            return embed;
-        });
+                return embed;
+            });
 
-        const buyerEmbeds = orders.filter(order => order.order_type === "buy").map((order, index) => {
-            const embed = this.client.util
-                .embed()
-                .setTitle(`Buy Orders for ${item}`)
-                .setDescription(
-                    `
+        const buyerEmbeds = orders
+            .filter((order) => order.order_type === "buy")
+            .map((order, index) => {
+                const embed = this.client.util
+                    .embed()
+                    .setTitle(`Buy Orders for ${item}`)
+                    .setDescription(
+                        `
                     \`Cost\`: ${order.platinum} (each)
                     \`Quantity\`: ${order.quantity}
                     \`Last Updated\`: <t:${moment(order.last_update).unix()}:R>
                     \`Created\`: <t:${moment(order.creation_date).unix()}:R>
                 `
-                )
-                .addField(
-                    "Buyer",
-                    `
+                    )
+                    .addField(
+                        "Buyer",
+                        `
                     \`In Game Name\`: ${order.user.ingame_name}
                     \`Reputation\`: ${order.user.reputation}
                     \`Status\`: ${this.client.util.capFirstLetter(
@@ -175,11 +181,13 @@ export default class Warframe {
                     )}
                     \`Last Seen\`*: <t:${moment(order.user.last_seen).unix()}:R>
                 `
-                )
-                .setFooter({ text: `Page ${index + 1} of ${orders.length}` });
+                    )
+                    .setFooter({
+                        text: `Page ${index + 1} of ${orders.length}`,
+                    });
 
-            return embed;
-        });
+                return embed;
+            });
 
         let embeds = sellerEmbeds;
 
