@@ -125,7 +125,7 @@ export default class Warframe {
         const navRow = this.client.util.row().setComponents(navButtons);
         const bottomRow = this.client.util.row().setComponents(bottomButtons);
 
-        const sellerEmbeds = orders.map((order, index) => {
+        const sellerEmbeds = orders.filter(order => order.order_type === "sell").map((order, index) => {
             const embed = this.client.util
                 .embed()
                 .setTitle(`Sell Orders for ${item}`)
@@ -153,7 +153,7 @@ export default class Warframe {
             return embed;
         });
 
-        const buyerEmbeds = orders.map((order, index) => {
+        const buyerEmbeds = orders.filter(order => order.order_type === "buy").map((order, index) => {
             const embed = this.client.util
                 .embed()
                 .setTitle(`Buy Orders for ${item}`)
