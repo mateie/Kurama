@@ -20,7 +20,7 @@ export default class DashboardBE extends ApolloServer {
                 origin: [
                     "http://kurama.mateie.com",
                     "http://73.185.96.104:3000",
-                    "https://kurama-bot-dashboard.herokuapp.com"
+                    "https://kurama-bot-dashboard.herokuapp.com",
                 ],
             },
             context: ({ req }) => ({ client: this.client, req }),
