@@ -17,7 +17,11 @@ export default class DashboardBE extends ApolloServer {
             csrfPrevention: true,
             cache: "bounded",
             cors: {
-                origin: ["http://kurama.mateie.com", "http://73.185.96.104:3000"]
+                origin: [
+                    "http://kurama.mateie.com",
+                    "http://73.185.96.104:3000",
+                    "https://kurama-bot-dashboard.herokuapp.com"
+                ],
             },
             context: ({ req }) => ({ client: this.client, req }),
         });
