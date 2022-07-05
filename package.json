@@ -44,6 +44,7 @@
         "colornames": "^1.1.1",
         "cryptr": "^6.0.3",
         "discord-api-types": "^0.34.0",
+        "discord-image-generation": "^1.4.13",
         "discord-logs": "^2.0.1",
         "discord-oauth2": "^2.10.0",
         "discord-player": "^5.2.2",
