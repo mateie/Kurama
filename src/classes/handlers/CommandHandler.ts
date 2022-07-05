@@ -22,6 +22,7 @@ export default class CommandHandler extends Handler {
             "Command Name",
             "Category",
             "Command Type",
+            "Availability",
             "Status"
         );
 
@@ -60,17 +61,19 @@ export default class CommandHandler extends Handler {
                 "❌ Failed"
             );
 
-        let type = "Slash";
-
-        if (command.data && command.data.type) type = "Menu";
-
         command.category = file.split("\\")[5] || file.split("/")[5];
         const category = this.categories.get(command.category);
         category?.set(command.name, command.toJSON());
 
         this.commands.set(command.name, command);
 
-        await this.table.addRow(command.name, type, "✔ Loaded");
+        this.table.addRow(
+            command.name,
+            command.category,
+            command.data && command.data.type ? "Menu" : "Slash",
+            command.global ? "Global" : "Private Guilds",
+            "✔ Loaded"
+        );
     }
 
     async loadAll() {
