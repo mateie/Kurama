@@ -63,9 +63,9 @@ export default class WakeEmUpCommand extends Command implements ICommand {
         const randomChannel = channels.random() as VoiceChannel;
         const randomChannel2 = channels.random() as VoiceChannel;
 
-        if (!randomChannel || randomChannel2)
+        if (!randomChannel || !randomChannel2)
             return interaction.reply({
-                content: `You have one channel that ${member} can access`,
+                content: `You have to have 2 channels that ${member} can access`,
                 ephemeral: true,
             });
 
