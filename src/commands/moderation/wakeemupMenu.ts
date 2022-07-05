@@ -35,7 +35,7 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
                 content: `${member} is not in a voice channel`,
                 ephemeral: true,
             });
-        if (!member.voice.deaf)
+        if (!member.voice.selfDeaf)
             return interaction.reply({
                 content: `${member} is not deafened`,
                 ephemeral: true,
@@ -44,15 +44,16 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         const voiceState = member.voice;
         const currentChannel = member.voice.channel as VoiceChannel;
 
-        const randomChannel = guild.channels.cache
-            .filter(
-                (channel) =>
-                    channel.permissionsFor(member).has("CONNECT") &&
-                    channel.type === "GUILD_VOICE"
-            )
-            .random() as VoiceChannel;
+        const channels = guild.channels.cache.filter(
+            (channel) =>
+                channel.permissionsFor(member).has("CONNECT") &&
+                channel.type === "GUILD_VOICE"
+        );
 
-        if (!randomChannel)
+        const randomChannel = channels.random() as VoiceChannel;
+        const randomChannel2 = channels.random() as VoiceChannel;
+
+        if (!randomChannel || randomChannel2)
             return interaction.reply({
                 content: `You have one channel that ${member} can access`,
                 ephemeral: true,
@@ -61,10 +62,11 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         await interaction.deferReply({ ephemeral: true });
 
         await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(currentChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(currentChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(randomChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(currentChannel);
 
         await interaction.editReply({

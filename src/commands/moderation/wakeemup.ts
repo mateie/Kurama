@@ -17,8 +17,6 @@ export default class WakeEmUpCommand extends Command implements ICommand {
 
         this.permission = "MOVE_MEMBERS";
 
-        this.global = false;
-
         this.data
             .setName(this.name)
             .setDescription(this.description)
@@ -47,7 +45,7 @@ export default class WakeEmUpCommand extends Command implements ICommand {
                 content: `${member} is not in a voice channel`,
                 ephemeral: true,
             });
-        if (!member.voice.deaf)
+        if (!member.voice.selfDeaf)
             return interaction.reply({
                 content: `${member} is not deafened`,
                 ephemeral: true,
@@ -55,16 +53,17 @@ export default class WakeEmUpCommand extends Command implements ICommand {
 
         const voiceState = member.voice;
         const currentChannel = member.voice.channel as VoiceChannel;
-        const randomChannel = guild.channels.cache
-            .filter(
-                (channel) =>
-                    channel.permissionsFor(member).has("CONNECT") &&
-                    channel.type === "GUILD_VOICE" &&
-                    channel.id !== currentChannel.id
-            )
-            .random() as VoiceChannel;
 
-        if (!randomChannel)
+        const channels = guild.channels.cache.filter(
+            (channel) =>
+                channel.permissionsFor(member).has("CONNECT") &&
+                channel.type === "GUILD_VOICE"
+        );
+
+        const randomChannel = channels.random() as VoiceChannel;
+        const randomChannel2 = channels.random() as VoiceChannel;
+
+        if (!randomChannel || randomChannel2)
             return interaction.reply({
                 content: `You have one channel that ${member} can access`,
                 ephemeral: true,
@@ -73,14 +72,15 @@ export default class WakeEmUpCommand extends Command implements ICommand {
         await interaction.deferReply({ ephemeral: true });
 
         await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(currentChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(currentChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(randomChannel);
+        await voiceState.setChannel(randomChannel2);
         await voiceState.setChannel(currentChannel);
 
-        interaction.editReply({
-            content: "We tried waking them up, We hope they did :O",
+        await interaction.editReply({
+            content: `We tried waking ${member} up, we hope they did :O`,
         });
     }
 }
