@@ -123,6 +123,6 @@ export default class ServerInfoCommand extends Command implements ICommand {
                 },
             ]);
 
-        return interaction.reply({ embeds: [embed] });
+        return interaction.reply({ embeds: [embed], ephemeral: true });
     }
 }
