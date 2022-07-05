@@ -15,6 +15,7 @@ import {
 import { Stream } from "stream";
 
 import Nekos from "nekos.life";
+import DIG from "discord-image-generation";
 
 import { CDN } from "@discordjs/rest";
 
@@ -26,6 +27,7 @@ export default class Util {
     readonly member: UtilMember;
     readonly pagination: UtilPagination;
     readonly nekos: Nekos;
+    readonly dig: typeof DIG;
     readonly cdn: CDN;
 
     constructor(client: Client) {
@@ -34,6 +36,7 @@ export default class Util {
         this.member = new UtilMember(this.client, this);
         this.pagination = new UtilPagination(this.client, this);
         this.nekos = new Nekos();
+        this.dig = DIG;
         this.cdn = new CDN();
     }
 
