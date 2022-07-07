@@ -24,6 +24,8 @@ export default class ReadyEvent extends Event implements IEvent {
         this.client.database.guilds.verifyAll();
         this.client.database.users.verifyAll();
 
+        this.client.games.valorant.check();
+
         setInterval(() => {
             this.client.setPresence();
         }, 5000);
