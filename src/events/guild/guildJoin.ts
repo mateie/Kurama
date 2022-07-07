@@ -12,6 +12,5 @@ export default class GuildJoinEvent extends Event implements IEvent {
 
     async run(guild: Guild) {
         this.client.database.guilds.verify(guild);
-        this.client.deploy();
     }
 }
