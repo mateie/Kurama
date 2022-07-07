@@ -68,6 +68,11 @@ export default class UpdateCommand extends Command implements ICommand {
 
                 messages.forEach((message) => message.delete());
 
+                await interaction.reply({
+                    content: "Rules updated",
+                    ephemeral: true,
+                });
+
                 return channel.send({ embeds: [embed], components: [row] });
             }
         }
