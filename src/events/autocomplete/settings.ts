@@ -32,7 +32,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                 return await interaction.respond(
                     roles.map((choice) => ({
                         name: this.util.capFirstLetter(choice),
-                        value: choice,
+                        value: choice
                     }))
                 );
             }
@@ -49,7 +49,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                 return await interaction.respond(
                     toggles.map((choice) => ({
                         name: this.util.capFirstLetter(choice),
-                        value: choice.split(" ").join(""),
+                        value: choice.split(" ").join("")
                     }))
                 );
             }
@@ -69,7 +69,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             categories.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;
@@ -90,7 +90,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             channels.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;
@@ -107,7 +107,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             channelsArray.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;
