@@ -61,7 +61,10 @@ export default class CommandHandler extends Handler {
                 "❌ Failed"
             );
 
-        command.category = process.env.NODE_ENV === "production" ? file.split("\\")[4] || file.split("/")[4] : file.split("\\")[5] || file.split("/")[5];
+        command.category =
+            process.env.NODE_ENV === "production"
+                ? file.split("\\")[4] || file.split("/")[4]
+                : file.split("\\")[5] || file.split("/")[5];
         const category = this.categories.get(command.category);
         category?.set(command.name, command.toJSON());
 
