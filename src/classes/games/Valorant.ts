@@ -1,16 +1,20 @@
 import Client from "@classes/Client";
 import { Collection, GuildMember, CommandInteraction } from "discord.js";
 
-import StingerJS from "stinger.js";
+import { ValorantAPI } from "@mateie/unofficial-valorant-api";
+
+const { VALORANT_API } = process.env;
 
 export default class Valorant {
     private readonly client: Client;
 
-    private readonly accounts: Collection<string, StingerJS>;
+    private readonly api: ValorantAPI;
+    private readonly accounts: Collection<string, object | null>;
 
     constructor(client: Client) {
         this.client = client;
 
+        this.api = new ValorantAPI(VALORANT_API as string);
         this.accounts = new Collection();
     }
 
@@ -21,12 +25,12 @@ export default class Valorant {
                 const db = await this.client.database.users.get(user);
                 if (!db.valorant) return;
                 if (!db.valorant.name || !db.valorant.tag) return;
-                const account = new StingerJS(
-                    db.valorant.name,
-                    db.valorant.tag
-                );
+                const account = await this.api.getAccount({
+                    name: db.valorant.name,
+                    tag: db.valorant.tag
+                });
 
-                this.accounts.set(user.id, account);
+                this.accounts.set(user.id, account.data);
             });
     }
 
@@ -50,9 +54,14 @@ export default class Valorant {
 
         await db.save();
 
-        const account = new StingerJS(name, tag);
+        const account = await new ValorantAPI(
+            VALORANT_API as string
+        ).getAccount({
+            name,
+            tag
+        });
 
-        this.accounts.set(member.id, account);
+        this.accounts.set(member.id, account.data);
 
         return interaction.reply({
             content: `Linked **${name}#${tag}** to you`,
