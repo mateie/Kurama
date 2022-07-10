@@ -31,6 +31,9 @@ export default class ValorantCommand extends Command implements ICommand {
                     )
             )
             .addSubcommand((subcommand) =>
+                subcommand.setName("mmr").setDescription("Check your mmr")
+            )
+            .addSubcommand((subcommand) =>
                 subcommand
                     .setName("unlink")
                     .setDescription("Unlink your account")
@@ -56,6 +59,9 @@ export default class ValorantCommand extends Command implements ICommand {
             }
             case "verify": {
                 return this.client.games.valorant.verify(interaction);
+            }
+            case "mmr": {
+                return this.client.games.valorant.mmr(interaction);
             }
         }
     }

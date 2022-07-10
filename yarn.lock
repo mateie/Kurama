@@ -579,13 +579,6 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@mateie/unofficial-valorant-api@^2.1.1-beta.3":
-  version "2.1.1-beta.3"
-  resolved "https://registry.yarnpkg.com/@mateie/unofficial-valorant-api/-/unofficial-valorant-api-2.1.1-beta.3.tgz#a67d5dc984bb064c42ae213e0ea5ce32c0a32106"
-  integrity sha512-cMyP9UYBaXA+pEmbZccwg5LLoOuF8urp7EF+HD2o+Hv+W0GOEzTGJFE7L29u8jZ+r4ZVXFZlo/0KrObRhbdk0w==
-  dependencies:
-    axios "^0.27.2"
-
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -4057,6 +4050,13 @@ statuses@2.0.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
+stinger.js@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/stinger.js/-/stinger.js-2.0.3.tgz#9df5a7f1ec9503f2d56a2107ad36b75923595058"
+  integrity sha512-bJxA3JRxLB+CMSzme4Eo0fQFvKnzSF8gNqHofVvAWKQclVQ/7GNDg9AXnuQf5DKNbqq0f/5ha0Bq0exgMz2DDg==
+  dependencies:
+    axios "^0.27.2"
+
 string-split-by@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/string-split-by/-/string-split-by-1.0.0.tgz#53895fb3397ebc60adab1f1e3a131f5372586812"
@@ -4420,10 +4420,10 @@ voucher-code-generator@^1.3.0:
   resolved "https://registry.yarnpkg.com/voucher-code-generator/-/voucher-code-generator-1.3.0.tgz#51c6748ff68f9a18e45e71fef5e815cd68e2249e"
   integrity sha512-t4wnI91KC58LtjX2I0rJDhRm1JTXD+G7A+7iqp0sRSgpeJP4eKLexDRDLe2nedR7xFQcVlZudDZRBLrMP5+KTA==
 
-warframe-items@^1.1253.1801:
-  version "1.1253.1801"
-  resolved "https://registry.yarnpkg.com/warframe-items/-/warframe-items-1.1253.1801.tgz#52f705507b88d16819899f8541240ae52d5da07f"
-  integrity sha512-kQp5Zw7biP0wyLCCAVU4Jt2S6tj7AzhUaeZiBC7Xwh5uOKW9K+OH2kWVCdvlHjFG8CTbBe0Nf6bgd4z1ZePImw==
+warframe-items@^1.1253.1851:
+  version "1.1253.1851"
+  resolved "https://registry.yarnpkg.com/warframe-items/-/warframe-items-1.1253.1851.tgz#6e716d542f938a627ce158376ce4d830a7cd9ac9"
+  integrity sha512-3qa2hQ5E5qLxRfDhTW08WOBhdwromsH8+mEnD1MZKek2HeuwJ3F6kI22HKwNVdd7gKwET8Upi1zqFhaIR70aDw==
 
 warframe-market@^1.1.1:
   version "1.1.1"

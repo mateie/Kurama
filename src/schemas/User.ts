@@ -8,6 +8,7 @@ export interface IUser extends HydratedDocument<any> {
     valorant: {
         name: string | null;
         tag: string | null;
+        puuid: string | null;
     };
     card: {
         background: {
@@ -73,7 +74,8 @@ export const User: Schema = new Schema<IUser>({
     },
     valorant: {
         name: String,
-        tag: String
+        tag: String,
+        puuid: String
     },
     card: {
         background: {
@@ -112,7 +114,9 @@ export const User: Schema = new Schema<IUser>({
         married: {
             type: Boolean,
             default: false
-        }
+        },
+        to: String,
+        since: String
     },
     playlist: [
         {
