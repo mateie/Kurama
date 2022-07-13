@@ -60,14 +60,14 @@ export default class Auth {
                         ...guild,
                         ...(guildJSON as Guild),
                         botJoined,
-                        iconURL,
+                        iconURL
                     };
                 }
 
                 return {
                     ...guild,
                     botJoined,
-                    iconURL,
+                    iconURL
                 };
             });
 
@@ -99,13 +99,16 @@ export default class Auth {
                 code: Buffer.from(code, "base64").toString("ascii"),
                 scope: "identify guilds",
                 grantType: "authorization_code",
-                redirectUri: "http://73.185.96.104:3000/login",
+                redirectUri:
+                    process.env.NODE_ENV === "production"
+                        ? "http://kurama.mateie.com/login"
+                        : "http://localhost:3000/login"
             });
 
             return this.client.crypt.encrypt(
                 this.jwt.sign(
                     {
-                        token,
+                        token
                     },
                     this.secrets.jwt
                 )
@@ -140,14 +143,14 @@ export default class Auth {
                     ...user,
                     ...db._doc,
                     database: true,
-                    avatarURL,
+                    avatarURL
                 };
             }
 
             return {
                 ...user,
                 avatarURL,
-                database: false,
+                database: false
             };
         } catch (err) {
             console.error(err);

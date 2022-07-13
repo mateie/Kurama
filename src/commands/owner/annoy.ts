@@ -13,7 +13,7 @@ export default class AnnoyCommand extends Command implements ICommand {
         super(client);
 
         this.name = "annoy";
-        this.description = "Annoy someone (owner only :D)";
+        this.description = "Annoy someone";
         this.ownerOnly = true;
 
         this.data
