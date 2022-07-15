@@ -32,7 +32,6 @@ export default {
         ) => {
             try {
                 const command = client.commandHandler.commands.get(commandName);
-                console.log(command);
                 if (!command) throw new UserInputError("Command not found");
                 return command;
             } catch (err) {
