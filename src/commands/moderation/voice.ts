@@ -16,11 +16,6 @@ export default class VoiceCommand extends Command implements ICommand {
             .setDescription(this.description)
             .addSubcommand((subcommand) =>
                 subcommand
-                    .setName("lock")
-                    .setDescription("Lock the voice channel you are in")
-            )
-            .addSubcommand((subcommand) =>
-                subcommand
                     .setName("moveall")
                     .setDescription("Move a person from one vc to another")
                     .addChannelOption((option) =>
