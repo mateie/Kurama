@@ -5,9 +5,6 @@
         "baseUrl": "src",
         "rootDir": "src",
         "moduleResolution": "Node" /* Specify how TypeScript looks up a file from a given module specifier. */,
-        "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
-        "declarationMap": true /* Create sourcemaps for d.ts files. */,
-        "sourceMap": true /* Create source map files for emitted JavaScript files. */,
         "outDir": "build" /* Specify an output folder for all emitted files. */,
         "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
         "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
@@ -23,7 +20,5 @@
                 "transform": "@zerollup/ts-transform-paths"
             }
         ]
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules", "build"]
+    }
 }
