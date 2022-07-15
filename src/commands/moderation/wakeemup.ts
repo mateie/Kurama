@@ -2,7 +2,7 @@ import {
     CommandInteraction,
     Guild,
     GuildMember,
-    VoiceChannel,
+    VoiceChannel
 } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
@@ -25,6 +25,11 @@ export default class WakeEmUpCommand extends Command implements ICommand {
                     .setName("member")
                     .setDescription("Member to wake up")
                     .setRequired(true)
+            )
+            .addIntegerOption((option) =>
+                option
+                    .setName("times")
+                    .setDescription("Amount of times they get moved")
             );
     }
 
@@ -37,18 +42,18 @@ export default class WakeEmUpCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!member.voice.channelId)
             return interaction.reply({
                 content: `${member} is not in a voice channel`,
-                ephemeral: true,
+                ephemeral: true
             });
         if (!member.voice.selfDeaf)
             return interaction.reply({
                 content: `${member} is not deafened`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const voiceState = member.voice;
@@ -66,21 +71,35 @@ export default class WakeEmUpCommand extends Command implements ICommand {
         if (!randomChannel || !randomChannel2)
             return interaction.reply({
                 content: `You have to have 2 channels that ${member} can access`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply({ ephemeral: true });
 
-        await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(randomChannel2);
-        await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(randomChannel2);
-        await voiceState.setChannel(randomChannel);
-        await voiceState.setChannel(randomChannel2);
+        let times = options.getInteger("times");
+
+        if (!times) times = 3;
+
+        if (times < 1)
+            return interaction.reply({
+                content: "Min number of times is 1",
+                ephemeral: true
+            });
+        if (times > 6)
+            return interaction.reply({
+                content: "Max number of times is 6",
+                ephemeral: true
+            });
+
+        for (let i = 0; i <= times; i++) {
+            await voiceState.setChannel(randomChannel);
+            await voiceState.setChannel(randomChannel2);
+        }
+
         await voiceState.setChannel(currentChannel);
 
         await interaction.editReply({
-            content: `We tried waking ${member} up, we hope they did :O`,
+            content: `We tried waking ${member} up, we hope they did :O`
         });
     }
 }
