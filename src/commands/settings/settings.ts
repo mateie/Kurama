@@ -3,7 +3,7 @@ import {
     CommandInteraction,
     Guild,
     Role,
-    TextChannel,
+    TextChannel
 } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
@@ -17,7 +17,7 @@ export default class SettingsCommand extends Command implements ICommand {
 
         this.name = "settings";
         this.description = "Settings for your server";
-        this.permission = "MANAGE_GUILD";
+        this.permission = ["MANAGE_GUILD"];
 
         this.data
             .setName(this.name)
@@ -171,7 +171,7 @@ export default class SettingsCommand extends Command implements ICommand {
                     content: `${role} was set to **${this.util.capFirstLetter(
                         type
                     )}** in the database`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "toggles": {
@@ -194,7 +194,7 @@ export default class SettingsCommand extends Command implements ICommand {
                             ? "On"
                             : "Off"
                     }**`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
@@ -220,7 +220,7 @@ export default class SettingsCommand extends Command implements ICommand {
                             } as a **${this.util.capFirstLetter(
                                 type
                             )}** Category`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "list": {
@@ -243,7 +243,7 @@ export default class SettingsCommand extends Command implements ICommand {
 
                         return interaction.reply({
                             embeds: [embed],
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                 }
@@ -270,7 +270,7 @@ export default class SettingsCommand extends Command implements ICommand {
                             content: `Set ${channel} as a **${this.util.capFirstLetter(
                                 type
                             )}** channel`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "add": {
@@ -279,7 +279,7 @@ export default class SettingsCommand extends Command implements ICommand {
                                 content: `${channel} is already in **${this.util.capFirstLetter(
                                     type
                                 )}** channel list`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
 
                         channelsArray.push(channel.id);
@@ -290,7 +290,7 @@ export default class SettingsCommand extends Command implements ICommand {
                             content: `Added ${channel} to the **${this.util.capFirstLetter(
                                 type
                             )}** channel list`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "remove": {
@@ -299,7 +299,7 @@ export default class SettingsCommand extends Command implements ICommand {
                                 content: `${channel} is not in **${this.util.capFirstLetter(
                                     type
                                 )}** channel list`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
 
                         dbGuild.channelsArray[
@@ -312,7 +312,7 @@ export default class SettingsCommand extends Command implements ICommand {
                             content: `Removed ${channel} from the **${this.util.capFirstLetter(
                                 type
                             )}** channel list`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "list": {
@@ -358,7 +358,7 @@ export default class SettingsCommand extends Command implements ICommand {
 
                         return interaction.reply({
                             embeds: [embed],
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                 }

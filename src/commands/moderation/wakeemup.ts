@@ -15,7 +15,7 @@ export default class WakeEmUpCommand extends Command implements ICommand {
         this.name = "wakeemup";
         this.description = "Wake someone up who is deafened in the vc";
 
-        this.permission = "MOVE_MEMBERS";
+        this.permission = ["MOVE_MEMBERS"];
 
         this.data
             .setName(this.name)

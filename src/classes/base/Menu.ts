@@ -15,7 +15,7 @@ export default class Command {
     ownerOnly: boolean;
     global: boolean;
 
-    permission: PermissionResolvable | null;
+    permission: [PermissionResolvable] | null;
     data!: ContextMenuCommandBuilder;
 
     constructor(client: Client) {
@@ -38,7 +38,7 @@ export default class Command {
             category: this.category,
             permission: this.permission ? this.permission.toString() : null,
             ownerOnly: this.ownerOnly,
-            data: this.data.toJSON(),
+            data: this.data.toJSON()
         };
     }
 

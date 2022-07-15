@@ -2,13 +2,13 @@ import Client from "@classes/Client";
 import Util from "@classes/util";
 import {
     ContextMenuCommandBuilder,
-    SlashCommandBuilder,
+    SlashCommandBuilder
 } from "@discordjs/builders";
 import { Region } from "@survfate/valorant.js";
 import {
     CommandInteraction,
     ContextMenuInteraction,
-    PermissionResolvable,
+    PermissionResolvable
 } from "discord.js";
 
 import { RESTPostAPIApplicationCommandsJSONBody } from "discord-api-types/v10";
@@ -24,7 +24,7 @@ export interface IBase {
     ownerOnly: boolean;
     global: boolean;
 
-    permission: PermissionResolvable | null;
+    permission: [PermissionResolvable] | null;
 
     toJSON(): IBaseJSON;
 

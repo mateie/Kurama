@@ -5,7 +5,7 @@ import {
     CommandInteraction,
     Guild,
     GuildMember,
-    TextChannel,
+    TextChannel
 } from "discord.js";
 import { channelMention } from "@discordjs/builders";
 
@@ -45,12 +45,12 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                         return interaction.reply({
                             content:
                                 "Strict Music Channel is enabled but there are no channels added to it's list",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     if (!musicChannels.includes(channel.id))
                         return interaction.reply({
                             content: `You cannot use music commands in this channel. Use them here: ${channelMentions}`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                 } else if (
                     dbGuild.toggles.strictCommands &&
@@ -65,12 +65,12 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                         return interaction.reply({
                             content:
                                 "Strict Commands is enabled but there are no channels added to it's list",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     if (!commandChannels.includes(channel.id))
                         return interaction.reply({
                             content: `You cannot use commands in this channel, Use them here: ${channelMentions}`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                 }
             }
@@ -81,14 +81,17 @@ export default class SlashHandlingEvent extends Event implements IEvent {
             if (base.ownerOnly && !this.client.owners.includes(member.id)) {
                 return interaction.reply({
                     content: "This command is bot owner only",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
 
-            if (base.permission && !member.permissions.has(base.permission)) {
+            if (
+                base.permission &&
+                !base.permission.some((perm) => member.permissions.has(perm))
+            ) {
                 return interaction.reply({
                     content: "Not enough permissions",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
 
@@ -101,7 +104,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                     console.error(err);
                     return interaction.reply({
                         content: "An error occured, please try again",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 }
             }
@@ -115,7 +118,7 @@ export default class SlashHandlingEvent extends Event implements IEvent {
                     console.error(err);
                     return interaction.reply({
                         content: "An error occured, please try again",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 }
             }
