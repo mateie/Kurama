@@ -35,7 +35,7 @@ export default class UpdateCommand extends Command implements ICommand {
                 if (!db.channels.rules)
                     return interaction.reply({
                         content:
-                            "Rules channel is not set up, set it up with /channels"
+                            "Rules channel is not set up, set it up with /channels",
                     });
                 const channel = guild.channels.cache.get(
                     db.channels.rules
@@ -46,7 +46,7 @@ export default class UpdateCommand extends Command implements ICommand {
                 if (!messages || messages.size < 1)
                     return interaction.reply({
                         content: "No messages found in your rules channel",
-                        ephemeral: true
+                        ephemeral: true,
                     });
                 const rules = messages
                     .map((message) => message.content)
@@ -70,7 +70,7 @@ export default class UpdateCommand extends Command implements ICommand {
 
                 await interaction.reply({
                     content: "Rules updated",
-                    ephemeral: true
+                    ephemeral: true,
                 });
 
                 return channel.send({ embeds: [embed], components: [row] });

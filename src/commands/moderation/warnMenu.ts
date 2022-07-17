@@ -20,7 +20,7 @@ export default class WarnMenu extends Menu implements IMenu {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         return interaction.showModal(

@@ -58,88 +58,88 @@ export const User: Schema = new Schema<IUser>({
     id: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     username: {
         type: String,
-        required: true
+        required: true,
     },
     xp: {
         type: Number,
-        default: 0
+        default: 0,
     },
     level: {
         type: Number,
-        default: 0
+        default: 0,
     },
     valorant: {
         name: String,
         tag: String,
-        puuid: String
+        puuid: String,
     },
     card: {
         background: {
             type: {
                 type: String,
-                default: "color"
+                default: "color",
             },
             color: {
                 type: String,
-                default: "#222216"
+                default: "#222216",
             },
-            image: Buffer
+            image: Buffer,
         },
         outlines: {
             type: {
                 type: String,
-                default: "avatar"
+                default: "avatar",
             },
             color: {
                 type: String,
-                default: "#222216"
-            }
+                default: "#222216",
+            },
         },
         text: {
             type: {
                 type: String,
-                default: "color"
+                default: "color",
             },
             color: {
                 type: String,
-                default: "#ffffff"
-            }
-        }
+                default: "#ffffff",
+            },
+        },
     },
     marriage: {
         married: {
             type: Boolean,
-            default: false
+            default: false,
         },
         to: String,
-        since: String
+        since: String,
     },
     playlist: [
         {
             guildId: String,
             channelId: String,
             tracks: [],
-            sharedWith: []
-        }
+            sharedWith: [],
+        },
     ],
     warns: [
         {
             guildId: String,
             by: String,
-            reason: String
-        }
+            reason: String,
+        },
     ],
     reports: [
         {
             guildId: String,
             by: String,
-            reason: String
-        }
-    ]
+            reason: String,
+        },
+    ],
 });
 
 const name = "users";

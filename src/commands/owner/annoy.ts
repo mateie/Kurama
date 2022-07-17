@@ -2,7 +2,7 @@ import {
     CommandInteraction,
     Guild,
     GuildMember,
-    VoiceChannel
+    VoiceChannel,
 } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
@@ -36,13 +36,13 @@ export default class AnnoyCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         if (!member.voice.channelId)
             return interaction.reply({
                 content: `${member} is not in a voice channel`,
-                ephemeral: true
+                ephemeral: true,
             });
         const voiceState = member.voice;
         const currentChannel = member.voice.channel as VoiceChannel;
@@ -59,7 +59,7 @@ export default class AnnoyCommand extends Command implements ICommand {
         if (!randomChannel || !randomChannel2)
             return interaction.reply({
                 content: `You have to have 2 channels that ${member} can access`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         await interaction.deferReply({ ephemeral: true });
@@ -73,7 +73,7 @@ export default class AnnoyCommand extends Command implements ICommand {
         await voiceState.setChannel(currentChannel);
 
         await interaction.editReply({
-            content: `We tried annoying ${member} up, we hope they did :O`
+            content: `We tried annoying ${member} up, we hope they did :O`,
         });
     }
 }

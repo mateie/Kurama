@@ -36,7 +36,7 @@ export default class WarnCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         return this.client.moderation.warns.create(interaction, member, reason);

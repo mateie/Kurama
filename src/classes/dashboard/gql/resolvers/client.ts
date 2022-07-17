@@ -17,7 +17,7 @@ export default {
                     description: application.description,
                     avatarURL: user.displayAvatarURL(),
                     guilds: client.guilds.cache.size,
-                    users: client.users.cache.size
+                    users: client.users.cache.size,
                 };
             } catch (err) {
                 console.error(err);
@@ -48,7 +48,7 @@ export default {
                         );
                         return {
                             id: category.first()?.category,
-                            commands: commands.toJSON()
+                            commands: commands.toJSON(),
                         };
                     }
                 );
@@ -58,6 +58,6 @@ export default {
                 console.error(err);
                 throw err;
             }
-        }
-    }
+        },
+    },
 };

@@ -30,7 +30,7 @@ export default class ReportsCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         const guild = interaction.guild as Guild;
@@ -40,7 +40,7 @@ export default class ReportsCommand extends Command implements ICommand {
         if (reports.length < 1)
             return interaction.reply({
                 content: `${member} has no reports`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         const reportMap = reports.map(

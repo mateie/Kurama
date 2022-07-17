@@ -30,7 +30,7 @@ export default class WarnsCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         const guild = interaction.guild as Guild;
@@ -40,7 +40,7 @@ export default class WarnsCommand extends Command implements ICommand {
         if (warns.length < 1)
             return interaction.reply({
                 content: `${member} has no warns`,
-                ephemeral: true
+                ephemeral: true,
             });
 
         const warnMap = warns.map(
