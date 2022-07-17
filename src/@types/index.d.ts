@@ -73,6 +73,32 @@ export interface ValorantLogin {
     region: Region;
 }
 
+// Shinobi Types
+export interface ShinobiClan {
+    id: string;
+    name: string;
+    icon: string | undefined;
+    stats: ShinobiStats;
+}
+
+export interface ShinobiStats {
+    ninjutsu: number;
+    genjutsu: number;
+    taijutsu: number;
+    kenjutsu: number;
+}
+
+export type ShinobiRanks =
+    | "genin"
+    | "chunin"
+    | "jonin"
+    | "special_jonin"
+    | "hokage"
+    | "anbu"
+    | "medical"
+    | "rogue";
+
+// Event Types
 export type ClientEvents =
     | "rateLimit"
     | "invalidRequestWarning"
