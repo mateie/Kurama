@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -23,7 +23,7 @@ export default class WeatherCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const location = interaction.options.getString("location");
 
         try {
@@ -33,7 +33,7 @@ export default class WeatherCommand extends Command implements ICommand {
                     if (err)
                         return interaction.reply({
                             content: "Could not fetch weather",
-                            ephemeral: true,
+                            ephemeral: true
                         });
 
                     const place = result[0];
@@ -42,25 +42,27 @@ export default class WeatherCommand extends Command implements ICommand {
                         .embed()
                         .setTitle(`${place.location.name}`)
                         .setThumbnail(place.current.imageUrl)
-                        .addField(
-                            "Temperature: ",
-                            place.current.temperature + "°F",
-                            true
-                        )
-                        .addField(
-                            "Wind Speed: ",
-                            place.current.winddisplay,
-                            true
-                        )
-                        .addField(
-                            "Humidity: ",
-                            `${place.current.humidity}%`,
-                            true
-                        )
-                        .addField(
-                            "Timezone: ",
-                            `UTC${place.location.timezone}`,
-                            true
+                        .addFields(
+                            {
+                                name: "Temperature",
+                                value: place.current.temperature + "°F",
+                                inline: true
+                            },
+                            {
+                                name: "Wind Speed",
+                                value: place.current.winddisplay,
+                                inline: true
+                            },
+                            {
+                                name: "Humidity",
+                                value: `${place.current.humidity}%`,
+                                inline: true
+                            },
+                            {
+                                name: "Timezone",
+                                value: `UTC${place.location.timezone}`,
+                                inline: true
+                            }
                         );
 
                     interaction.reply({ embeds: [embed] });
@@ -69,7 +71,7 @@ export default class WeatherCommand extends Command implements ICommand {
         } catch {
             interaction.reply({
                 content: "Could not fetch weather",
-                ephemeral: true,
+                ephemeral: true
             });
         }
     }

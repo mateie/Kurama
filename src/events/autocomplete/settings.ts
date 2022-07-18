@@ -1,7 +1,7 @@
 import Client from "@classes/Client";
 import Event from "@classes/base/event";
 import { IEvent } from "@types";
-import { AutocompleteInteraction, Guild } from "discord.js";
+import { AutocompleteInteraction, Guild, InteractionType } from "discord.js";
 
 export default class SetttingsACEvent extends Event implements IEvent {
     constructor(client: Client) {
@@ -11,7 +11,8 @@ export default class SetttingsACEvent extends Event implements IEvent {
     }
 
     async run(interaction: AutocompleteInteraction) {
-        if (!interaction.isAutocomplete()) return;
+        if (interaction.type === InteractionType.ApplicationCommandAutocomplete)
+            return;
 
         if (interaction.commandName !== "settings") return;
 
@@ -32,7 +33,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                 return await interaction.respond(
                     roles.map((choice) => ({
                         name: this.util.capFirstLetter(choice),
-                        value: choice,
+                        value: choice
                     }))
                 );
             }
@@ -49,7 +50,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                 return await interaction.respond(
                     toggles.map((choice) => ({
                         name: this.util.capFirstLetter(choice),
-                        value: choice.split(" ").join(""),
+                        value: choice.split(" ").join("")
                     }))
                 );
             }
@@ -69,7 +70,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             categories.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;
@@ -90,7 +91,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             channels.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;
@@ -107,7 +108,7 @@ export default class SetttingsACEvent extends Event implements IEvent {
                         await interaction.respond(
                             channelsArray.map((choice) => ({
                                 name: this.util.capFirstLetter(choice),
-                                value: choice,
+                                value: choice
                             }))
                         );
                         break;

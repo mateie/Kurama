@@ -1,7 +1,7 @@
 import Client from "@classes/Client";
 import DashboardBE from ".";
 
-import { Guild, Permissions, User } from "discord.js";
+import { Guild, PermissionsBitField, User } from "discord.js";
 
 import jwt from "jsonwebtoken";
 import { ExpressContext } from "apollo-server-express";
@@ -39,8 +39,8 @@ export default class Auth {
             await this.oauth.getUserGuilds(decoded.token.access_token)
         )
             .filter((guild) => {
-                const perms = new Permissions(guild.permissions as any);
-                return perms.has("MANAGE_GUILD");
+                const perms = new PermissionsBitField(guild.permissions as any);
+                return perms.has("ManageGuild");
             })
             .map((guild) => {
                 const iconURL = guild.icon
@@ -60,14 +60,14 @@ export default class Auth {
                         ...guild,
                         ...(guildJSON as Guild),
                         botJoined,
-                        iconURL,
+                        iconURL
                     };
                 }
 
                 return {
                     ...guild,
                     botJoined,
-                    iconURL,
+                    iconURL
                 };
             });
 
@@ -102,13 +102,13 @@ export default class Auth {
                 redirectUri:
                     process.env.NODE_ENV === "production"
                         ? "http://kurama.mateie.com/login"
-                        : "http://localhost:3000/login",
+                        : "http://localhost:3000/login"
             });
 
             return this.client.crypt.encrypt(
                 this.jwt.sign(
                     {
-                        token,
+                        token
                     },
                     this.secrets.jwt
                 )
@@ -143,14 +143,14 @@ export default class Auth {
                     ...user,
                     ...db._doc,
                     database: true,
-                    avatarURL,
+                    avatarURL
                 };
             }
 
             return {
                 ...user,
                 avatarURL,
-                database: false,
+                database: false
             };
         } catch (err) {
             console.error(err);

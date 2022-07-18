@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -99,7 +99,7 @@ export default class CardCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = interaction.member as GuildMember;
@@ -115,13 +115,13 @@ export default class CardCommand extends Command implements ICommand {
                             return interaction.reply({
                                 content:
                                     "Your background is already using your banner",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         const banner = member.user.banner;
                         if (!banner)
                             return interaction.reply({
                                 content: "You don't have a banner",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         dbMember.card.background.type = "banner";
 
@@ -130,7 +130,7 @@ export default class CardCommand extends Command implements ICommand {
                         return interaction.reply({
                             content:
                                 "Your background will be your banner from now on",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "color": {
@@ -143,7 +143,7 @@ export default class CardCommand extends Command implements ICommand {
                             ).basic[0].name;
                             return interaction.reply({
                                 content: `Switched the background to a color, **Current Color**: ${colorName}`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         }
                         let hex = color;
@@ -151,7 +151,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!hex)
                             return interaction.reply({
                                 content: `${color} is not a color`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
 
                         dbMember.card.background.color = hex;
@@ -160,29 +160,29 @@ export default class CardCommand extends Command implements ICommand {
 
                         return interaction.reply({
                             content: `Your background was changed to **${color}** `,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "image": {
-                        let attachment = options.getAttachment("bg_image");
+                        const attachment = options.getAttachment("bg_image");
                         dbMember.card.background.type = "image";
                         if (!attachment) {
                             if (!dbMember.card.background.image)
                                 return interaction.reply({
                                     content:
                                         "You don't have any images uploaded as your background before",
-                                    ephemeral: true,
+                                    ephemeral: true
                                 });
-                            attachment = this.client.util.attachment(
+                            const newBG = this.client.util.attachment(
                                 dbMember.card.background.image,
                                 "current_image.png"
                             );
                             await dbMember.save();
                             return interaction.reply({
-                                files: [attachment],
+                                files: [newBG],
                                 content:
                                     "Switched the background to an image, **Current image below**",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         }
                         if (
@@ -191,7 +191,7 @@ export default class CardCommand extends Command implements ICommand {
                         )
                             return interaction.reply({
                                 content: "File has to be an image",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         const imageBuffer =
                             await this.client.util.imageToBuffer(
@@ -205,7 +205,7 @@ export default class CardCommand extends Command implements ICommand {
                             files: [attachment],
                             content:
                                 "Your background was changed to ***Image below***",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                 }
@@ -218,7 +218,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!banner)
                             return interaction.reply({
                                 content: "You don't have a banner",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         dbMember.card.outlines.type = "banner";
 
@@ -227,7 +227,7 @@ export default class CardCommand extends Command implements ICommand {
                         return interaction.reply({
                             content:
                                 "Your outlines are now using your banner's colors",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                         break;
                     }
@@ -236,7 +236,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!avatar)
                             return interaction.reply({
                                 content: "You don't have an avatar",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         dbMember.card.outlines.type = "avatar";
 
@@ -245,7 +245,7 @@ export default class CardCommand extends Command implements ICommand {
                         return interaction.reply({
                             content:
                                 "Your outlines are now using your avatar's colors",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "color": {
@@ -258,7 +258,7 @@ export default class CardCommand extends Command implements ICommand {
                             ).basic[0].name;
                             return interaction.reply({
                                 content: `Switched the outlines to a color, **Current Color**: ${colorName}`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         }
 
@@ -267,7 +267,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!hex)
                             return interaction.reply({
                                 content: `${color} is not a color`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
 
                         dbMember.card.outlines.color = hex;
@@ -276,7 +276,7 @@ export default class CardCommand extends Command implements ICommand {
 
                         return interaction.reply({
                             content: `Your outlines was changed to **${color}**`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                 }
@@ -289,7 +289,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!banner)
                             return interaction.reply({
                                 content: "You don't have a banner",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         dbMember.card.text.type = "banner";
 
@@ -298,7 +298,7 @@ export default class CardCommand extends Command implements ICommand {
                         return interaction.reply({
                             content:
                                 "Your text is now using your banner's colors",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                         break;
                     }
@@ -307,7 +307,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!avatar)
                             return interaction.reply({
                                 content: "You don't have an avatar",
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         dbMember.card.text.type = "avatar";
 
@@ -316,7 +316,7 @@ export default class CardCommand extends Command implements ICommand {
                         return interaction.reply({
                             content:
                                 "Your text is now using your avatar's colors",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                     case "color": {
@@ -329,7 +329,7 @@ export default class CardCommand extends Command implements ICommand {
                             ).basic[0].name;
                             return interaction.reply({
                                 content: `Switched the text to a color, **Current Color**: ${colorName}`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
                         }
 
@@ -338,7 +338,7 @@ export default class CardCommand extends Command implements ICommand {
                         if (!hex)
                             return interaction.reply({
                                 content: `${color} is not a color`,
-                                ephemeral: true,
+                                ephemeral: true
                             });
 
                         dbMember.card.text.color = hex;
@@ -347,7 +347,7 @@ export default class CardCommand extends Command implements ICommand {
 
                         return interaction.reply({
                             content: `Your text was changed to **${color}**`,
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     }
                 }

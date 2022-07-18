@@ -1,7 +1,7 @@
 import Client from "../Client";
 import { Player } from "discord-player";
 import songlyrics from "songlyrics";
-import { Message } from "discord.js";
+import { ButtonStyle, Message } from "discord.js";
 
 export default class Music extends Player {
     readonly client: Client;
@@ -30,17 +30,17 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("show_queue")
                     .setLabel("Show Queue")
-                    .setStyle("PRIMARY"),
+                    .setStyle(ButtonStyle.Primary),
                 this.client.util
                     .button()
                     .setCustomId("show_track_progress")
                     .setLabel("Show Track Progress")
-                    .setStyle("PRIMARY"),
+                    .setStyle(ButtonStyle.Primary),
                 this.client.util
                     .button()
                     .setCustomId("show_track_lyrics")
                     .setLabel("Show Lyrics")
-                    .setStyle("PRIMARY"),
+                    .setStyle(ButtonStyle.Primary)
             ]);
 
         const midRow = this.client.util
@@ -50,17 +50,17 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("pause_track")
                     .setLabel("Pause Track")
-                    .setStyle("DANGER"),
+                    .setStyle(ButtonStyle.Danger),
                 this.client.util
                     .button()
                     .setCustomId("skip_current_track")
                     .setLabel("Skip Current Track")
-                    .setStyle("DANGER"),
+                    .setStyle(ButtonStyle.Danger),
                 this.client.util
                     .button()
                     .setCustomId("skip_to_track")
                     .setLabel("Skip to Track")
-                    .setStyle("SUCCESS"),
+                    .setStyle(ButtonStyle.Success)
             ]);
 
         const bottomRow = this.client.util
@@ -70,7 +70,7 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("add_tracks")
                     .setLabel("Add Track(s)")
-                    .setStyle("SUCCESS"),
+                    .setStyle(ButtonStyle.Success)
             ]);
 
         await message.edit({ components: [topRow, midRow, bottomRow] });

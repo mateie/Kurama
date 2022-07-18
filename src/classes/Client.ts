@@ -6,7 +6,7 @@ import {
 } from "discord.js";
 import path from "path";
 import { REST } from "@discordjs/rest";
-import { Routes } from "discord-api-types/v10";
+import { ActivityType, Routes } from "discord-api-types/v10";
 import logs from "discord-logs";
 
 import Dashboard from "./dashboard";
@@ -129,7 +129,7 @@ export default class Client extends DiscordClient {
                 activities: [
                     {
                         name: `${this.guilds.cache.size} Servers`,
-                        type: "WATCHING"
+                        type: ActivityType.Watching
                     }
                 ]
             },
@@ -138,7 +138,7 @@ export default class Client extends DiscordClient {
                 activities: [
                     {
                         name: `${this.users.cache.size} Users`,
-                        type: "LISTENING"
+                        type: ActivityType.Listening
                     }
                 ]
             }

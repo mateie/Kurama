@@ -24,7 +24,7 @@ export default class MemberCanvas {
             ? (member.user.hexAccentColor as string)
             : "#808080";
         const iconColors = await this.canvas.popularColor(
-            guild.iconURL({ format: "png" }) as string
+            guild.iconURL() as string
         );
         const iconColor =
             iconColors[Math.floor(Math.random() * iconColors.length)];
@@ -88,9 +88,7 @@ export default class MemberCanvas {
         ctx.stroke();
         ctx.closePath();
         ctx.clip();
-        const avatar = await loadImage(
-            member.displayAvatarURL({ format: "png" })
-        );
+        const avatar = await loadImage(member.displayAvatarURL());
         ctx.drawImage(avatar, canvas.width - 590, 70, 128, 128);
 
         return this.client.util.attachment(
@@ -111,7 +109,7 @@ export default class MemberCanvas {
             ? (member.user.hexAccentColor as string)
             : "#808080";
         const iconColors = await this.canvas.popularColor(
-            guild.iconURL({ format: "png" }) as string
+            guild.iconURL() as string
         );
         const iconColor =
             iconColors[Math.floor(Math.random() * iconColors.length)];
@@ -175,9 +173,7 @@ export default class MemberCanvas {
         ctx.stroke();
         ctx.closePath();
         ctx.clip();
-        const avatar = await loadImage(
-            member.displayAvatarURL({ format: "png" })
-        );
+        const avatar = await loadImage(member.displayAvatarURL());
         ctx.drawImage(avatar, canvas.width - 590, 70, 128, 128);
 
         return this.client.util.attachment(
@@ -199,9 +195,7 @@ export default class MemberCanvas {
         switch (data.card.background.type) {
             case "banner": {
                 const background = await loadImage(
-                    member.user.bannerURL({
-                        format: "png",
-                    }) as string
+                    member.user.bannerURL() as string
                 );
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 break;
@@ -233,9 +227,7 @@ export default class MemberCanvas {
         switch (data.card.outlines.type) {
             case "banner": {
                 const colors = await this.canvas.popularColor(
-                    member.user.bannerURL({
-                        format: "png",
-                    }) as string
+                    member.user.bannerURL() as string
                 );
                 strokeStyle = colors[Math.floor(Math.random() * colors.length)];
                 break;
@@ -254,9 +246,7 @@ export default class MemberCanvas {
         switch (data.card.text.type) {
             case "banner": {
                 const colors = await this.canvas.popularColor(
-                    member.user.bannerURL({
-                        format: "png",
-                    }) as string
+                    member.user.bannerURL() as string
                 );
                 fillStyle = colors[Math.floor(Math.random() * colors.length)];
                 break;
@@ -308,9 +298,7 @@ export default class MemberCanvas {
         ctx.stroke();
         ctx.closePath();
         ctx.clip();
-        const avatar = await loadImage(
-            member.displayAvatarURL({ format: "png" })
-        );
+        const avatar = await loadImage(member.displayAvatarURL());
         ctx.drawImage(avatar, canvas.width - 590, 70, 128, 128);
 
         return this.client.util.attachment(

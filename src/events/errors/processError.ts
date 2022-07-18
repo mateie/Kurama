@@ -21,7 +21,7 @@ export default class ProcessErrorEvent extends ProcessEvent implements IEvent {
             .setURL(
                 "https://discordjs.guide/popular-topics/errors.html#api-errors"
             )
-            .setColor("RED")
+            .setColor("Red")
             .setDescription(`\`\`\`${inspect(err, { depth: 0 })}\`\`\``);
 
         channel.send({ embeds: [embed] });

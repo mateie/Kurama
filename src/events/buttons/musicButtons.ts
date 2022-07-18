@@ -6,8 +6,13 @@ import {
     Guild,
     GuildMember,
     Message,
-    MessageButton,
+    ButtonBuilder,
     VoiceChannel,
+    EmbedBuilder,
+    APIEmbedField,
+    APIButtonComponent,
+    ButtonStyle,
+    TextInputStyle
 } from "discord.js";
 
 export default class MusicButtonsEvent extends Event implements IEvent {
@@ -33,7 +38,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 "skip_current_track",
                 "skip_to_track",
                 "cancel_track_select",
-                "add_tracks",
+                "add_tracks"
             ].includes(customId)
         )
             return;
@@ -47,19 +52,21 @@ export default class MusicButtonsEvent extends Event implements IEvent {
         if (!queue)
             return await interaction.reply({
                 content: "Music is not playing",
-                ephemeral: true,
+                ephemeral: true
             });
         if (!voiceChannel)
             return interaction.reply({
                 content:
                     "You must be in a voice channel to be able to use the music buttons",
-                ephemeral: true,
+                ephemeral: true
             });
         if (queue.connection.channel.id !== voiceChannel.id)
             return interaction.reply({
-                content: `I'm already playing music in ${guild.me?.voice.channel}`,
-                ephemeral: true,
+                content: `I'm already playing music in ${guild.members.me?.voice.channel}`,
+                ephemeral: true
             });
+
+        const rows = message.components;
 
         switch (customId) {
             case "show_queue": {
@@ -74,7 +81,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 if (chunked.length < 1)
                     return await interaction.reply({
                         content: "There are no upcoming tracks",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 this.util.pagination.default(
@@ -85,24 +92,28 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 break;
             }
             case "show_track_progress": {
-                const rows = message.components;
-                const button = message.components[0]
-                    .components[1] as MessageButton;
-                const embed = message.embeds[0];
+                const button = ButtonBuilder.from(
+                    rows[0].components[1] as APIButtonComponent
+                );
+                const embed = EmbedBuilder.from(message.embeds[0]);
+                const fields = embed.data.fields as APIEmbedField[];
                 const showButton = button.setDisabled(true);
 
-                if (!embed.fields[2])
-                    embed.addField("Track Progress", queue.createProgressBar());
+                if (!fields[2])
+                    embed.addFields({
+                        name: "Track Progress",
+                        value: queue.createProgressBar()
+                    });
                 else
-                    embed.fields[2] = {
+                    fields[2] = {
                         name: "Track Progress",
                         value: queue.createProgressBar(),
-                        inline: false,
+                        inline: false
                     };
 
                 message.edit({
                     embeds: [embed],
-                    components: rows,
+                    components: rows
                 });
 
                 setTimeout(() => {
@@ -112,9 +123,10 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 return interaction.deferUpdate();
             }
             case "show_track_lyrics": {
-                const rows = message.components;
-                const button = message.components[0]
-                    .components[2] as MessageButton;
+                const button = ButtonBuilder.from(
+                    rows[0].components[2] as APIButtonComponent
+                );
+
                 const showButton = button.setDisabled(true);
 
                 const currentTrack = queue.nowPlaying();
@@ -126,7 +138,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 if (!search)
                     return interaction.reply({
                         content: "Lyrics not found",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const chunkedLyrics = this.util.chunk(search.lyrics, 1024);
@@ -155,23 +167,22 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 if (currentTrack.requestedBy.id !== member.id)
                     return interaction.reply({
                         content: `You didn't request this track, ask ${requestedBy} to pause the track, because they requested it`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 queue.setPaused(true);
-                const rows = message.components;
-                const button = message.components[1]
-                    .components[0] as MessageButton;
-                const playButton = button
+                const button = ButtonBuilder.from(
+                    rows[1].components[0] as APIButtonComponent
+                );
+
+                button
                     .setCustomId("resume_track")
                     .setLabel("Resume Track")
-                    .setStyle("SUCCESS");
-
-                message.components[1].components[0] = playButton;
+                    .setStyle(ButtonStyle.Success);
 
                 message.edit({ components: rows });
                 return interaction.reply({
                     content: "Track has been paused",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "resume_track": {
@@ -182,23 +193,22 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 if (currentTrack.requestedBy.id !== member.id)
                     return interaction.reply({
                         content: `You didn't request this track, ask ${requestedBy} to resume the track, because they requested it`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 queue.setPaused(false);
-                const rows = message.components;
-                const button = message.components[1]
-                    .components[0] as MessageButton;
-                const pauseButton = button
+                const button = ButtonBuilder.from(
+                    rows[1].components[0] as APIButtonComponent
+                );
+
+                button
                     .setCustomId("pause_track")
                     .setLabel("Pause Track")
-                    .setStyle("DANGER");
-
-                message.components[1].components[0] = pauseButton;
+                    .setStyle(ButtonStyle.Danger);
 
                 message.edit({ components: rows });
                 return interaction.reply({
                     content: "Track has been resumed",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "skip_current_track": {
@@ -209,31 +219,31 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 if (currentTrack.requestedBy.id !== member.id)
                     return interaction.reply({
                         content: `You didn't request this track, ask ${requestedBy} to skip the track, because they requested it`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 queue.skip();
 
-                const embed =
-                    message.embeds[0].setDescription("**Skipped Track**");
+                const embed = EmbedBuilder.from(
+                    message.embeds[0]
+                ).setDescription("**Skipped Track**");
 
                 message.edit({
                     embeds: [embed],
-                    components: [],
+                    components: []
                 });
                 setTimeout(() => {
                     message.delete();
                 }, 10000);
                 return interaction.reply({
                     content: "Track has been skipped",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "skip_to_track": {
-                const rows = message.components;
                 if (queue.tracks.length < 1)
                     return interaction.reply({
                         content: "There are no upcoming tracks",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const tracks = queue.tracks;
                 const mapped = tracks
@@ -245,16 +255,18 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                                     ? track.title.split(" (")[0]
                                     : track.title
                             }`,
-                            value: `${queue.getTrackPosition(track)}`,
+                            value: `${queue.getTrackPosition(track)}`
                         };
                     });
 
-                const button = message.components[1]
-                    .components[2] as MessageButton;
-                const cancelButton = button
+                const button = ButtonBuilder.from(
+                    rows[1].components[2] as APIButtonComponent
+                );
+
+                button
                     .setCustomId("cancel_track_select")
                     .setLabel("Cancel Track Selection")
-                    .setStyle("SECONDARY");
+                    .setStyle(ButtonStyle.Secondary);
 
                 const dropdown = [
                     this.util
@@ -263,17 +275,15 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                         .setPlaceholder("Select a track")
                         .setMinValues(1)
                         .setMaxValues(1)
-                        .setOptions(mapped),
+                        .setOptions(mapped)
                 ];
 
-                message.components[1].components[2] = cancelButton;
-
-                rows.push(this.util.row().addComponents(dropdown));
+                rows.push(this.util.row().addComponents(dropdown) as any);
 
                 message.edit({ components: rows });
                 return interaction.reply({
                     content: "Select from above",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "cancel_track_select": {
@@ -284,22 +294,22 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                 )
                     return interaction.reply({
                         content: "There is no track selection",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const rows = [
                     message.components[0],
                     message.components[1],
-                    message.components[2],
+                    message.components[2]
                 ];
 
                 interaction.deferUpdate();
-                const button = message.components[1]
-                    .components[2] as MessageButton;
-                const skipToTrackButton = button
+                const button = ButtonBuilder.from(
+                    rows[1].components[2] as APIButtonComponent
+                );
+                button
                     .setCustomId("skip_to_track")
-                    .setStyle("DANGER")
+                    .setStyle(ButtonStyle.Danger)
                     .setLabel("Skip to Track");
-                rows[1].components[2] = skipToTrackButton;
                 return message.edit({ components: rows });
             }
             case "add_tracks": {
@@ -315,7 +325,7 @@ export default class MusicButtonsEvent extends Event implements IEvent {
                                     .input()
                                     .setCustomId("track_query")
                                     .setLabel("Track/Playlist URL or a name")
-                                    .setStyle("SHORT")
+                                    .setStyle(TextInputStyle.Short)
                                     .setMinLength(1)
                                     .setMaxLength(100)
                                     .setRequired(true)

@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -38,7 +38,7 @@ export default class WFCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         switch (options.getSubcommand()) {

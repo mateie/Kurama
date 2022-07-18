@@ -1,7 +1,7 @@
 import Client from "@classes/Client";
 import Event from "@classes/base/event";
 import { IEvent } from "@types";
-import { Guild, ModalSubmitInteraction } from "discord.js";
+import { Guild, InteractionType, ModalSubmitInteraction } from "discord.js";
 
 export default class MemberActionsModalEvent extends Event implements IEvent {
     constructor(client: Client) {
@@ -11,7 +11,7 @@ export default class MemberActionsModalEvent extends Event implements IEvent {
     }
 
     async run(interaction: ModalSubmitInteraction) {
-        if (!interaction.isModalSubmit()) return;
+        if (interaction.type !== InteractionType.ModalSubmit) return;
 
         const id = interaction.customId.split("_")[2];
 

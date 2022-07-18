@@ -1,7 +1,12 @@
 import Client from "@classes/Client";
 import Event from "@classes/base/event";
 import { IEvent } from "@types";
-import { ButtonInteraction, Message, MessageEmbed } from "discord.js";
+import {
+    ButtonInteraction,
+    Message,
+    EmbedBuilder,
+    APIEmbedField
+} from "discord.js";
 
 export default class CreatePasteEvent extends Event implements IEvent {
     constructor(client: Client) {
@@ -17,10 +22,11 @@ export default class CreatePasteEvent extends Event implements IEvent {
 
         const message = interaction.message as Message;
 
-        const embed = message.embeds[0] as MessageEmbed;
+        const embed = EmbedBuilder.from(message.embeds[0]).data;
+        const fields = embed.fields as APIEmbedField[];
 
         const type = embed.title?.split("Orders for")[0].trim().toLowerCase();
-        const user = embed.fields[0].value
+        const user = fields[0].value
             .split("`Reputation`")[0]
             .split(":")[1]
             .trim();
@@ -34,7 +40,7 @@ export default class CreatePasteEvent extends Event implements IEvent {
             content: `/w ${user} Hi! I want to ${
                 type === "sell" ? "buy" : "sell"
             }: ${item} for ${price} platinum. (warframe.market)`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

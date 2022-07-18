@@ -1,5 +1,5 @@
 import Client from "@classes/Client";
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import { Naruto } from "anime-info";
 
 import Shinobi from "@schemas/Shinobi";
@@ -19,7 +19,7 @@ export default class ShinobiGame {
         this.clans = new ShinobiClans(this);
     }
 
-    async start(interaction: CommandInteraction) {
+    async start(interaction: ChatInputCommandInteraction) {
         const member = interaction.member as GuildMember;
 
         const shinobi = await Shinobi.findOne({ memberId: member.id });
@@ -44,7 +44,7 @@ export default class ShinobiGame {
         });
     }
 
-    async info(interaction: CommandInteraction) {
+    async info(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = options.getMember("shinobi")
@@ -96,7 +96,7 @@ export default class ShinobiGame {
         return interaction.reply({ embeds: [embed] });
     }
 
-    async delete(interaction: CommandInteraction) {
+    async delete(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = interaction.member as GuildMember;

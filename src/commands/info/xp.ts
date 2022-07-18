@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -13,7 +13,7 @@ export default class XPCommand extends Command implements ICommand {
         this.data.setName(this.name).setDescription(this.description);
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const member = interaction.member as GuildMember;
 
         const xp = await this.client.xp.getXP(member);
@@ -21,7 +21,7 @@ export default class XPCommand extends Command implements ICommand {
         const requiredXP = this.client.xp.calculateReqXP(level);
 
         return interaction.reply({
-            content: `***Level***: ${level} - ***XP***: ${xp} - **Required XP**: ${requiredXP}`,
+            content: `***Level***: ${level} - ***XP***: ${xp} - **Required XP**: ${requiredXP}`
         });
     }
 }

@@ -18,14 +18,14 @@ export default class WarnEvent extends ProcessEvent implements IEvent {
         const embed = this.util
             .embed()
             .setTitle("There was an Uncaught Exception Monitor Warning")
-            .setColor("RED")
+            .setColor("Red")
             .setURL("https://nodejs.org/api/process.html#event-warning")
-            .addField(
-                "Warn",
-                `\`\`\`${inspect(warn, {
-                    depth: 0,
+            .addFields({
+                name: "Warn",
+                value: `\`\`\`${inspect(warn, {
+                    depth: 0
                 })}\`\`\``.substring(0, 1000)
-            );
+            });
 
         channel.send({ embeds: [embed] });
     }

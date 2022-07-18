@@ -1,11 +1,12 @@
 import Client from "@classes/Client";
 import {
     ButtonInteraction,
-    CommandInteraction,
+    ChatInputCommandInteraction,
     Guild,
     GuildMember,
     ModalSubmitInteraction,
     TextChannel,
+    TextInputStyle
 } from "discord.js";
 
 export default class Warns {
@@ -17,7 +18,7 @@ export default class Warns {
 
     async create(
         interaction:
-            | CommandInteraction
+            | ChatInputCommandInteraction
             | ButtonInteraction
             | ModalSubmitInteraction,
         member: GuildMember,
@@ -31,7 +32,7 @@ export default class Warns {
         dbUser.warns.push({
             guildId: guild.id,
             by: by.id,
-            reason,
+            reason
         });
 
         await dbUser.save();
@@ -45,18 +46,16 @@ export default class Warns {
                 .embed()
                 .setAuthor({
                     name: by.user.tag,
-                    iconURL: by.displayAvatarURL({
-                        dynamic: true,
-                    }),
+                    iconURL: by.displayAvatarURL()
                 })
                 .setTitle(`${by.user.tag} warned ${member.user.tag}`)
-                .addField("Reason", reason);
+                .addFields({ name: "Reason", value: reason });
 
             channel.send({ embeds: [embed] });
         }
 
         return interaction.reply({
-            content: `${member} was warned by ${by} - ***Reason***: ${reason}`,
+            content: `${member} was warned by ${by} - ***Reason***: ${reason}`
         });
     }
 
@@ -81,7 +80,7 @@ export default class Warns {
                             .input()
                             .setCustomId("warn_reason")
                             .setLabel("Warn Reason")
-                            .setStyle("SHORT")
+                            .setStyle(TextInputStyle.Short)
                             .setMinLength(4)
                             .setMaxLength(100)
                             .setPlaceholder("Type your reason here")

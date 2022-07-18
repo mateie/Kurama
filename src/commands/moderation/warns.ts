@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, Guild, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -9,7 +9,7 @@ export default class WarnsCommand extends Command implements ICommand {
 
         this.name = "warns";
         this.description = "Check warns of a member";
-        this.permission = ["VIEW_AUDIT_LOG"];
+        this.permission = ["ViewAuditLog"];
 
         this.data
             .setName(this.name)
@@ -22,7 +22,7 @@ export default class WarnsCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = options.getMember("member") as GuildMember;
@@ -30,7 +30,7 @@ export default class WarnsCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const guild = interaction.guild as Guild;
@@ -40,7 +40,7 @@ export default class WarnsCommand extends Command implements ICommand {
         if (warns.length < 1)
             return interaction.reply({
                 content: `${member} has no warns`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const warnMap = warns.map(

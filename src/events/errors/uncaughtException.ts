@@ -21,21 +21,23 @@ export default class UncaughtExceptionEvent
         const embed = this.util
             .embed()
             .setTitle("There was an Uncaught Exception/Catch")
-            .setColor("RED")
+            .setColor("Red")
             .setURL(
                 "https://nodejs.org/api/process.html#event-uncaughtexception"
             )
-            .addField(
-                "Error",
-                `\`\`\`${inspect(reason, {
-                    depth: 0,
-                })}\`\`\``.substring(0, 1000)
-            )
-            .addField(
-                "Origin",
-                `\`\`\`${inspect(origin, {
-                    depth: 0,
-                })}\`\`\``.substring(0, 1000)
+            .addFields(
+                {
+                    name: "Error",
+                    value: `\`\`\`${inspect(reason, {
+                        depth: 0
+                    })}\`\`\``.substring(0, 1000)
+                },
+                {
+                    name: "Origin",
+                    value: `\`\`\`${inspect(origin, {
+                        depth: 0
+                    })}\`\`\``.substring(0, 1000)
+                }
             );
 
         channel.send({ embeds: [embed] });

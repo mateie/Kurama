@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -9,7 +9,7 @@ export default class WarnCommand extends Command implements ICommand {
 
         this.name = "warn";
         this.description = "Warn a member";
-        this.permission = ["MODERATE_MEMBERS"];
+        this.permission = ["MoveMembers"];
 
         this.data
             .setName(this.name)
@@ -27,7 +27,7 @@ export default class WarnCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = options.getMember("member") as GuildMember;
@@ -36,7 +36,7 @@ export default class WarnCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         return this.client.moderation.warns.create(interaction, member, reason);

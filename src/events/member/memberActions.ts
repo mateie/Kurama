@@ -19,7 +19,7 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 "show_warns",
                 "show_reports",
                 "report_member",
-                "warn_member",
+                "warn_member"
             ].includes(interaction.customId)
         )
             return;
@@ -37,7 +37,7 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 const attachment = await this.client.canvas.member.rank(target);
                 return interaction.reply({
                     files: [attachment],
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "report_member": {
@@ -47,10 +47,10 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 break;
             }
             case "warn_member": {
-                if (!member.permissions.has("MODERATE_MEMBERS"))
+                if (!member.permissions.has("ModerateMembers"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const modal = this.client.moderation.warns.modal(target);
 
@@ -58,10 +58,10 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 break;
             }
             case "show_reports": {
-                if (!member.permissions.has("VIEW_AUDIT_LOG"))
+                if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const reports = await this.client.moderation.reports.get(
                     target
@@ -69,7 +69,7 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 if (reports.length < 1)
                     return interaction.reply({
                         content: `${target} has no reports`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const mapped = reports.map(
                     (report) => `
@@ -86,16 +86,16 @@ export default class MemberActionsEvent extends Event implements IEvent {
                 );
             }
             case "show_warns": {
-                if (!member.permissions.has("VIEW_AUDIT_LOG"))
+                if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const warns = await this.client.moderation.warns.get(target);
                 if (warns.length < 1)
                     return interaction.reply({
                         content: `${target} has no warns`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const mapped = warns.map(
                     (warn) => `

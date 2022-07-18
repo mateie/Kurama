@@ -1,4 +1,4 @@
-import { CommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -21,7 +21,7 @@ export default class EightBallCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         let question = interaction.options.getString("question") as string;
 
         if (!question.includes("!")) question += "?";
@@ -47,7 +47,7 @@ export default class EightBallCommand extends Command implements ICommand {
         }
 
         const { url } = await this.util.nekos.eightBall({
-            text: question,
+            text: question
         });
 
         const embed = this.util

@@ -1,4 +1,8 @@
-import { CommandInteraction, GuildMember, VoiceChannel } from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    GuildMember,
+    VoiceChannel
+} from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -10,6 +14,7 @@ export default class VoiceCommand extends Command implements ICommand {
 
         this.name = "voice";
         this.description = "Voice commands";
+        this.permission = ["MoveMembers"];
 
         this.data
             .setName(this.name)
@@ -36,7 +41,7 @@ export default class VoiceCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = interaction.member as GuildMember;
@@ -45,7 +50,7 @@ export default class VoiceCommand extends Command implements ICommand {
         if (!currentVC)
             return interaction.reply({
                 content: "You have to be in a voice channel",
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommand()) {
@@ -55,7 +60,7 @@ export default class VoiceCommand extends Command implements ICommand {
                 if (channel.equals(currentVC))
                     return interaction.reply({
                         content: "You cannt move members to the same channel",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 let members = currentVC.members;
@@ -66,7 +71,7 @@ export default class VoiceCommand extends Command implements ICommand {
                     if (except.id === member.id)
                         return interaction.reply({
                             content: "Except cannot be you",
-                            ephemeral: true,
+                            ephemeral: true
                         });
 
                     members = members.filter(
@@ -81,12 +86,12 @@ export default class VoiceCommand extends Command implements ICommand {
                 if (except)
                     return interaction.reply({
                         content: `Moved everyone to ${channel} but you and ${except}`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 return interaction.reply({
                     content: `Moved everyone to ${channel}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }

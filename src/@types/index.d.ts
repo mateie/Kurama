@@ -6,8 +6,8 @@ import {
 } from "@discordjs/builders";
 import { Region } from "@survfate/valorant.js";
 import {
-    CommandInteraction,
-    ContextMenuInteraction,
+    ChatInputCommandInteraction,
+    ContextMenuCommandInteraction,
     PermissionResolvable
 } from "discord.js";
 
@@ -42,12 +42,12 @@ export interface IBaseJSON {
 
 export interface ICommand extends IBase {
     data: SlashCommandBuilder;
-    run(interaction: CommandInteraction): any | Promise<any>;
+    run(interaction: ChatInputCommandInteraction): any | Promise<any>;
 }
 
 export interface IMenu extends IBase {
     data: ContextMenuCommandBuilder;
-    run(interaction: ContextMenuInteraction): any | Promise<any>;
+    run(interaction: ContextMenuCommandInteraction): any | Promise<any>;
 }
 
 export interface IEvent {

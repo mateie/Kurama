@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -26,19 +26,19 @@ export default class EmitCommand extends Command implements ICommand {
                             .addChoices(
                                 {
                                     name: "Member Joining",
-                                    value: "guildMemberAdd",
+                                    value: "guildMemberAdd"
                                 },
                                 {
                                     name: "Member Leaving",
-                                    value: "guildMemberRemove",
+                                    value: "guildMemberRemove"
                                 },
                                 {
                                     name: "Member Available",
-                                    value: "guildMemberAvailable",
+                                    value: "guildMemberAvailable"
                                 },
                                 {
                                     name: "Member Update",
-                                    value: "guildMemberUpdate",
+                                    value: "guildMemberUpdate"
                                 }
                             )
                             .setRequired(true)
@@ -52,7 +52,7 @@ export default class EmitCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
         const choices = options.getString("event") as string;
         switch (options.getSubcommand()) {
@@ -66,7 +66,7 @@ export default class EmitCommand extends Command implements ICommand {
 
         await interaction.reply({
             content: "Emitted",
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

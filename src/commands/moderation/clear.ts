@@ -1,4 +1,8 @@
-import { CommandInteraction, GuildMember, TextChannel } from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    GuildMember,
+    TextChannel
+} from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -9,7 +13,7 @@ export default class ClearCommand extends Command implements ICommand {
 
         this.name = "clear";
         this.description = "Clear a channel";
-        this.permission = ["MANAGE_MESSAGES"];
+        this.permission = ["ManageMessages"];
 
         this.data
             .setName(this.name)
@@ -27,7 +31,7 @@ export default class ClearCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const channel = interaction.channel as TextChannel;

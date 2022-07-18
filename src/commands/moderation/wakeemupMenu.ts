@@ -1,8 +1,9 @@
 import {
-    ContextMenuInteraction,
+    ChannelType,
+    ContextMenuCommandInteraction,
     Guild,
     GuildMember,
-    VoiceChannel,
+    VoiceChannel
 } from "discord.js";
 import Client from "@classes/Client";
 import Menu from "@classes/base/Menu";
@@ -13,12 +14,12 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         super(client);
 
         this.name = "Wake Em Up";
-        this.permission = ["MOVE_MEMBERS"];
+        this.permission = ["MoveMembers"];
 
         this.data.setName(this.name).setType(2);
     }
 
-    async run(interaction: ContextMenuInteraction) {
+    async run(interaction: ContextMenuCommandInteraction) {
         const guild = interaction.guild as Guild;
         const member = guild.members.cache.get(
             interaction.targetId
@@ -27,18 +28,18 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!member.voice.channelId)
             return interaction.reply({
                 content: `${member} is not in a voice channel`,
-                ephemeral: true,
+                ephemeral: true
             });
         if (!member.voice.selfDeaf)
             return interaction.reply({
                 content: `${member} is not deafened`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const voiceState = member.voice;
@@ -46,8 +47,8 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
 
         const channels = guild.channels.cache.filter(
             (channel) =>
-                channel.permissionsFor(member).has("CONNECT") &&
-                channel.type === "GUILD_VOICE"
+                channel.permissionsFor(member).has("Connect") &&
+                channel.type === ChannelType.GuildVoice
         );
 
         const randomChannel = channels.random() as VoiceChannel;
@@ -56,7 +57,7 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         if (!randomChannel || !randomChannel2)
             return interaction.reply({
                 content: `You have to have 2 channels that ${member} can access`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply({ ephemeral: true });
@@ -70,7 +71,7 @@ export default class WakeEmUpMenu extends Menu implements IMenu {
         await voiceState.setChannel(currentChannel);
 
         await interaction.editReply({
-            content: `We tried waking ${member} up, we hope they did :O`,
+            content: `We tried waking ${member} up, we hope they did :O`
         });
     }
 }

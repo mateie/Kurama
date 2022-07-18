@@ -1,11 +1,12 @@
 import Client from "@classes/Client";
 import {
     ButtonInteraction,
-    CommandInteraction,
+    ChatInputCommandInteraction,
     Guild,
     GuildMember,
     ModalSubmitInteraction,
     TextChannel,
+    TextInputStyle
 } from "discord.js";
 
 export default class Reports {
@@ -17,7 +18,7 @@ export default class Reports {
 
     async create(
         interaction:
-            | CommandInteraction
+            | ChatInputCommandInteraction
             | ButtonInteraction
             | ModalSubmitInteraction,
         member: GuildMember,
@@ -31,7 +32,7 @@ export default class Reports {
         dbUser.reports.push({
             guildId: guild.id,
             by: by.id,
-            reason,
+            reason
         });
 
         await dbUser.save();
@@ -45,19 +46,17 @@ export default class Reports {
                 .embed()
                 .setAuthor({
                     name: by.user.tag,
-                    iconURL: by.displayAvatarURL({
-                        dynamic: true,
-                    }),
+                    iconURL: by.displayAvatarURL()
                 })
                 .setTitle(`${by.user.tag} reported ${member.user.tag}`)
-                .addField("Reason", reason);
+                .addFields({ name: "Reason", value: reason });
 
             channel.send({ embeds: [embed] });
         }
 
         return interaction.reply({
             content: `You reported ${member} for **${reason}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -84,7 +83,7 @@ export default class Reports {
                             .input()
                             .setCustomId("report_reason")
                             .setLabel("Report Reason")
-                            .setStyle("SHORT")
+                            .setStyle(TextInputStyle.Short)
                             .setMinLength(4)
                             .setMaxLength(100)
                             .setPlaceholder("Type your reason here")

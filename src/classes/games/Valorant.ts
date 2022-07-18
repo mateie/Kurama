@@ -1,5 +1,9 @@
 import Client from "@classes/Client";
-import { Collection, GuildMember, CommandInteraction } from "discord.js";
+import {
+    Collection,
+    GuildMember,
+    ChatInputCommandInteraction
+} from "discord.js";
 
 import StingerJS, { AccountResponse, Regions } from "stinger.js";
 import { ValAPI } from "valorant-wrapper";
@@ -31,33 +35,33 @@ export default class Valorant {
 
                 const account = await this.api.getAccount({
                     name: db.valorant.name,
-                    tag: db.valorant.tag,
+                    tag: db.valorant.tag
                 });
 
                 this.accounts.set(user.id, account);
             });
     }
 
-    async mmr(interaction: CommandInteraction) {
+    async mmr(interaction: ChatInputCommandInteraction) {
         const member = interaction.member as GuildMember;
 
         const account = this.accounts.get(member.id);
         if (!account)
             return interaction.reply({
                 content: "You do not have an account linked",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply();
 
         const mmr = await this.api.getMMRByPUUID({
             puuid: account.data.puuid,
-            region: account.data.region as Regions,
+            region: account.data.region as Regions
         });
 
         const rank = (
             await this.assets.competitiveTiers.get({
-                uuid: "03621f52-342b-cf4e-4f86-9350a49c6d04",
+                uuid: "03621f52-342b-cf4e-4f86-9350a49c6d04"
             })
         ).tiers.find(
             (tier) =>
@@ -82,7 +86,7 @@ export default class Valorant {
         await interaction.editReply({ embeds: [embed] });
     }
 
-    async link(interaction: CommandInteraction) {
+    async link(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = interaction.member as GuildMember;
@@ -94,7 +98,7 @@ export default class Valorant {
         if (db.valorant.name || db.valorant.tag)
             return interaction.reply({
                 content: `You are already linked **${db.valorant.name}#${db.valorant.tag}**, unlink first to link another account`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const account = await this.api.getAccount({ name, tag });
@@ -102,7 +106,7 @@ export default class Valorant {
         if (account.error)
             return interaction.reply({
                 content: "Account not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         db.valorant.name = name;
@@ -115,23 +119,23 @@ export default class Valorant {
 
         return interaction.reply({
             content: `Linked **${name}#${tag}** to you`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
-    async unlink(interaction: CommandInteraction) {
+    async unlink(interaction: ChatInputCommandInteraction) {
         const member = interaction.member as GuildMember;
         const db = await this.client.database.users.get(member.user);
 
         if (!db.valorant || (!db.valorant.name && !db.valorant.tag))
             return interaction.reply({
                 content: "You don't have anything linked to your account",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.reply({
             content: `**${db.valorant.name}#${db.valorant.tag}** was unlinked from your account`,
-            ephemeral: true,
+            ephemeral: true
         });
 
         db.valorant.name = null;
@@ -143,30 +147,30 @@ export default class Valorant {
         return await db.save();
     }
 
-    async verify(interaction: CommandInteraction) {
+    async verify(interaction: ChatInputCommandInteraction) {
         const member = interaction.member as GuildMember;
         const db = await this.client.database.users.get(member.user);
 
         if (!db.valorant)
             return interaction.reply({
                 content: "You are not linked to any accounts",
-                ephemeral: true,
+                ephemeral: true
             });
         if (!db.valorant.name || !db.valorant.tag)
             return interaction.reply({
                 content: "You are not linked to any accounts",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!this.accounts.has(member.id))
             return interaction.reply({
                 content: "You are not linked to any accounts",
-                ephemeral: true,
+                ephemeral: true
             });
 
         return interaction.reply({
             content: `Currently linked to **${db.valorant.name}#${db.valorant.tag}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

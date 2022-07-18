@@ -1,9 +1,9 @@
 import {
-    ContextMenuInteraction,
+    ContextMenuCommandInteraction,
     Guild,
     GuildMember,
     TextChannel,
-    VoiceChannel,
+    VoiceChannel
 } from "discord.js";
 import Client from "@classes/Client";
 import Menu from "@classes/base/Menu";
@@ -18,7 +18,7 @@ export default class MusicMenu extends Menu implements IMenu {
         this.data.setName(this.name).setType(3);
     }
 
-    async run(interaction: ContextMenuInteraction) {
+    async run(interaction: ContextMenuCommandInteraction) {
         const { targetId } = interaction;
 
         const guild = interaction.guild as Guild;
@@ -31,35 +31,35 @@ export default class MusicMenu extends Menu implements IMenu {
         if (message.content.length < 1)
             return interaction.reply({
                 content: "Track not provided",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!voiceChannel)
             return interaction.reply({
                 content: "You must be in a voice channel to queue a track",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
-            guild?.me?.voice.channelId &&
-            voiceChannel.id !== guild?.me.voice.channelId
+            guild.members.me?.voice.channelId &&
+            voiceChannel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content: `You have to be in ${guild?.me.voice.channel} to queue a track`,
-                ephemeral: true,
+                content: `You have to be in ${guild.members.me.voice.channel} to queue a track`,
+                ephemeral: true
             });
 
         if (member.voice.deaf)
             return interaction.reply({
                 content: "You cannot queue a track when deafened",
-                ephemeral: true,
+                ephemeral: true
             });
 
         let queue = this.client.music.getQueue(guild);
 
         if (!queue) {
             queue = this.client.music.createQueue(guild, {
-                metadata: channel,
+                metadata: channel
             });
 
             try {
@@ -68,7 +68,7 @@ export default class MusicMenu extends Menu implements IMenu {
                 queue.destroy();
                 return await interaction.reply({
                     content: "Could not join your voice channel",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
@@ -77,12 +77,12 @@ export default class MusicMenu extends Menu implements IMenu {
             await interaction.deferReply({ ephemeral: true });
 
             const result = await this.client.music.search(message.content, {
-                requestedBy: interaction.user,
+                requestedBy: interaction.user
             });
 
             if (result.tracks.length < 1 || !result.tracks[0]) {
                 await interaction.followUp({
-                    content: `Track **${message.content} was not found`,
+                    content: `Track **${message.content} was not found`
                 });
                 return;
             }
@@ -94,7 +94,7 @@ export default class MusicMenu extends Menu implements IMenu {
 
             await interaction.followUp({
                 content: "Track/Playlist Recieved",
-                ephemeral: true,
+                ephemeral: true
             });
         } catch (err) {
             console.error(err);

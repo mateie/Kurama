@@ -1,4 +1,4 @@
-import { CommandInteraction, Guild, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, Guild, GuildMember } from "discord.js";
 import { userMention } from "@discordjs/builders";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
@@ -38,7 +38,7 @@ export default class PlaylistCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const guild = interaction.guild as Guild;
@@ -47,7 +47,7 @@ export default class PlaylistCommand extends Command implements ICommand {
         if (!category)
             return interaction.reply({
                 content: "Playlist category not found or not set up",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const member = interaction.member as GuildMember;
@@ -64,19 +64,19 @@ export default class PlaylistCommand extends Command implements ICommand {
                 if (!playlist)
                     return interaction.reply({
                         content: "You do not have a playlist in this server",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const embed = this.client.util
                     .embed()
                     .setTitle("Your Playlist");
 
                 if (playlist.sharedWith.length < 1)
-                    embed.addField("Shared With", "No one");
+                    embed.addFields({ name: "Shared With", value: "No one" });
                 else {
                     const sharedWith = playlist.sharedWith
                         .map((id) => userMention(id))
                         .join(", ");
-                    embed.addField("Shared With", sharedWith);
+                    embed.addFields({ name: "Shared With", value: sharedWith });
                 }
 
                 return interaction.reply({ embeds: [embed], ephemeral: true });

@@ -2,15 +2,13 @@ import Client from "../Client";
 import axios from "axios";
 import {
     BufferResolvable,
-    MessageActionRow,
-    MessageActionRowComponent,
-    MessageAttachment,
-    MessageButton,
-    MessageEmbed,
-    MessageSelectMenu,
-    Modal,
-    ModalActionRowComponent,
-    TextInputComponent,
+    ActionRowBuilder,
+    AttachmentBuilder,
+    ButtonBuilder,
+    EmbedBuilder,
+    SelectMenuBuilder,
+    ModalBuilder,
+    TextInputBuilder
 } from "discord.js";
 import { Stream } from "stream";
 
@@ -40,27 +38,25 @@ export default class Util {
         this.cdn = new CDN();
     }
 
-    row = (): MessageActionRow<MessageActionRowComponent> =>
-        new MessageActionRow<MessageActionRowComponent>();
-    modalRow = (): MessageActionRow<ModalActionRowComponent> =>
-        new MessageActionRow<ModalActionRowComponent>();
-    button = () => new MessageButton();
-    dropdown = () => new MessageSelectMenu();
-    modal = () => new Modal();
-    input = () => new TextInputComponent();
+    row = (): ActionRowBuilder => new ActionRowBuilder();
+    modalRow = (): ActionRowBuilder<TextInputBuilder> => new ActionRowBuilder();
+    button = () => new ButtonBuilder();
+    dropdown = () => new SelectMenuBuilder();
+    modal = () => new ModalBuilder();
+    input = () => new TextInputBuilder();
     durationMs = (dur: string) =>
         dur
             .split(":")
             .map(Number)
             .reduce((acc, curr) => curr + acc * 60) * 1000;
     embed = () =>
-        new MessageEmbed()
-            .setColor("ORANGE")
+        new EmbedBuilder()
+            .setColor("Orange")
             .setTimestamp(new Date())
             .setFooter({ text: "Owned by Stealth" });
     convertToPercentage = (num: number) => Math.floor(num * 100);
     attachment = (file: BufferResolvable | Stream, name?: string) =>
-        new MessageAttachment(file, name);
+        new AttachmentBuilder(file, { name });
     embedURL = (title: string, url: string, display?: string) =>
         `[${title}](${url.replace(/\)/g, "%29")}${
             display ? ` "${display}"` : ""
@@ -70,7 +66,7 @@ export default class Util {
 
     async imageToBuffer(url: string) {
         const response = await axios.get(url, {
-            responseType: "arraybuffer",
+            responseType: "arraybuffer"
         });
         return response.data;
     }

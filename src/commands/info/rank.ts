@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -21,7 +21,7 @@ export default class RankCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = options.getMember("member")
@@ -31,7 +31,7 @@ export default class RankCommand extends Command implements ICommand {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const attachment = await this.client.canvas.member.rank(member);

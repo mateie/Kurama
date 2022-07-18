@@ -1,6 +1,6 @@
 {
     "ignore": ["node_modules"],
     "watch": ["src"],
-    "exec": "yarn dev",
+    "exec": "yarn errortesting",
     "ext": "ts"
 }

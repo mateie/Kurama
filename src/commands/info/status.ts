@@ -1,4 +1,4 @@
-import { CommandInteraction, version } from "discord.js";
+import { ChatInputCommandInteraction, version } from "discord.js";
 import os from "os";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
@@ -15,11 +15,11 @@ export default class StatusCommand extends Command implements ICommand {
         this.data.setName(this.name).setDescription(this.description);
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         await this.client.user?.fetch();
         await this.client.application?.fetch();
 
-        const channelSize = (type: string[]) =>
+        const channelSize = (type: any) =>
             this.client.channels.cache.filter((channel) =>
                 type.includes(channel.type)
             ).size;
@@ -28,7 +28,7 @@ export default class StatusCommand extends Command implements ICommand {
             "Disconnected",
             "Connected",
             "Connecting",
-            "Disconnecting",
+            "Disconnecting"
         ];
 
         const embed = this.util
@@ -39,31 +39,31 @@ export default class StatusCommand extends Command implements ICommand {
                 {
                     name: "Client",
                     value: this.client.user?.tag as string,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Created",
                     value: `<t:${Math.floor(
                         (this.client.user?.createdTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Verified",
-                    value: this.client.user?.flags?.has("VERIFIED_BOT")
+                    value: this.client.user?.flags?.has("VerifiedBot")
                         ? "Yes"
                         : "No",
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Owners",
                     value: "Stealth",
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Database",
                     value: mongoStatus[connection.readyState],
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "System",
@@ -71,12 +71,12 @@ export default class StatusCommand extends Command implements ICommand {
                         .type()
                         .replace("Windows_NT", "Windows")
                         .replace("Darwin", "macOS"),
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "CPU Model",
                     value: os.cpus()[0].model,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "CPU Usage",
@@ -85,68 +85,65 @@ export default class StatusCommand extends Command implements ICommand {
                         1024 /
                         1024
                     ).toFixed(2)}%`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Up Since",
                     value: `<t:${Math.floor(
                         (this.client.readyTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Node.js",
                     value: process.version,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Discord.js",
                     value: version,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Ping",
                     value: `${this.client.ws.ping}ms`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Commands",
                     value: `${this.client.commandHandler.commands.size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Events",
                     value: `${this.client.eventHandler.events.size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Users",
                     value: `${this.client.users.cache.size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Text Channels",
-                    value: `${channelSize(["GUILD_TEXT", "GUILD_NEWS"])}`,
-                    inline: true,
+                    value: `${channelSize(["GuildText", "GuildNews"])}`,
+                    inline: true
                 },
                 {
                     name: "Voice Channels",
-                    value: `${channelSize([
-                        "GUILD_VOICE",
-                        "GUILD_STAGE_VOICE",
-                    ])}`,
-                    inline: true,
+                    value: `${channelSize(["GuildVoice", "GuildStageVoice"])}`,
+                    inline: true
                 },
                 {
                     name: "Threads",
                     value: `${channelSize([
-                        "GUILD_THREAD",
-                        "GUILD_NEWS_THREAD",
-                        "GUILD_PUBLIC_THREAD",
-                        "GUILD_PRIVATE_THREAD",
+                        "GuildThread",
+                        "GuildNewsThread",
+                        "GuildPublicThread",
+                        "GuildPrivateThread"
                     ])}`,
-                    inline: true,
-                },
+                    inline: true
+                }
             ]);
 
         return interaction.reply({ embeds: [embed] });

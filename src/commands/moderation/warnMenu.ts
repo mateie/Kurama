@@ -1,4 +1,4 @@
-import { ContextMenuInteraction, Guild } from "discord.js";
+import { ContextMenuCommandInteraction, Guild } from "discord.js";
 import Client from "@classes/Client";
 import Menu from "@classes/base/Menu";
 import { IMenu } from "@types";
@@ -8,19 +8,19 @@ export default class WarnMenu extends Menu implements IMenu {
         super(client);
 
         this.name = "Warn Member";
-        this.permission = ["MODERATE_MEMBERS"];
+        this.permission = ["ModerateMembers"];
 
         this.data.setName(this.name).setType(2);
     }
 
-    async run(interaction: ContextMenuInteraction) {
+    async run(interaction: ContextMenuCommandInteraction) {
         const guild = interaction.guild as Guild;
         const member = await guild.members.fetch(interaction.targetId);
 
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         return interaction.showModal(

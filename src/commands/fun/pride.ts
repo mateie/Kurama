@@ -1,4 +1,4 @@
-import { CommandInteraction, GuildMember } from "discord.js";
+import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import Client from "@classes/Client";
 import Command from "@classes/base/Command";
 import { ICommand } from "@types";
@@ -21,14 +21,14 @@ export default class PrideCommand extends Command implements ICommand {
             );
     }
 
-    async run(interaction: CommandInteraction) {
+    async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const member = interaction.member as GuildMember;
 
         const image = options.getAttachment("image")
             ? options.getAttachment("image", true).url
-            : member.displayAvatarURL({ format: "png" });
+            : member.displayAvatarURL();
 
         const pride = await new this.util.dig.Gay().getImage(image);
 

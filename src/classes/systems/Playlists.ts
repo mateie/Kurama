@@ -1,17 +1,18 @@
 import Client from "@classes/Client";
+import { ChannelType } from "discord-api-types/v10";
 import {
-    ContextMenuInteraction,
+    ContextMenuCommandInteraction,
     TextChannel,
     Message,
-    VoiceChannel,
+    VoiceChannel
 } from "discord.js";
 import {
-    CommandInteraction,
+    ChatInputCommandInteraction,
     ButtonInteraction,
     ModalSubmitInteraction,
     Guild,
     GuildMember,
-    CategoryChannelResolvable,
+    CategoryChannelResolvable
 } from "discord.js";
 
 export default class Playlists {
@@ -23,7 +24,7 @@ export default class Playlists {
 
     async create(
         interaction:
-            | CommandInteraction
+            | ChatInputCommandInteraction
             | ButtonInteraction
             | ModalSubmitInteraction,
         member: GuildMember
@@ -37,7 +38,7 @@ export default class Playlists {
         if (!memberRole)
             return interaction.reply({
                 content: "Member role not setup, let server owner know",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const category = guild.channels.cache.get(
@@ -47,7 +48,7 @@ export default class Playlists {
         if (!category)
             return interaction.reply({
                 content: "Playlist category not setup, let the server know",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -61,47 +62,45 @@ export default class Playlists {
             return interaction.reply({
                 content:
                     "You already have a playlist created, delete it or use it",
-                ephemeral: true,
+                ephemeral: true
             });
 
-        const newChannel = await guild.channels.create(
-            `${member.user.username}-${member.user.discriminator}-playlist`,
-            {
-                type: "GUILD_TEXT",
-                parent: category,
-                permissionOverwrites: [
-                    {
-                        id: everyone.id,
-                        deny: ["VIEW_CHANNEL", "SEND_MESSAGES"],
-                    },
-                    {
-                        id: memberRole.id,
-                        deny: ["VIEW_CHANNEL", "SEND_MESSAGES"],
-                    },
-                    {
-                        id: member.id,
-                        allow: ["VIEW_CHANNEL", "SEND_MESSAGES"],
-                    },
-                ],
-            }
-        );
+        const newChannel = await guild.channels.create({
+            name: `${member.user.username}-${member.user.discriminator}-playlist`,
+            type: ChannelType.GuildText,
+            parent: category,
+            permissionOverwrites: [
+                {
+                    id: everyone.id,
+                    deny: ["ViewChannel", "SendMessages"]
+                },
+                {
+                    id: memberRole.id,
+                    deny: ["ViewChannel", "SendMessages"]
+                },
+                {
+                    id: member.id,
+                    allow: ["ViewChannel", "SendMessages"]
+                }
+            ]
+        });
 
         dbUser.playlists.push({
             guildId: guild.id,
             channelId: newChannel.id,
             tracks: [],
-            sharedWith: [],
+            sharedWith: []
         });
 
         await dbUser.save();
 
         return interaction.reply({
             content: `Created a playlist for you ${newChannel}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
-    async queue(interaction: CommandInteraction, member: GuildMember) {
+    async queue(interaction: ChatInputCommandInteraction, member: GuildMember) {
         const dbUser = await this.client.database.users.get(member.user);
 
         const guild = interaction.guild as Guild;
@@ -114,36 +113,36 @@ export default class Playlists {
         if (!playlist)
             return interaction.reply({
                 content: "You do not have a playlist in this server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!voiceChannel)
             return interaction.reply({
                 content:
                     "You must be in a voice channel to be able to queue your playlist",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
-            guild.me?.voice.channelId &&
-            voiceChannel.id !== guild.me?.voice.channelId
+            guild.members.me?.voice.channelId &&
+            voiceChannel.id !== guild.members.me?.voice.channelId
         )
             return interaction.reply({
-                content: `I'm already playing music in ${guild.me.voice.channel}`,
-                ephemeral: true,
+                content: `I'm already playing music in ${guild.members.me.voice.channel}`,
+                ephemeral: true
             });
 
         if (member.voice.deaf)
             return interaction.reply({
                 content: "You cannot play music when deafened",
-                ephemeral: true,
+                ephemeral: true
             });
 
         let queue = this.client.music.getQueue(guild);
 
         if (!queue) {
             queue = this.client.music.createQueue(guild, {
-                metadata: channel,
+                metadata: channel
             });
 
             try {
@@ -152,20 +151,20 @@ export default class Playlists {
                 queue.destroy();
                 return await interaction.reply({
                     content: "Could not join your voice channel",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
 
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: true
         });
 
         const tracks = await Promise.all(
             playlist.tracks.map(async (query) => {
                 const track = (
                     await this.client.music.search(query, {
-                        requestedBy: member.user,
+                        requestedBy: member.user
                     })
                 ).tracks[0];
                 return track;
@@ -177,13 +176,15 @@ export default class Playlists {
 
         await interaction.followUp({
             content: "Your playlist has been queued",
-            ephemeral: true,
+            ephemeral: true
         });
         return;
     }
 
     async add(
-        interaction: CommandInteraction | ContextMenuInteraction,
+        interaction:
+            | ChatInputCommandInteraction
+            | ContextMenuCommandInteraction,
         member: GuildMember,
         message: Message
     ) {
@@ -193,7 +194,7 @@ export default class Playlists {
         if (!dbUser.playlists || dbUser.playlists.length < 1)
             return interaction.reply({
                 content: "You do not own any playlists",
-                ephemeral: true,
+                ephemeral: true
             });
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id
@@ -202,7 +203,7 @@ export default class Playlists {
         if (!playlist)
             return interaction.reply({
                 content: "You do not have a playlist in this server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         playlist.tracks.push(message.content.toLowerCase());
@@ -211,16 +212,16 @@ export default class Playlists {
 
         return interaction.reply({
             content: `**${message.content}** was added to your playlist`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
-    async share(interaction: CommandInteraction, member: GuildMember) {
+    async share(interaction: ChatInputCommandInteraction, member: GuildMember) {
         const dbUser = await this.client.database.users.get(member.user);
         if (!dbUser.playlist.channelId || dbUser.playlist.channelId.length < 1)
             return interaction.reply({
                 content: "You do not own a playlist channel",
-                ephemeral: true,
+                ephemeral: true
             });
         const guild = interaction.guild as Guild;
         const shareWith = interaction.options.getMember("with") as GuildMember;
@@ -235,19 +236,19 @@ export default class Playlists {
         dbUser.playlist.sharedWith.push(shareWith.id);
 
         await channel.permissionOverwrites.edit(shareWith.id, {
-            VIEW_CHANNEL: true,
+            ViewChannel: true
         });
 
         await dbUser.save();
 
         return interaction.reply({
             content: `Shared your playlist with ${shareWith}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
     async shareContext(
-        interaction: ContextMenuInteraction,
+        interaction: ContextMenuCommandInteraction,
         member: GuildMember
     ) {
         const dbUser = await this.client.database.users.get(member.user);
@@ -261,7 +262,7 @@ export default class Playlists {
         if (!playlist)
             return interaction.reply({
                 content: "You do not have a playlist in this server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (playlist.sharedWith.includes(shareWith.id))
@@ -274,18 +275,21 @@ export default class Playlists {
         playlist.sharedWith.push(shareWith.id);
 
         await channel.permissionOverwrites.edit(shareWith.id, {
-            VIEW_CHANNEL: true,
+            ViewChannel: true
         });
 
         await dbUser.save();
 
         return interaction.reply({
             content: `Shared your playlist with ${shareWith}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
-    async unshare(interaction: CommandInteraction, member: GuildMember) {
+    async unshare(
+        interaction: ChatInputCommandInteraction,
+        member: GuildMember
+    ) {
         const dbUser = await this.client.database.users.get(member.user);
 
         const guild = interaction.guild as Guild;
@@ -297,7 +301,7 @@ export default class Playlists {
         if (!playlist)
             return interaction.reply({
                 content: "You do not have a playlist in this server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channel = guild.channels.cache.get(
@@ -314,12 +318,12 @@ export default class Playlists {
 
         return interaction.reply({
             content: `Stopped sharing your playlist with ${shareWith}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
     async unshareContext(
-        interaction: ContextMenuInteraction,
+        interaction: ContextMenuCommandInteraction,
         member: GuildMember
     ) {
         const dbUser = await this.client.database.users.get(member.user);
@@ -333,7 +337,7 @@ export default class Playlists {
         if (!playlist)
             return interaction.reply({
                 content: "You do not have a playlist in this server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channel = guild.channels.cache.get(
@@ -350,7 +354,7 @@ export default class Playlists {
 
         return interaction.reply({
             content: `Stopped sharing your playlist with ${shareWith}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 

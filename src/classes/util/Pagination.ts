@@ -1,7 +1,12 @@
 import Client from "@classes/Client";
 import Util from ".";
 
-import { ButtonInteraction, CommandInteraction, Message } from "discord.js";
+import {
+    ButtonInteraction,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    Message
+} from "discord.js";
 
 export default class UtilPagination {
     readonly client: Client;
@@ -13,7 +18,7 @@ export default class UtilPagination {
     }
 
     async default(
-        interaction: ButtonInteraction | CommandInteraction,
+        interaction: ButtonInteraction | ChatInputCommandInteraction,
         contents: string[] | string[][],
         title?: string,
         ephemeral = false,
@@ -26,12 +31,12 @@ export default class UtilPagination {
                 .button()
                 .setCustomId("previous_page")
                 .setLabel("⬅️")
-                .setStyle("SECONDARY"),
+                .setStyle(ButtonStyle.Secondary),
             this.util
                 .button()
                 .setCustomId("next_page")
                 .setLabel("➡️")
-                .setStyle("SECONDARY"),
+                .setStyle(ButtonStyle.Secondary)
         ];
 
         const row = this.util.row().addComponents(buttons);
@@ -45,7 +50,7 @@ export default class UtilPagination {
             }
 
             embed.setFooter({
-                text: `Page ${index + 1} of ${contents.length}`,
+                text: `Page ${index + 1} of ${contents.length}`
             });
             if (title) embed.setTitle(title);
 
@@ -56,18 +61,16 @@ export default class UtilPagination {
             await interaction.deferReply({ ephemeral });
         }
 
-        const currPage = (await interaction.editReply({
+        const currPage = await interaction.editReply({
             embeds: [embeds[page]],
-            components: [row],
-        })) as Message;
-
-        const filter = (i: { customId: string | null }) =>
-            i.customId === buttons[0].customId ||
-            i.customId === buttons[1].customId;
+            components: [row]
+        });
 
         const collector = currPage.createMessageComponentCollector({
-            filter,
-            time: timeout,
+            filter: (i) =>
+                i.customId === buttons[0].customId ||
+                i.customId === buttons[1].customId,
+            time: timeout
         });
 
         collector
@@ -86,7 +89,7 @@ export default class UtilPagination {
                 await i.deferUpdate();
                 await i.editReply({
                     embeds: [embeds[page]],
-                    components: [row],
+                    components: [row]
                 });
 
                 collector.resetTimer();
@@ -102,7 +105,7 @@ export default class UtilPagination {
 
                     currPage.edit({
                         embeds: [embeds[page]],
-                        components: [disabledRow],
+                        components: [disabledRow]
                     });
                 }
             });
