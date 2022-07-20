@@ -43,7 +43,7 @@ export default class RemoveFromPlaylistEvent extends Event implements IEvent {
         await dbUser.save();
 
         const msg = await message.channel.send({
-            content: `**${message.content}** was removed from your playlist`,
+            content: `**${message.content}** was removed from your playlist`
         });
         setTimeout(() => msg.delete(), 5000);
     }

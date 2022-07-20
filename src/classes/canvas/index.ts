@@ -1,7 +1,7 @@
 import {
     Canvas as CanvasM,
     CanvasRenderingContext2D,
-    FontLibrary,
+    FontLibrary
 } from "skia-canvas";
 import path from "path";
 import getColors from "get-image-colors";
@@ -12,7 +12,7 @@ import Client from "../Client";
 import MemberCanvas from "./Member";
 
 export default class Canvas {
-    readonly client: Client;
+    private readonly client: Client;
     readonly member: MemberCanvas;
 
     constructor(client: Client) {
@@ -106,7 +106,7 @@ export default class Canvas {
     getLines({
         text,
         ctx,
-        maxWidth,
+        maxWidth
     }: {
         text: string;
         ctx: CanvasRenderingContext2D;

@@ -4,8 +4,8 @@ import { Canvas as CanvasM, loadImage } from "skia-canvas";
 import Canvas from ".";
 
 export default class MemberCanvas {
-    readonly client: Client;
-    readonly canvas: Canvas;
+    private readonly client: Client;
+    private readonly canvas: Canvas;
 
     constructor(client: Client, canvas: Canvas) {
         this.client = client;
@@ -200,7 +200,7 @@ export default class MemberCanvas {
             case "banner": {
                 const background = await loadImage(
                     member.user.bannerURL({
-                        format: "png",
+                        format: "png"
                     }) as string
                 );
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
@@ -234,7 +234,7 @@ export default class MemberCanvas {
             case "banner": {
                 const colors = await this.canvas.popularColor(
                     member.user.bannerURL({
-                        format: "png",
+                        format: "png"
                     }) as string
                 );
                 strokeStyle = colors[Math.floor(Math.random() * colors.length)];
@@ -255,7 +255,7 @@ export default class MemberCanvas {
             case "banner": {
                 const colors = await this.canvas.popularColor(
                     member.user.bannerURL({
-                        format: "png",
+                        format: "png"
                     }) as string
                 );
                 fillStyle = colors[Math.floor(Math.random() * colors.length)];

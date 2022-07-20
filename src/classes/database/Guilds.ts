@@ -5,8 +5,8 @@ import Database from ".";
 import Guild, { IGuild } from "@schemas/Guild";
 
 export default class DatabaseGuilds {
-    readonly client: Client;
-    readonly database: Database;
+    private readonly client: Client;
+    private readonly database: Database;
 
     constructor(client: Client, database: Database) {
         this.client = client;
@@ -22,7 +22,7 @@ export default class DatabaseGuilds {
     async create(guild: DiscordGuild) {
         const newGuild = new Guild({
             id: guild.id,
-            name: guild.name,
+            name: guild.name
         });
 
         await newGuild.save().catch(console.error);

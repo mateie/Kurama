@@ -4,7 +4,7 @@ import Cryptr from "cryptr";
 const { CRYPT_SECRET } = process.env;
 
 export default class Crypt extends Cryptr {
-    client: Client;
+    private readonly client: Client;
 
     constructor(client: Client) {
         super(CRYPT_SECRET as string);

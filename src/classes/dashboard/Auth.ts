@@ -12,7 +12,7 @@ const { JWT_SECRET, SECRET } = process.env;
 
 export default class Auth {
     readonly client: Client;
-    readonly server: DashboardBE;
+    private readonly server: DashboardBE;
 
     private readonly jwt: any;
     private readonly oauth: DiscordOAuth2;
@@ -60,14 +60,14 @@ export default class Auth {
                         ...guild,
                         ...(guildJSON as Guild),
                         botJoined,
-                        iconURL,
+                        iconURL
                     };
                 }
 
                 return {
                     ...guild,
                     botJoined,
-                    iconURL,
+                    iconURL
                 };
             });
 
@@ -102,13 +102,13 @@ export default class Auth {
                 redirectUri:
                     process.env.NODE_ENV === "production"
                         ? "http://kurama.mateie.com/login"
-                        : "http://localhost:3000/login",
+                        : "http://localhost:3000/login"
             });
 
             return this.client.crypt.encrypt(
                 this.jwt.sign(
                     {
-                        token,
+                        token
                     },
                     this.secrets.jwt
                 )
@@ -143,14 +143,14 @@ export default class Auth {
                     ...user,
                     ...db._doc,
                     database: true,
-                    avatarURL,
+                    avatarURL
                 };
             }
 
             return {
                 ...user,
                 avatarURL,
-                database: false,
+                database: false
             };
         } catch (err) {
             console.error(err);

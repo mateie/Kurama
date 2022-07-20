@@ -5,11 +5,11 @@ import {
     Guild,
     GuildMember,
     ModalSubmitInteraction,
-    TextChannel,
+    TextChannel
 } from "discord.js";
 
 export default class Reports {
-    readonly client: Client;
+    private readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;
@@ -31,7 +31,7 @@ export default class Reports {
         dbUser.reports.push({
             guildId: guild.id,
             by: by.id,
-            reason,
+            reason
         });
 
         await dbUser.save();
@@ -46,8 +46,8 @@ export default class Reports {
                 .setAuthor({
                     name: by.user.tag,
                     iconURL: by.displayAvatarURL({
-                        dynamic: true,
-                    }),
+                        dynamic: true
+                    })
                 })
                 .setTitle(`${by.user.tag} reported ${member.user.tag}`)
                 .addField("Reason", reason);
@@ -57,7 +57,7 @@ export default class Reports {
 
         return interaction.reply({
             content: `You reported ${member} for **${reason}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 

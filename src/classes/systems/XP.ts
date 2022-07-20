@@ -2,7 +2,7 @@ import { GuildMember } from "discord.js";
 import Client from "../Client";
 
 export default class XP {
-    readonly client: Client;
+    private readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;

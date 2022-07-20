@@ -7,14 +7,14 @@ import {
     ContextMenuInteraction,
     GuildMember,
     ModalSubmitInteraction,
-    MessageActionRow,
+    MessageActionRow
 } from "discord.js";
 import { roleMention } from "@discordjs/builders";
 import Util from ".";
 
 export default class UtilMember {
-    readonly client: Client;
-    readonly util: Util;
+    private readonly client: Client;
+    private readonly util: Util;
 
     constructor(client: Client, util: Util) {
         this.client = client;
@@ -63,7 +63,7 @@ export default class UtilMember {
             card: user.card,
             level: user.level,
             currentXP: user.xp,
-            neededXP,
+            neededXP
         };
 
         return info;
@@ -76,7 +76,7 @@ export default class UtilMember {
         const mapped = sorted.map((u, i) => ({
             id: u.id,
             xp: u.xp,
-            rank: i + 1,
+            rank: i + 1
         }));
 
         const rank = mapped.find((u) => u.id === user.id)?.rank;
@@ -96,7 +96,7 @@ export default class UtilMember {
         const activities: string[] = [];
         const status = {
             emoji: ":white_circle:",
-            text: "Offline",
+            text: "Offline"
         };
 
         if (member.presence) {
@@ -136,7 +136,7 @@ export default class UtilMember {
             .setAuthor({
                 name: member.user.tag,
                 iconURL: avatar,
-                url: avatar,
+                url: avatar
             })
             .setColor(member.displayHexColor)
             .setURL(avatar)
@@ -154,19 +154,19 @@ export default class UtilMember {
                     value: `<t:${Math.floor(
                         (member.joinedTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Joined Discord",
                     value: `<t:${Math.floor(
                         (member.user.createdTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: `Roles(${roles.size})`,
-                    value: mappedRoles,
-                },
+                    value: mappedRoles
+                }
             ])
             .setFooter({ text: `ID: ${member.id}` });
 

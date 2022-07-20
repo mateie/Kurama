@@ -7,10 +7,10 @@ import fs from "fs";
 
 import Ascii from "ascii-table";
 import path from "path";
-import { IBaseJSON } from "../../@types/index";
+import { IBaseJSON } from "@types";
 
 export default class CommandHandler extends Handler {
-    table: any;
+    private readonly table: any;
 
     readonly commands: Collection<string, ICommand | IMenu>;
     readonly categories: Collection<string, Collection<string, IBaseJSON>>;

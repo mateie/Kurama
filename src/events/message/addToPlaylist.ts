@@ -56,6 +56,7 @@ export default class AddToPlaylistEvent extends Event implements IEvent {
         const msg = await message.channel.send({
             content: `**${message.content}** was added to your playlist`,
         });
+
         setTimeout(() => msg.delete(), 5000);
     }
 }

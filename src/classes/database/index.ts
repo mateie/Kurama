@@ -7,9 +7,9 @@ import DatabaseUsers from "./Users";
 const { DB } = process.env;
 
 export default class Database {
-    readonly client: Client;
+    private readonly client: Client;
 
-    connection: typeof mongoose;
+    readonly connection: typeof mongoose;
 
     readonly guilds: DatabaseGuilds;
     readonly users: DatabaseUsers;

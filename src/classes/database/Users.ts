@@ -5,8 +5,8 @@ import Database from ".";
 import User, { IUser } from "@schemas/User";
 
 export default class DatabaseUsers {
-    readonly client: Client;
-    readonly database: Database;
+    private readonly client: Client;
+    private readonly database: Database;
 
     constructor(client: Client, database: Database) {
         this.client = client;
@@ -24,7 +24,7 @@ export default class DatabaseUsers {
 
         const dbUser = new User({
             id: user.id,
-            username: user.username,
+            username: user.username
         });
 
         await dbUser.save().catch(console.error);

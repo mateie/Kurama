@@ -10,7 +10,7 @@ import {
     MessageSelectMenu,
     Modal,
     ModalActionRowComponent,
-    TextInputComponent,
+    TextInputComponent
 } from "discord.js";
 import { Stream } from "stream";
 
@@ -23,7 +23,7 @@ import UtilPagination from "./Pagination";
 import UtilMember from "./Member";
 
 export default class Util {
-    readonly client: Client;
+    private readonly client: Client;
     readonly member: UtilMember;
     readonly pagination: UtilPagination;
     readonly nekos: Nekos;
@@ -70,7 +70,7 @@ export default class Util {
 
     async imageToBuffer(url: string) {
         const response = await axios.get(url, {
-            responseType: "arraybuffer",
+            responseType: "arraybuffer"
         });
         return response.data;
     }

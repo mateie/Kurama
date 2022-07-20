@@ -5,11 +5,11 @@ import {
     Guild,
     GuildMember,
     ModalSubmitInteraction,
-    TextChannel,
+    TextChannel
 } from "discord.js";
 
 export default class Warns {
-    readonly client: Client;
+    private readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;
@@ -31,7 +31,7 @@ export default class Warns {
         dbUser.warns.push({
             guildId: guild.id,
             by: by.id,
-            reason,
+            reason
         });
 
         await dbUser.save();
@@ -46,8 +46,8 @@ export default class Warns {
                 .setAuthor({
                     name: by.user.tag,
                     iconURL: by.displayAvatarURL({
-                        dynamic: true,
-                    }),
+                        dynamic: true
+                    })
                 })
                 .setTitle(`${by.user.tag} warned ${member.user.tag}`)
                 .addField("Reason", reason);
@@ -56,7 +56,7 @@ export default class Warns {
         }
 
         return interaction.reply({
-            content: `${member} was warned by ${by} - ***Reason***: ${reason}`,
+            content: `${member} was warned by ${by} - ***Reason***: ${reason}`
         });
     }
 

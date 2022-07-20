@@ -77,11 +77,25 @@ export interface ValorantLogin {
 export interface ShinobiClan {
     id: string;
     name: string;
-    icon: string | undefined;
+    description: string;
+    members: number;
+    icon: string;
     stats: ShinobiStats;
 }
 
+export interface ShinobiVillage {
+    id: string;
+    name: {
+        en: string;
+        jp: string;
+    };
+    description: string;
+    population: number;
+    icon: string;
+}
+
 export interface ShinobiStats {
+    chakra: number;
     ninjutsu: number;
     genjutsu: number;
     taijutsu: number;

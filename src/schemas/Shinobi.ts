@@ -5,6 +5,7 @@ import { ShinobiStats } from "@types";
 export interface IShinobi extends HydratedDocument<any> {
     memberId: string;
     clan: string;
+    village: string;
     rank: ShinobiRanks;
     xp: number;
     level: number;
@@ -15,25 +16,29 @@ export const Shinobi: Schema = new Schema<IShinobi>({
     memberId: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
     },
     clan: {
         type: String,
-        required: true
+        required: true,
+    },
+    village: {
+        type: String,
+        required: true,
     },
     rank: {
         type: String,
-        default: "genin"
+        default: "genin",
     },
     xp: {
         type: Number,
-        default: 0
+        default: 0,
     },
     level: {
         type: Number,
-        default: 0
+        default: 0,
     },
-    stats: {}
+    stats: {},
 });
 
 const name = "shinobis";

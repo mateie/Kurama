@@ -7,7 +7,7 @@ import resolvers from "./gql/resolvers";
 import typeDefs from "./gql/typeDefs";
 
 export default class DashboardBE extends ApolloServer {
-    readonly client: Client;
+    private readonly client: Client;
     readonly auth: Auth;
 
     constructor(client: Client) {
@@ -21,10 +21,10 @@ export default class DashboardBE extends ApolloServer {
                     "http://kurama.mateie.com",
                     "http://localhost:3000",
                     "http://localhost:4000",
-                    "https://kurama-bot-dashboard.herokuapp.com",
-                ],
+                    "https://kurama-bot-dashboard.herokuapp.com"
+                ]
             },
-            context: ({ req }) => ({ client: this.client, req }),
+            context: ({ req }) => ({ client: this.client, req })
         });
 
         this.client = client;

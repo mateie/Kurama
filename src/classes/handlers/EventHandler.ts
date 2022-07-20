@@ -9,7 +9,7 @@ import Ascii from "ascii-table";
 import path from "path";
 
 export default class EventHandler extends Handler {
-    table: any;
+    private readonly table: any;
 
     readonly events: Collection<string, IEvent>;
 

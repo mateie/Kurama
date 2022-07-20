@@ -3,7 +3,8 @@ import Client from "@classes/Client";
 import RSSFeedEmitter from "rss-feed-emitter";
 
 export default class RSS {
-    readonly client: Client;
+    private readonly client: Client;
+
     readonly emitter: RSSFeedEmitter;
 
     constructor(client: Client) {

@@ -1,7 +1,7 @@
 import Client from "../Client";
 
 export default class Marriage {
-    readonly client: Client;
+    private readonly client: Client;
 
     constructor(client: Client) {
         this.client = client;

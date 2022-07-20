@@ -38,7 +38,7 @@ export default class Command {
             category: this.category,
             permission: this.permission ? this.permission.toString() : null,
             ownerOnly: this.ownerOnly,
-            data: this.data.toJSON(),
+            data: this.data.toJSON()
         };
     }
 

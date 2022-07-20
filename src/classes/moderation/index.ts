@@ -4,7 +4,7 @@ import Reports from "./Reports";
 import Warns from "./Warns";
 
 export default class Moderation {
-    readonly client: Client;
+    private readonly client: Client;
 
     readonly reports: Reports;
     readonly warns: Warns;

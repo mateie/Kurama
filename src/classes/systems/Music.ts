@@ -40,7 +40,7 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("show_track_lyrics")
                     .setLabel("Show Lyrics")
-                    .setStyle("PRIMARY"),
+                    .setStyle("PRIMARY")
             ]);
 
         const midRow = this.client.util
@@ -60,7 +60,7 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("skip_to_track")
                     .setLabel("Skip to Track")
-                    .setStyle("SUCCESS"),
+                    .setStyle("SUCCESS")
             ]);
 
         const bottomRow = this.client.util
@@ -70,7 +70,7 @@ export default class Music extends Player {
                     .button()
                     .setCustomId("add_tracks")
                     .setLabel("Add Track(s)")
-                    .setStyle("SUCCESS"),
+                    .setStyle("SUCCESS")
             ]);
 
         await message.edit({ components: [topRow, midRow, bottomRow] });

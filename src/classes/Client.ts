@@ -2,7 +2,7 @@ import {
     Client as DiscordClient,
     Guild,
     PresenceData,
-    TextChannel
+    TextChannel,
 } from "discord.js";
 import path from "path";
 import { REST } from "@discordjs/rest";
@@ -72,10 +72,10 @@ export default class Client extends DiscordClient {
         this.xp = new XP(this);
 
         this.eventHandler = new EventHandler(this, {
-            directory: path.resolve(process.cwd(), "build", "events")
+            directory: path.resolve(process.cwd(), "build", "events"),
         });
         this.commandHandler = new CommandHandler(this, {
-            directory: path.resolve(process.cwd(), "build", "commands")
+            directory: path.resolve(process.cwd(), "build", "commands"),
         });
 
         this.token = TOKEN as string;
@@ -106,13 +106,13 @@ export default class Client extends DiscordClient {
             console.info("Pushing Application Commands to REST");
 
             await rest.put(Routes.applicationCommands(clientId), {
-                body: globalCommands
+                body: globalCommands,
             });
 
             await rest.put(
                 Routes.applicationGuildCommands(clientId, this.mainGuild.id),
                 {
-                    body: commands
+                    body: commands,
                 }
             );
 
@@ -129,19 +129,19 @@ export default class Client extends DiscordClient {
                 activities: [
                     {
                         name: `${this.guilds.cache.size} Servers`,
-                        type: "WATCHING"
-                    }
-                ]
+                        type: "WATCHING",
+                    },
+                ],
             },
             {
                 status: "online",
                 activities: [
                     {
                         name: `${this.users.cache.size} Users`,
-                        type: "LISTENING"
-                    }
-                ]
-            }
+                        type: "LISTENING",
+                    },
+                ],
+            },
         ];
 
         this.user?.setPresence(
