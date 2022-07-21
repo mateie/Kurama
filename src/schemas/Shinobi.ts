@@ -9,7 +9,11 @@ export interface IShinobi extends HydratedDocument<any> {
     rank: ShinobiRanks;
     xp: number;
     level: number;
+    ryo: number;
     stats: ShinobiStats;
+    cooldowns: {
+        daily: number;
+    }
 }
 
 export const Shinobi: Schema = new Schema<IShinobi>({
@@ -38,7 +42,16 @@ export const Shinobi: Schema = new Schema<IShinobi>({
         type: Number,
         default: 0,
     },
+    ryo: {
+        type: Number,
+        default: 0,
+    },
     stats: {},
+    cooldowns: {
+        daily: {
+            type: Number
+        }
+    }
 });
 
 const name = "shinobis";

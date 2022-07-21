@@ -1,6 +1,7 @@
 import Client from "@classes/Client";
 import { CommandInteraction, GuildMember, Message } from "discord.js";
 import { Naruto } from "anime-info";
+import ms from 'ms';
 
 import Shinobi from "@schemas/Shinobi";
 
@@ -8,6 +9,7 @@ import ShinobiClans from "./clans/index";
 import ShinobiVillages from "./villages";
 
 import { ShinobiClan, ShinobiVillage } from "@types";
+import moment from "moment";
 
 export default class ShinobiGame {
     private readonly client: Client;
@@ -135,7 +137,12 @@ export default class ShinobiGame {
                 \`Born in\` ${village.name.en} (${village.name.jp})
                 \`Clan\` ${clan.name}
 
+                \`Rank\`: ${this.client.util.capFirstLetter(shinobi.rank)}
+                \`Ryo\`: ${shinobi.ryo}
+
                 **Stats**
+                \`Level\`: ${shinobi.level}
+
                 \`Ninjutsu\`: ${shinobi.stats.ninjutsu}
                 \`Genjutsu\`: ${shinobi.stats.genjutsu}
                 \`Taijutsu\`: ${shinobi.stats.taijutsu}
@@ -174,5 +181,25 @@ export default class ShinobiGame {
             content: `Resigned ${member} from being a shinobi`,
             ephemeral: true
         });
+    }
+
+    async daily(interaction: CommandInteraction) {
+        const member = interaction.member as GuildMember;
+
+        const shinobi = await Shinobi.findOne({ memberId: member.id });
+
+        if(!shinobi) return interaction.reply({ content: 'You are not a shinobi', ephemeral: true });
+
+        if(Date.now() < shinobi.cooldowns.daily) return interaction.reply({ content: `You can claim your daily reward in **${moment(shinobi.cooldowns.daily).fromNow()}**`, ephemeral: true});
+
+        const ryo = Math.floor(Math.random() * 100);
+
+        shinobi.ryo += ryo;
+        shinobi.cooldowns.daily = Date.now() + ms('1d');
+
+        await shinobi.save();
+
+        return interaction.reply({ content: `You received **${ryo} Ryo** from your daily`, ephemeral: true });
+
     }
 }

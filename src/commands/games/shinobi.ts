@@ -60,7 +60,12 @@ export default class ShinobiCommand extends Command implements ICommand {
                             .setDescription("Village to view")
                             .setAutocomplete(true)
                     )
-            );
+            )
+            .addSubcommand(subcommand =>
+                    subcommand
+                    .setName('daily')
+                    .setDescription('Claim your daily reward')
+                );
     }
 
     async run(interaction: CommandInteraction) {
@@ -75,6 +80,9 @@ export default class ShinobiCommand extends Command implements ICommand {
             }
             case "delete": {
                 return this.client.games.shinobi.delete(interaction);
+            }
+            case 'daily': {
+                return this.client.games.shinobi.daily(interaction);
             }
             case "clans": {
                 const clanStr = options.getString("clan");
