@@ -118,7 +118,7 @@ export const User: Schema = new Schema<IUser>({
         to: String,
         since: String,
     },
-    playlist: [
+    playlists: [
         {
             guildId: String,
             channelId: String,
