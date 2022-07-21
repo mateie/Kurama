@@ -1,19 +1,17 @@
 import Client from "@classes/Client";
+import { userMention } from "@discordjs/builders";
 import {
     ContextMenuInteraction,
     TextChannel,
     Message,
-    VoiceChannel
-} from "discord.js";
-import {
+    VoiceChannel,
+    CategoryChannel,
     CommandInteraction,
     ButtonInteraction,
     ModalSubmitInteraction,
     Guild,
-    GuildMember,
-    CategoryChannelResolvable
+    GuildMember
 } from "discord.js";
-
 export default class Playlists {
     private readonly client: Client;
 
@@ -25,44 +23,31 @@ export default class Playlists {
         interaction:
             | CommandInteraction
             | ButtonInteraction
-            | ModalSubmitInteraction,
-        member: GuildMember
+            | ModalSubmitInteraction
     ) {
         const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
         const dbGuild = await this.client.database.guilds.get(guild);
 
         const everyone = guild.roles.everyone;
         const memberRole = guild.roles.cache.get(dbGuild.roles.member);
-        if (!memberRole)
-            return interaction.reply({
-                content: "Member role not setup, let server owner know",
-                ephemeral: true
-            });
 
         const category = guild.channels.cache.get(
             dbGuild.categories.playlists
-        ) as CategoryChannelResolvable;
+        ) as CategoryChannel;
 
-        if (!category)
+        const playlist = dbUser.playlists.find((pl) => pl.guildId === guild.id);
+
+        if (playlist) {
+            const channel = guild.channels.cache.get(playlist.channelId);
+
             return interaction.reply({
-                content: "Playlist category not setup, let the server know",
+                content: `You already have a playlist created: ${channel}`,
                 ephemeral: true
             });
-
-        if (
-            guild.channels.cache.find((ch) =>
-                ch.name.includes(
-                    `${member.user.username}-${member.user.discriminator}-playlist`
-                )
-            ) ||
-            dbUser.playlists.find((pl) => pl.guildId === guild.id)
-        )
-            return interaction.reply({
-                content:
-                    "You already have a playlist created, delete it or use it",
-                ephemeral: true
-            });
+        }
 
         const newChannel = await guild.channels.create(
             `${member.user.username}-${member.user.discriminator}-playlist`,
@@ -72,11 +57,7 @@ export default class Playlists {
                 permissionOverwrites: [
                     {
                         id: everyone.id,
-                        deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
-                    },
-                    {
-                        id: memberRole.id,
-                        deny: ["VIEW_CHANNEL", "SEND_MESSAGES"]
+                        deny: ["SEND_MESSAGES"]
                     },
                     {
                         id: member.id,
@@ -85,6 +66,11 @@ export default class Playlists {
                 ]
             }
         );
+
+        if (memberRole)
+            newChannel.permissionOverwrites.edit(memberRole.id, {
+                SEND_MESSAGES: false
+            });
 
         dbUser.playlists.push({
             guildId: guild.id,
@@ -101,10 +87,64 @@ export default class Playlists {
         });
     }
 
-    async queue(interaction: CommandInteraction, member: GuildMember) {
+    async view(interaction: CommandInteraction) {
+        const member = interaction.member as GuildMember;
+
+        const playlist = await this.client.playlists.get(member);
+        if (!playlist)
+            return interaction.reply({
+                content: "You do not have a playlist in this server",
+                ephemeral: true
+            });
+        const embed = this.client.util.embed().setTitle("Your Playlist");
+
+        if (playlist.sharedWith.length < 1)
+            embed.addField("Shared With", "No one");
+        else {
+            const sharedWith = playlist.sharedWith
+                .map((id) => userMention(id))
+                .join(", ");
+            embed.addField("Shared With", sharedWith);
+        }
+
+        return interaction.reply({ embeds: [embed], ephemeral: true });
+    }
+
+    async delete(interaction: CommandInteraction) {
+        const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
 
+        const playlist = dbUser.playlists.find((pl) => pl.guildId == guild.id);
+
+        if (!playlist)
+            return interaction.reply({
+                content: "No playlist found on this server",
+                ephemeral: true
+            });
+
+        const channel = guild.channels.cache.get(playlist.channelId);
+        if (channel) await channel.delete();
+
+        dbUser.playlists = dbUser.playlists.filter(
+            (pl) => pl.guildId !== guild.id
+        );
+
+        await dbUser.save();
+
+        return interaction.reply({
+            content: "Deleted your playlist",
+            ephemeral: true
+        });
+    }
+
+    async queue(interaction: CommandInteraction) {
         const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
+        const dbUser = await this.client.database.users.get(member.user);
+
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id
         );
@@ -184,12 +224,13 @@ export default class Playlists {
 
     async add(
         interaction: CommandInteraction | ContextMenuInteraction,
-        member: GuildMember,
         message: Message
     ) {
+        const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
 
-        const guild = interaction.guild as Guild;
         if (!dbUser.playlists || dbUser.playlists.length < 1)
             return interaction.reply({
                 content: "You do not own any playlists",
@@ -215,18 +256,20 @@ export default class Playlists {
         });
     }
 
-    async share(interaction: CommandInteraction, member: GuildMember) {
+    async share(interaction: CommandInteraction) {
+        const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
         if (!dbUser.playlist.channelId || dbUser.playlist.channelId.length < 1)
             return interaction.reply({
                 content: "You do not own a playlist channel",
                 ephemeral: true
             });
-        const guild = interaction.guild as Guild;
         const shareWith = interaction.options.getMember("with") as GuildMember;
 
         if (dbUser.playlist.sharedWith.includes(shareWith.id))
-            return this.unshare(interaction, member);
+            return this.unshare(interaction);
 
         const channel = guild.channels.cache.get(
             dbUser.playlist.channelId
@@ -246,13 +289,12 @@ export default class Playlists {
         });
     }
 
-    async shareContext(
-        interaction: ContextMenuInteraction,
-        member: GuildMember
-    ) {
+    async shareContext(interaction: ContextMenuInteraction) {
+        const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
 
-        const guild = interaction.guild as Guild;
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id
         );
@@ -265,7 +307,7 @@ export default class Playlists {
             });
 
         if (playlist.sharedWith.includes(shareWith.id))
-            return this.unshareContext(interaction, member);
+            return this.unshareContext(interaction);
 
         const channel = guild.channels.cache.get(
             playlist.channelId
@@ -285,10 +327,12 @@ export default class Playlists {
         });
     }
 
-    async unshare(interaction: CommandInteraction, member: GuildMember) {
+    async unshare(interaction: CommandInteraction) {
+        const member = interaction.member as GuildMember;
+        const guild = interaction.guild as Guild;
+
         const dbUser = await this.client.database.users.get(member.user);
 
-        const guild = interaction.guild as Guild;
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id
         );
@@ -318,13 +362,12 @@ export default class Playlists {
         });
     }
 
-    async unshareContext(
-        interaction: ContextMenuInteraction,
-        member: GuildMember
-    ) {
+    async unshareContext(interaction: ContextMenuInteraction) {
+        const guild = interaction.guild as Guild;
+        const member = interaction.member as GuildMember;
+
         const dbUser = await this.client.database.users.get(member.user);
 
-        const guild = interaction.guild as Guild;
         const playlist = dbUser.playlists.find(
             (playlist) => playlist.guildId === guild.id
         );

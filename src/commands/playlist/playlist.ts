@@ -27,6 +27,11 @@ export default class PlaylistCommand extends Command implements ICommand {
             )
             .addSubcommand((subcommand) =>
                 subcommand
+                    .setName("delete")
+                    .setDescription("Delete your playlist")
+            )
+            .addSubcommand((subcommand) =>
+                subcommand
                     .setName("share")
                     .setDescription("Share your playlist with someone")
                     .addUserOption((option) =>
@@ -47,42 +52,24 @@ export default class PlaylistCommand extends Command implements ICommand {
         if (!category)
             return interaction.reply({
                 content: "Playlist category not found or not set up",
-                ephemeral: true,
+                ephemeral: true
             });
-
-        const member = interaction.member as GuildMember;
 
         switch (options.getSubcommand()) {
             case "create": {
-                return this.client.playlists.create(interaction, member);
+                return this.client.playlists.create(interaction);
             }
             case "queue": {
-                return this.client.playlists.queue(interaction, member);
+                return this.client.playlists.queue(interaction);
+            }
+            case "delete": {
+                return this.client.playlists.delete(interaction);
             }
             case "view": {
-                const playlist = await this.client.playlists.get(member);
-                if (!playlist)
-                    return interaction.reply({
-                        content: "You do not have a playlist in this server",
-                        ephemeral: true,
-                    });
-                const embed = this.client.util
-                    .embed()
-                    .setTitle("Your Playlist");
-
-                if (playlist.sharedWith.length < 1)
-                    embed.addField("Shared With", "No one");
-                else {
-                    const sharedWith = playlist.sharedWith
-                        .map((id) => userMention(id))
-                        .join(", ");
-                    embed.addField("Shared With", sharedWith);
-                }
-
-                return interaction.reply({ embeds: [embed], ephemeral: true });
+                return this.client.playlists.view(interaction);
             }
             case "share": {
-                return this.client.playlists.share(interaction, member);
+                return this.client.playlists.share(interaction);
             }
         }
     }

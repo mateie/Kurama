@@ -13,7 +13,6 @@ export default class SharePlaylistMenu extends Menu implements IMenu {
     }
 
     async run(interaction: ContextMenuInteraction) {
-        const member = interaction.member as GuildMember;
-        return this.client.playlists.shareContext(interaction, member);
+        return this.client.playlists.shareContext(interaction);
     }
 }
