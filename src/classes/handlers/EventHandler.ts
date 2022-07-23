@@ -35,7 +35,10 @@ export default class EventHandler extends Handler {
         if (!event.description)
             return this.table.addRow(event.name, "❌ Missing Description");
 
-        const category = file.split("\\")[5] || file.split("/")[5];
+        const category =
+            process.env.NODE_ENV === "production"
+                ? file.split("\\")[4] || file.split("/")[4]
+                : file.split("\\")[5] || file.split("/")[5];
         event.category = category;
 
         this.events.set(event.name, event);
@@ -46,7 +49,7 @@ export default class EventHandler extends Handler {
             }
 
             if (event.rss) {
-                this.client.rss.emitter.on(event.name, (...args) =>
+                this.client.rss.emitter.on(event.name, (...args: any) =>
                     event.run(...args)
                 );
             }
@@ -64,7 +67,7 @@ export default class EventHandler extends Handler {
             }
 
             if (event.rss) {
-                this.client.rss.emitter.on(event.name, (...args) =>
+                this.client.rss.emitter.on(event.name, (...args: any) =>
                     event.run(...args)
                 );
             }
