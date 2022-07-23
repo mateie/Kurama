@@ -26,6 +26,15 @@ export default class ShinobiVillages {
 
     random = () => this.list.random();
 
+    embed(village: ShinobiVillage) {
+        return this.game.client.util
+            .embed()
+            .setTitle(`${village.name.en} (${village.name.jp})`)
+            .setDescription(village.description)
+            .setThumbnail(village.icon)
+            .setFooter({ text: `Population: ${village.population}` });
+    }
+
     private setup() {
         Villages.forEach(async (village) => {
             village.population = (

@@ -27,6 +27,25 @@ export default class ShinobiClans {
 
     random = () => this.list.random();
 
+    embed(clan: ShinobiClan) {
+        return this.game.client.util
+            .embed()
+            .setTitle(clan.name)
+            .setDescription(
+                `
+                ${clan.description}
+
+                \`Base Chakra\`: ${clan.stats.chakra}
+                \`Base Ninjutsu\`: ${clan.stats.ninjutsu}
+                \`Base Genjutsu\`: ${clan.stats.genjutsu}
+                \`Base Taijutsu\`: ${clan.stats.taijutsu}
+                \`Base Kenjutsu\`: ${clan.stats.kenjutsu}
+                `
+            )
+            .setThumbnail(clan.icon)
+            .setFooter({ text: `Members: ${clan.members}` });
+    }
+
     private setup() {
         Clans.forEach(async (clan) => {
             clan.members = (await Shinobi.find({ clan: clan.id })).length;

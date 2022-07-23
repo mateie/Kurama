@@ -1,7 +1,7 @@
 import Client from "@classes/Client";
 import { CommandInteraction, GuildMember, Message } from "discord.js";
 import { Naruto } from "anime-info";
-import ms from 'ms';
+import ms from "ms";
 
 import Shinobi from "@schemas/Shinobi";
 
@@ -12,7 +12,7 @@ import { ShinobiClan, ShinobiVillage } from "@types";
 import moment from "moment";
 
 export default class ShinobiGame {
-    private readonly client: Client;
+    readonly client: Client;
 
     private readonly api: Naruto;
     readonly clans: ShinobiClans;
@@ -188,18 +188,30 @@ export default class ShinobiGame {
 
         const shinobi = await Shinobi.findOne({ memberId: member.id });
 
-        if(!shinobi) return interaction.reply({ content: 'You are not a shinobi', ephemeral: true });
+        if (!shinobi)
+            return interaction.reply({
+                content: "You are not a shinobi",
+                ephemeral: true
+            });
 
-        if(Date.now() < shinobi.cooldowns.daily) return interaction.reply({ content: `You can claim your daily reward in **${moment(shinobi.cooldowns.daily).fromNow()}**`, ephemeral: true});
+        if (Date.now() < shinobi.cooldowns.daily)
+            return interaction.reply({
+                content: `You can claim your daily reward in **${moment(
+                    shinobi.cooldowns.daily
+                ).fromNow()}**`,
+                ephemeral: true
+            });
 
         const ryo = Math.floor(Math.random() * 100);
 
         shinobi.ryo += ryo;
-        shinobi.cooldowns.daily = Date.now() + ms('1d');
+        shinobi.cooldowns.daily = Date.now() + ms("1d");
 
         await shinobi.save();
 
-        return interaction.reply({ content: `You received **${ryo} Ryo** from your daily`, ephemeral: true });
-
+        return interaction.reply({
+            content: `You received **${ryo} Ryo** from your daily`,
+            ephemeral: true
+        });
     }
 }

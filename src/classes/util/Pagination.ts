@@ -130,24 +130,9 @@ export default class UtilPagination {
 
         const row = this.util.row().addComponents(buttons);
 
-        const embeds = clans.map((clan) => {
-            return this.client.util
-                .embed()
-                .setTitle(clan.name)
-                .setDescription(
-                    `
-                ${clan.description}
-
-                \`Base Chakra\`: ${clan.stats.chakra}
-                \`Base Ninjutsu\`: ${clan.stats.ninjutsu}
-                \`Base Genjutsu\`: ${clan.stats.genjutsu}
-                \`Base Taijutsu\`: ${clan.stats.taijutsu}
-                \`Base Kenjutsu\`: ${clan.stats.kenjutsu}
-                `
-                )
-                .setThumbnail(clan.icon)
-                .setFooter({ text: `Members: ${clan.members}` });
-        });
+        const embeds = clans.map((clan) =>
+            this.client.games.shinobi.clans.embed(clan)
+        );
 
         if (interaction.deferred === false) await interaction.deferReply();
 
@@ -209,14 +194,9 @@ export default class UtilPagination {
 
         const row = this.util.row().addComponents(buttons);
 
-        const embeds = villages.map((village) => {
-            return this.client.util
-                .embed()
-                .setTitle(`${village.name.en} (${village.name.jp})`)
-                .setDescription(village.description)
-                .setThumbnail(village.icon)
-                .setFooter({ text: `Members: ${village.population}` });
-        });
+        const embeds = villages.map((village) =>
+            this.client.games.shinobi.villages.embed(village)
+        );
 
         if (interaction.deferred === false) await interaction.deferReply();
 

@@ -61,11 +61,11 @@ export default class ShinobiCommand extends Command implements ICommand {
                             .setAutocomplete(true)
                     )
             )
-            .addSubcommand(subcommand =>
-                    subcommand
-                    .setName('daily')
-                    .setDescription('Claim your daily reward')
-                );
+            .addSubcommand((subcommand) =>
+                subcommand
+                    .setName("daily")
+                    .setDescription("Claim your daily reward")
+            );
     }
 
     async run(interaction: CommandInteraction) {
@@ -81,7 +81,7 @@ export default class ShinobiCommand extends Command implements ICommand {
             case "delete": {
                 return this.client.games.shinobi.delete(interaction);
             }
-            case 'daily': {
+            case "daily": {
                 return this.client.games.shinobi.daily(interaction);
             }
             case "clans": {
@@ -101,22 +101,7 @@ export default class ShinobiCommand extends Command implements ICommand {
                         ephemeral: true
                     });
 
-                const embed = this.client.util
-                    .embed()
-                    .setTitle(clan.name)
-                    .setDescription(
-                        `
-                ${clan.description}
-
-                \`Base Chakra\`: ${clan.stats.chakra}
-                \`Base Ninjutsu\`: ${clan.stats.ninjutsu}
-                \`Base Genjutsu\`: ${clan.stats.genjutsu}
-                \`Base Taijutsu\`: ${clan.stats.taijutsu}
-                \`Base Kenjutsu\`: ${clan.stats.kenjutsu}
-                `
-                    )
-                    .setThumbnail(clan.icon)
-                    .setFooter({ text: `Members: ${clan.members}` });
+                const embed = this.client.games.shinobi.clans.embed(clan);
 
                 return interaction.reply({ embeds: [embed] });
             }
@@ -137,12 +122,7 @@ export default class ShinobiCommand extends Command implements ICommand {
                         ephemeral: true
                     });
 
-                const embed = this.util
-                    .embed()
-                    .setTitle(`${village.name.en} (${village.name.jp})`)
-                    .setDescription(village.description)
-                    .setThumbnail(village.icon)
-                    .setFooter({ text: `Population: ${village.population}` });
+                const embed = this.client.games.shinobi.villages.embed(village);
 
                 return interaction.reply({ embeds: [embed] });
             }
