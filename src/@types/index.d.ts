@@ -95,11 +95,20 @@ export interface ShinobiVillage {
 }
 
 export interface ShinobiStats {
+    hp: number;
     chakra: number;
     ninjutsu: number;
     genjutsu: number;
     taijutsu: number;
     kenjutsu: number;
+}
+
+export interface ShinobiWeapon {
+    id: string;
+    name: string;
+    icon: string;
+    attack: number;
+    cost: number;
 }
 
 export type ShinobiRanks =
