@@ -5,8 +5,9 @@ import ms from "ms";
 
 import Shinobi from "@schemas/Shinobi";
 
-import ShinobiClans from "./clans/index";
+import ShinobiClans from "./clans";
 import ShinobiVillages from "./villages";
+import ShinobiWeapons from "./weapons";
 
 import { ShinobiClan, ShinobiVillage } from "@types";
 import moment from "moment";
@@ -14,9 +15,10 @@ import moment from "moment";
 export default class ShinobiGame {
     readonly client: Client;
 
-    private readonly api: Naruto;
+    readonly api: Naruto;
     readonly clans: ShinobiClans;
     readonly villages: ShinobiVillages;
+    readonly weapons: ShinobiWeapons;
 
     constructor(client: Client) {
         this.client = client;
@@ -24,6 +26,7 @@ export default class ShinobiGame {
         this.api = new Naruto();
         this.clans = new ShinobiClans(this);
         this.villages = new ShinobiVillages(this);
+        this.weapons = new ShinobiWeapons(this);
     }
 
     async start(interaction: CommandInteraction) {
