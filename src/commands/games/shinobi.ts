@@ -61,6 +61,46 @@ export default class ShinobiCommand extends Command implements ICommand {
                             .setAutocomplete(true)
                     )
             )
+            .addSubcommandGroup((group) =>
+                group
+                    .setName("weapons")
+                    .setDescription("Weapon System")
+                    .addSubcommand((subcommand) =>
+                        subcommand
+                            .setName("view")
+                            .setDescription("View a weapon")
+                            .addStringOption((option) =>
+                                option
+                                    .setName("weapon")
+                                    .setDescription("Weapon to view")
+                                    .setAutocomplete(true)
+                            )
+                    )
+                    .addSubcommand((subcommand) =>
+                        subcommand
+                            .setName("buy")
+                            .setDescription("Buy a weapon")
+                            .addStringOption((option) =>
+                                option
+                                    .setName("weapon")
+                                    .setDescription("Weapon to buy")
+                                    .setAutocomplete(true)
+                                    .setRequired(true)
+                            )
+                    )
+                    .addSubcommand((subcommand) =>
+                        subcommand
+                            .setName("sell")
+                            .setDescription("Sell a weapon")
+                            .addStringOption((option) =>
+                                option
+                                    .setName("weapon")
+                                    .setDescription("Weapon to sell")
+                                    .setAutocomplete(true)
+                                    .setRequired(true)
+                            )
+                    )
+            )
             .addSubcommand((subcommand) =>
                 subcommand
                     .setName("daily")
@@ -70,6 +110,42 @@ export default class ShinobiCommand extends Command implements ICommand {
 
     async run(interaction: CommandInteraction) {
         const { options } = interaction;
+
+        switch (options.getSubcommandGroup()) {
+            case "weapons": {
+                const weaponStr = options.getString("weapon") as string;
+
+                switch (options.getSubcommand()) {
+                    case "view": {
+                        if (!weaponStr)
+                            return this.client.games.shinobi.weapons.pagination(
+                                interaction
+                            );
+
+                        const weapon =
+                            this.client.games.shinobi.weapons.get(weaponStr);
+
+                        if (!weapon)
+                            return interaction.reply({
+                                content: "Weapon not found",
+                                ephemeral: true
+                            });
+
+                        const embed =
+                            this.client.games.shinobi.weapons.embed(weapon);
+
+                        return interaction.reply({ embeds: [embed] });
+                    }
+                    case "buy":
+                    case "sell": {
+                        return interaction.reply({
+                            content: "Work in progress features",
+                            ephemeral: true
+                        });
+                    }
+                }
+            }
+        }
 
         switch (options.getSubcommand()) {
             case "start": {
@@ -88,7 +164,7 @@ export default class ShinobiCommand extends Command implements ICommand {
                 const clanStr = options.getString("clan");
 
                 if (!clanStr) {
-                    return this.client.util.pagination.shinobiClans(
+                    return this.client.games.shinobi.clans.pagination(
                         interaction
                     );
                 }
@@ -109,7 +185,7 @@ export default class ShinobiCommand extends Command implements ICommand {
                 const villageStr = options.getString("village");
 
                 if (!villageStr)
-                    return this.client.util.pagination.shinobiVillages(
+                    return this.client.games.shinobi.villages.pagination(
                         interaction
                     );
 
